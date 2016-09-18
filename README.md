@@ -1,5 +1,5 @@
 # Status-Announcements
-A mod for [Don't Starve Together](http://store.steampowered.com/app/322330/) that lets you alt+click various parts of the HUD to announce in chat things related to them. Controllers can announce stuff too, and the buttons for announcing show up on the HUD elements you would alt+click when in Inventory or Crafting mode. You can also find this mod on the [Steam Workshop](http://steamcommunity.com/sharedfiles/filedetails/?id=343753877).
+A mod for [Don't Starve Together](http://store.steampowered.com/app/322330/) that lets you alt+click various parts of the HUD to announce in chat things related to them. Controllers can announce stuff too, and the buttons for announcing show up on the HUD elements you would alt+click when in Inventory or Crafting mode. You can also find this mod on the [Steam Workshop](http://steamcommunity.com/sharedfiles/filedetails/?id=343753877) and the [Klei Forums](http://forums.kleientertainment.com/files/file/923-dst-status-announcements/).
 
 # Installation
 
