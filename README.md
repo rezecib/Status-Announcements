@@ -1,7 +1,11 @@
 # Status-Announcements
 A mod for [Don't Starve Together](http://store.steampowered.com/app/322330/) that lets you alt+click various parts of the HUD to announce in chat things related to them. Controllers can announce stuff too, and the buttons for announcing show up on the HUD elements you would alt+click when in Inventory or Crafting mode. You can also find this mod on the [Steam Workshop](http://steamcommunity.com/sharedfiles/filedetails/?id=343753877).
 
-Things you can announce:
+# Installation
+
+It's easiest to [subscribe to the mod on Steam](http://steamcommunity.com/sharedfiles/filedetails/?id=343753877). Otherwise, download this and put the folder in the game's mods folder. Then you can enable and configure it on the in-game mods menu.
+
+# Things you can announce
 
 - Current hunger/health/sanity/wetness/log/temperature status. Alt+clicking your health badge will announce "I'm in perfect health!" if your health is full, or "I'm mortally wounded!" if it's very low. Sanity and hunger have different announcements specific to them ("AAAH! Stay back, beasts of darkness!"). Announcing temperature requires Combined Status.
 - Craftable items in the craft tabs. If you know how to build it and you have the supplies, it will announce that you'll make one. If you don't know how to build it, it will ask if someone can make you one (e.g. you have a Wickerbottom and no science machine yet, and you want her to make you a backpack). If you know how to make one, but don't have the supplies for it, it will say "We need more [craftable]s". You can also announce skins for items you have.
