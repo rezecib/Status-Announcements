@@ -240,7 +240,6 @@ local ing_controls = {
 	GLOBAL.CONTROL_INVENTORY_USEONSCENE,	--d-pad left
 	GLOBAL.CONTROL_INVENTORY_EXAMINE,		--d-pad up
 	GLOBAL.CONTROL_INVENTORY_USEONSELF,		--d-pad right
-	GLOBAL.CONTROL_INVENTORY_DROP,			--d-pad down
 }
 function RecipePopup:Refresh(...)
 	local ret = RecipePopup_Refresh(self, ...)
