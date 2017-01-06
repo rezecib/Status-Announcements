@@ -236,6 +236,12 @@ end)
 --Manages the controller button hints on recipe popups
 local RecipePopup = require("widgets/recipepopup")
 local RecipePopup_Refresh = RecipePopup.Refresh
+local ing_controls = {
+	GLOBAL.CONTROL_INVENTORY_USEONSCENE,	--d-pad left
+	GLOBAL.CONTROL_INVENTORY_EXAMINE,		--d-pad up
+	GLOBAL.CONTROL_INVENTORY_USEONSELF,		--d-pad right
+	GLOBAL.CONTROL_INVENTORY_DROP,			--d-pad down
+}
 function RecipePopup:Refresh(...)
 	local ret = RecipePopup_Refresh(self, ...)
 	if TheInput:ControllerAttached() then
@@ -252,12 +258,12 @@ function RecipePopup:Refresh(...)
 		else
 			self.teaser:SetPosition(x, y%50 == 0 and y or y+15, z)
 		end
-		local ing_controls = {GLOBAL.CONTROL_INVENTORY_USEONSCENE,
-			GLOBAL.CONTROL_INVENTORY_EXAMINE, GLOBAL.CONTROL_INVENTORY_USEONSELF}
 		for i,v in pairs(self.ing) do
-			v.announce_text = v:AddChild(Text(GLOBAL.UIFONT, 30,
-				TheInput:GetLocalizedControl(TheInput:GetControllerID(), ing_controls[i])))
-			v.announce_text:SetPosition(-32+32*(i-1), 32)
+			if ing_controls[i] then --some mods may add more ingredients for a recipe; they won't be announceable, but at least this won't crash
+				v.announce_text = v:AddChild(Text(GLOBAL.UIFONT, 30,
+					TheInput:GetLocalizedControl(TheInput:GetControllerID(), ing_controls[i])))
+				v.announce_text:SetPosition(-32+32*(i-1), 32)
+			end
 		end
 	end
 	return ret
