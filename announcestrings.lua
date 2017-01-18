@@ -1,6 +1,145 @@
---TODO: Add temperature strings in the format... TEMPERATURE: BURNING, HOT, WARM, GOOD, COOL, COLD, FREEZING
-
 ANNOUNCE_STRINGS = {
+	-- These are not character-specific strings, but are here to ease translation
+	-- Note that spaces at the beginning and end of these are important and should be preserved
+	_ = {
+		getArticle = function(name)
+			--This checks if the name starts with a vowel, and uses "an" if so, "a" otherwise
+			return string.find(name, "^[aeoiuAOIEU]") ~= nil and "an" or "a"
+		end,
+		--Goes into {S} if there are multiple items (plural)
+		-- This isn't perfect for making plural even in English, but it's close enough
+		S = "s",
+		STAT_NAMES = {
+			Hunger = "Hunger",
+			Sanity = "Sanity",
+			Health = "Health",
+			["Log Meter"] = "Log Meter",
+			Wetness = "Wetness",
+			--Other mod stats won't have translations, but at least we can support these
+		},
+		ANNOUNCE_ITEM = {
+			-- This needs to reflect the translating language's grammar
+			-- For example, this might become "I have 6 papyrus in this chest."
+			FORMAT_STRING = "{I_HAVE}{THIS_MANY} {ITEM}{S}{IN_THIS}{CONTAINER}{WITH}{PERCENT}{DURABILITY}.",
+			
+			--One of these goes into {I_HAVE}
+			I_HAVE = "I have ",
+			WE_HAVE = "We have ",
+			
+			--{THIS_MANY} is a number if multiple, but singular varies a lot by language,
+			-- so we use getArticle above to get it
+			
+			--{ITEM} is acquired from item.name
+			
+			--{S} uses S above
+			
+			--Goes into {IN_THIS}, if present
+			IN_THIS = " in this ",
+			
+			--{CONTAINER} is acquired from container.name
+			
+			--One of these goes into {WITH}
+			WITH = " with ", --if it's only one thing
+			AND_THIS_ONE_HAS = ", and this one has ", --if there are multiple, show durability of one
+			
+			--{PERCENT} is acquired from the item's durability
+			
+			--Goes into {DURABILITY}
+			DURABILITY = " durability",
+		},
+		ANNOUNCE_RECIPE = {
+			-- This needs to reflect the translating language's grammar
+			-- Examples of what this makes:
+			-- "I have a science machine pre-built and ready to place" -> pre-built
+			-- "I'll make an axe." -> known and have ingredients
+			-- "Can someone make me an alchemy engine? I would need a science machine for it." -> not known
+			-- "We need more drying racks." -> known but don't have ingredients
+			FORMAT_STRING = "{START_Q}{TO_DO}{THIS_MANY} {ITEM}{S}{PRE_BUILT}{END_Q}{I_NEED}{A_PROTO}{PROTOTYPER}{FOR_IT}.",
+			
+			--{START_Q} is for languages that match ? at both ends
+			START_Q = "", --English doesn't do that
+			
+			--One of these goes into {TO_DO}
+			I_HAVE = "I have ", --for pre-built
+			ILL_MAKE = "I'll make ", --for known recipes where you have ingredients
+			CAN_SOMEONE = "Can someone make me ", --for unknown recipes
+			WE_NEED = "We need more", --for known recipes where you don't have ingredients
+			
+			--{THIS_MANY} uses getArticle above to get the right article ("a", "an")
+			
+			--{ITEM} comes from the recipe.name
+			
+			--{S} uses S above
+
+			--Goes into {PRE_BUILT}
+			PRE_BUILT = " pre-built and ready to place",
+			
+			--This goes into {END_Q} if it's a question
+			END_Q = "?",
+			
+			--Goes into {I_NEED}
+			I_NEED = " I would need ",
+			
+			--{PROTOTYPER} is taken from the recipepopup.teaser:GetString with this function
+			getPrototyper = function(teaser)
+				--This extracts from sentences like "Use a (science machine) to..." and "Use an (alchemy engine) to..."
+				return teaser:gmatch("Use an? (.*) to")()
+			end,
+			
+			--Goes into {FOR_IT}
+			FOR_IT = " for it",
+		},
+		ANNOUNCE_INGREDIENTS = {
+			-- This needs to reflect the translating language's grammar
+			-- Examples of what this makes:
+			-- "I need 2 more cut stones and a science machine to make an alchemy engine."
+			FORMAT_NEED = "I need {NUM_ING} more {INGREDIENT}{S}{AND}{A_PROTO}{PROTOTYPER} to make {A_REC} {RECIPE}.",
+			
+			--If a prototyper is needed, goes into {AND}
+			AND = " and ",
+			
+			-- This needs to reflect the translating language's grammar
+			-- Examples of what this makes:
+			-- "I have enough twigs to make 9 bird traps, but I need a science machine."
+			FORMAT_HAVE = "I have enough {INGREDIENT}{ING_S} to make {A_REC} {RECIPE}{REC_S}{BUT_NEED}{A_PROTO}{PROTOTYPER}.",
+			
+			--If a prototyper is needed, goes into {BUT_NEED}
+			BUT_NEED = ", but I need ",
+		},
+		ANNOUNCE_SKIN = {
+			-- This needs to reflect the translating language's grammar
+			-- For example, this might become "I have the Tragic Torch skin for the Torch"
+			FORMAT_STRING = "I have the {SKIN} for the {ITEM}.",
+			
+			--{SKIN} comes form the skin's name
+			
+			--{ITEM} comes from the item's name
+		},
+		ANNOUNCE_TEMPERATURE = {
+			-- This needs to reflect the translating language's grammar
+			-- For example, this might become "I'm at a comfortable temperature"
+			-- or "The beast is freezing!"
+			FORMAT_STRING = "{PRONOUN}{TEMPERATURE}",
+			
+			--{PRONOUN} is picked from this
+			PRONOUN = {
+				DEFAULT = "I'm ",
+				BEAST = "The beast is ", --for Werebeaver
+			},
+			
+			--{TEMPERATURE} is picked from this
+			TEMPERATURE = {
+				BURNING = " overheating!",
+				HOT = " almost overheating!",
+				WARM = " a little bit hot.",
+				GOOD = " at a comfortable temperature.",
+				COOL = " a little bit cold.",
+				COLD = " almost freezing!",
+				FREEZING = " freezing!",
+			},
+		},
+	},
+	-- Everything below is character-specific
 	UNKNOWN = {
 		HUNGER = {
 			FULL  = "I'm completely stuffed!", 	-- >75%

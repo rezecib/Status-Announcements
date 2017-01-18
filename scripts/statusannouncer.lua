@@ -36,6 +36,7 @@ function StatusAnnouncer:Announce(message)
 end
 
 function StatusAnnouncer:AnnounceItem(item, percent, container, owner)
+	local S = STRINGS._STATUS_ANNOUNCEMENTS._ --To save some table lookups
 	if container == nil or (container and container.type == "pack") then
 		--\equipslots/        \backpacks/
 		container = ThePlayer.replica.inventory
@@ -50,41 +51,60 @@ function StatusAnnouncer:AnnounceItem(item, percent, container, owner)
 			end
 		end
 	end
-	local containerName = container.type and container.inst.name:lower()
+	local container_name = container.type and container.inst.name:lower()
 	local name = item.name:lower()
 	local has, num_found = container:Has(item.prefab, 1)
 	num_found = num_found + num_equipped
 	local i_have = ""
-	local in_container = ""
-	if containerName then -- this is a chest
-		i_have = "We have "
-		in_container = " in this " .. containerName
+	local in_this = ""
+	if container_name then -- this is a chest
+		i_have = S.ANNOUNCE_ITEM.WE_HAVE
+		in_this = S.ANNOUNCE_ITEM.IN_THIS
 	else -- this is a backpack or inventory
-		i_have = "I have "
+		i_have = S.ANNOUNCE_ITEM.I_HAVE
+		container_name = ""
 	end
 	local this_many = "" .. num_found
 	local plural = num_found > 1
-	local and_this_has_percent = percent and SHOWDURABILITY and
-		(plural and ", and this one has " or " with ")..percent.." durability" or ""
-	local a = "a"
-	if string.find(name, "^[aeoiuAOIEU]") ~= nil then a = "an" end
-	local s = "s"
-	if (not plural) or string.find(name, "s$") ~= nil then
+	local with = ""
+	local durability = ""
+	if percent and SHOWDURABILITY then
+		with = plural 
+				and S.ANNOUNCE_ITEM.AND_THIS_ONE_HAS
+				 or S.ANNOUNCE_ITEM.WITH
+		durability = S.ANNOUNCE_ITEM.DURABILITY
+	else
+		percent = ""
+	end
+	local a = S.getArticle(name)
+	local s = S.S
+	if (not plural) or string.find(name, s.."$") ~= nil then
 		s = ""
 	end
-	if this_many == nil then this_many = a end
-	return self:Announce(i_have..this_many.." "..name..s..in_container..and_this_has_percent..".")
+	if this_many == nil or this_many == "1" then this_many = a end
+	local announce_str = subfmt(S.ANNOUNCE_ITEM.FORMAT_STRING,
+								{
+									I_HAVE = i_have,
+									THIS_MANY = this_many,
+									ITEM = name,
+									S = s,
+									IN_THIS = in_this,
+									CONTAINER = container_name,
+									WITH = with,
+									PERCENT = percent,
+									DURABILITY = durability,
+								})
+	return self:Announce(announce_str)
 end
 
 function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
+	local S = STRINGS._STATUS_ANNOUNCEMENTS._ --To save some table lookups
 	local builder = slot.owner.replica.builder
 	local buffered = builder:IsBuildBuffered(slot.recipe.name)
 	local knows = builder:KnowsRecipe(slot.recipe.name)
 	local can_build = builder:CanBuild(slot.recipe.name)
 	local name = STRINGS.NAMES[slot.recipe.name:upper()]:lower()
-	local a = "a"
-	if string.find(name, "^[aeoiuAOIEU]") ~= nil then a = "an" end
-	local s = "s"
+	local a = S.getArticle(name)
 	local ingredient = nil
 	if recipepopup == nil then --mouse controls, we have to find the focused ingredient
 		recipepopup = slot.recipepopup
@@ -94,24 +114,58 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 	else --controller controls, we pick it by number (determined by which button was pressed)
 		ingredient = recipepopup.ing[ingnum]
 	end
-	if ((not ingredient) and (string.find(name, "s$") ~= nil))
-		or (ingredient and (string.find(ingredient.tooltip:lower(), "s$") ~= nil)) then
-		s = ""
-	end
 	if ingnum and ingredient == nil then return end --controller button for ing that doesn't exist
-	--this doesn't support other languages, but... neither does the rest of the mod
-	local prototyper = recipepopup.teaser.shown and recipepopup.teaser:GetString():gmatch("Use an? (.*) to")()
+	local prototyper = recipepopup.teaser.shown and S.ANNOUNCE_RECIPE.getPrototyper(recipepopup.teaser:GetString())
+	local a_proto = ""
+	local proto = ""
 	if ingredient == nil then
+		local start_q = ""
+		local to_do = ""
+		local s = S.S
+		local pre_built = ""
+		local end_q = ""
+		local i_need = ""
+		local for_it = ""
 		if buffered then
-			return self:Announce("I have "..a.." "..name.." pre-built and ready to place.")
+			to_do = S.ANNOUNCE_RECIPE.I_HAVE
+			s = ""
+			pre_built = S.ANNOUNCE_RECIPE.PRE_BUILT
 		elseif knows and can_build then
-			return self:Announce("I'll make "..a.." "..name..".")
+			to_do = S.ANNOUNCE_RECIPE.ILL_MAKE
+			s = ""
 		elseif not knows then
-			prototyper = prototyper and SHOWPROTOTYPER and " I would need a "..prototyper.." for it." or ""
-			return self:Announce("Can someone make me "..a.." "..name.."?"..prototyper)
+			to_do = S.ANNOUNCE_RECIPE.CAN_SOMEONE
+			s = ""
+			if prototyper ~= "" and SHOWPROTOTYPER then
+				i_need = S.ANNOUNCE_RECIPE.I_NEED
+				a_proto = S.getArticle(prototyper) .. " "
+				proto = prototyper
+				for_it = S.ANNOUNCE_RECIPE.FOR_IT
+			end
+			start_q = S.ANNOUNCE_RECIPE.START_Q
+			end_q = S.ANNOUNCE_RECIPE.END_Q
 		else
-			return self:Announce("We need more "..name..s..".")
+			to_do = S.ANNOUNCE_RECIPE.WE_NEED
+			a = ""
+			if string.find(name, s.."$") ~= nil then
+				s = ""
+			end
 		end
+		local announce_str = subfmt(S.ANNOUNCE_RECIPE.FORMAT_STRING,
+									{
+										START_Q = start_q,
+										TO_DO = to_do,
+										THIS_MANY = a,
+										ITEM = name,
+										S = s,
+										PRE_BUILT = pre_built,
+										END_Q = end_q,
+										I_NEED = i_need,
+										A_PROTO = a_proto,
+										PROTOTYPER = proto,
+										FOR_IT = for_it,
+									})
+		return self:Announce(announce_str)
 	else
 		local num = 0
 		local ingname = ingredient.ing.texture:sub(1,-5)
@@ -129,15 +183,59 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 		end
 		num = amount_needed - num_found
 		local can_make = math.floor(num_found / amount_needed)*slot.recipe.numtogive
-		if num == 1 then s = "" end
+		local ingredient_str = ingredient.tooltip:lower()
+		local ing_s = S.S
+		if num == 1 or ingredient_str:find(ing_s.."$") ~= nil then ing_s = "" end
+		local announce_str = "";
 		if num > 0 then
-			prototyper = prototyper and SHOWPROTOTYPER and " and a "..prototyper or ""
-			return self:Announce("I need "..num.." more "..ingredient.tooltip:lower()..s..prototyper.." to make "..a.." "..name..".")
+			local and_str = ""
+			if prototyper and SHOWPROTOTYPER then
+				and_str = S.ANNOUNCE_INGREDIENTS.AND
+				a_proto = S.getArticle(prototyper) .. " "
+				proto = prototyper
+			end
+			announce_str = subfmt(S.ANNOUNCE_INGREDIENTS.FORMAT_NEED,
+									{
+										NUM_ING = num,
+										INGREDIENT = ingredient_str,
+										S = ing_s,
+										AND = and_str,
+										A_PROTO = a_proto,
+										PROTOTYPER = proto,
+										A_REC = S.getArticle(name),
+										RECIPE = name,
+									})
 		else
-			prototyper = prototyper and SHOWPROTOTYPER and ", but I need a "..prototyper or ""
-			local recipe_s = can_make > 1 and "s" or ""
-			return self:Announce("I have enough "..ingredient.tooltip:lower()..s.." to make "..can_make.." "..name..recipe_s..prototyper..".") 
+			local but_need = ""
+			if prototyper and SHOWPROTOTYPER then
+				but_need = S.ANNOUNCE_INGREDIENTS.BUT_NEED
+				a_proto = S.getArticle(prototyper) .. " "
+				proto = prototyper
+			end
+			local a_rec = ""
+			local rec_s = ""
+			if can_make > 1 then
+				a_rec = can_make .. ""
+				rec_s = S.S
+				if string.find(name, rec_s.."$") ~= nil then --already plural
+					rec_s = ""
+				end
+			else
+				a_rec = S.getArticle(name)
+			end
+			announce_str = subfmt(S.ANNOUNCE_INGREDIENTS.FORMAT_HAVE,
+									{
+										INGREDIENT = ingredient_str,
+										ING_S = ing_s,
+										A_REC = a_rec,
+										RECIPE = name,
+										REC_S = rec_s,
+										BUT_NEED = but_need,
+										A_PROTO = a_proto,
+										PROTOTYPER = proto,
+									})
 		end
+		return self:Announce(announce_str)
 	end
 end
 
@@ -145,28 +243,29 @@ function StatusAnnouncer:AnnounceSkin(recipepopup)
 	local skin_name = recipepopup.skins_spinner.GetItem()
 	local item_name = recipepopup.recipe.name
 	if skin_name ~= item_name then --don't announce default skins
-		return self:Announce("I have the "..GetName(skin_name)
-				.." skin for the "..GetName(item_name)..".")
+		return self:Announce(subfmt(STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_SKIN.FORMAT_STRING,
+									{SKIN = GetName(skin_name), ITEM = GetName(item_name)}))
 	end
 end
 
 function StatusAnnouncer:AnnounceTemperature(pronoun)
+	local S = STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_TEMPERATURE --To save some table lookups
 	local temp = ThePlayer:GetTemperature()
-	local pronoun = pronoun or "I'm"
-	local message = " at a comfortable temperature."
+	local pronoun = pronoun and S.PRONOUN[pronoun] or S.PRONOUN.DEFAULT
+	local message = S.TEMPERATURE.GOOD
 	local TUNING = TUNING
 	if temp >= TUNING.OVERHEAT_TEMP then
-		message = " overheating!"
+		message = S.TEMPERATURE.BURNING
 	elseif temp >= TUNING.OVERHEAT_TEMP - 5 then
-		message = " almost overheating!"
+		message = S.TEMPERATURE.HOT
 	elseif temp >= TUNING.OVERHEAT_TEMP - 15 then
-		message = " a little bit hot."
+		message = S.TEMPERATURE.WARM
 	elseif temp <= 0 then
-		message = " freezing!"
+		message = S.TEMPERATURE.FREEZING
 	elseif temp <= 5 then
-		message = " almost freezing!"
+		message = S.TEMPERATURE.COLD
 	elseif temp <= 15 then
-		message = " a little bit cold."
+		message = S.TEMPERATURE.COOL
 	end
 	message = pronoun .. message
 	if EXPLICIT then
@@ -289,7 +388,7 @@ function StatusAnnouncer:OnHUDMouseButton(HUD)
 		end
 	end
 	if HUD.controls.status.temperature and HUD.controls.status.temperature.focus then
-		return self:AnnounceTemperature(HUD.controls.status._beavermode and "The beast is" or nil)
+		return self:AnnounceTemperature(HUD.controls.status._beavermode and "BEAST" or nil)
 	end
 end
 
@@ -314,7 +413,7 @@ function StatusAnnouncer:OnHUDControl(HUD, control)
 			return self:Announce(self:ChooseStatMessage(stat))
 		end
 		if OVERRIDEB and HUD.controls.status.temperature and control == CONTROL_CANCEL then
-			return self:AnnounceTemperature(HUD.controls.status._beavermode and "The beast is" or nil)
+			return self:AnnounceTemperature(HUD.controls.status._beavermode and "BEAST" or nil)
 		end
 	end
 end
