@@ -38,24 +38,48 @@ end
 
 ]]
 
+--TODO: Generalize this and add language mod detection
 --Mods that are already enabled
-local WHISPER_ONLY = GLOBAL.KnownModIndex:IsModEnabled("workshop-346479579")
-local COMBINED_STATUS = (GLOBAL.KnownModIndex:IsModEnabled("workshop-376333686") and "workshop-376333686")	--workshop version
-					 or (GLOBAL.KnownModIndex:IsModEnabled("CombinedStatus") and "CombinedStatus")			--forum version
---Mods that haven't loaded yet
-for k,v in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
-	WHISPER_ONLY = WHISPER_ONLY or v == "workshop-346479579"
-	COMBINED_STATUS = COMBINED_STATUS or ((v == "CombinedStatus" or v == "workshop-376333686") and v)
+local HAS_MOD = {}
+local CHECK_MODS = {
+	["workshop-346479579"] = "WHISPER_ONLY",
+	["workshop-376333686"] = "COMBINED_STATUS",
+	["CombinedStatus"] = "COMBINED_STATUS",
+	["workshop-499547543"] = "BRAZIL",
+	["workshop-383128216"] = "BRAZIL",
+	["workshop-628971544"] = "BRAZIL",
+	["workshop-629042840"] = "BRAZIL",
+}
+--If the mod is a]ready loaded at this point
+for mod_name, key in pairs(CHECK_MODS) do
+	HAS_MOD[key] = HAS_MOD[key] or GLOBAL.KnownModIndex:IsModEnabled(mod_name)
 end
-if COMBINED_STATUS then
-	--We need to figure out if it's showing temperature at all
-	COMBINED_STATUS = GLOBAL.GetModConfigData("SHOWTEMPERATURE", COMBINED_STATUS)
+--If the mod hasn't loaded yet
+for k,v in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
+	local mod_type = CHECK_MODS[v]
+	if mod_type then
+		HAS_MOD[mod_type] = true
+	end
 end
 
-modimport("announcestrings.lua") --creates the ANNOUNCE_STRINGS table
+for k,v in pairs(HAS_MOD) do
+	print("Has mod:",k,v)
+end
+
+--TODO: load language-appropriate version
+local LANGUAGE = GetModConfigData("LANGUAGE")
+if LANGUAGE == "detect" then --We should try to detect the language
+	if HAS_MOD.BRAZIL then
+		LANGUAGE = "brazil"
+	else
+		LANGUAGE = "english" --we use this for English
+	end
+end
+if not GLOBAL.kleifileexists(MODROOT.."announcestrings_"..LANGUAGE..".lua") then LANGUAGE = "english" end --failsafe
+modimport("announcestrings_"..LANGUAGE..".lua") --creates the ANNOUNCE_STRINGS table
 
 for k,v in pairs(ANNOUNCE_STRINGS) do
-	if k ~= "UNKNOWN" and GetModConfigData(k) == false then
+	if k ~= "UNKNOWN" and k ~= "_" and GetModConfigData(k) == false then
 		ANNOUNCE_STRINGS[k] = ANNOUNCE_STRINGS.UNKNOWN
 	end
 end
@@ -66,15 +90,16 @@ if type(GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS) == "table" then
 		ANNOUNCE_STRINGS[k] = v;
 	end
 end
+ANNOUNCE_STRINGS._.LANGUAGE = LANGUAGE --attach it here so mods can check it if they want to provide translations
 -- Store the merged ANNOUNCE_STRINGS in the global table (so mods that run after can add to / change it)
 GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS = ANNOUNCE_STRINGS
 
 local StatusAnnouncer = require("statusannouncer")()
 
 --actually need this one locally to add the controller button hint
-local OVERRIDEB = COMBINED_STATUS and GetModConfigData("OVERRIDEB")
+local OVERRIDEB = HAS_MOD.COMBINED_STATUS and GetModConfigData("OVERRIDEB")
 StatusAnnouncer:SetLocalParameter("WHISPER", GetModConfigData("WHISPER"))
-StatusAnnouncer:SetLocalParameter("WHISPER_ONLY", WHISPER_ONLY)
+StatusAnnouncer:SetLocalParameter("WHISPER_ONLY", HAS_MOD.WHISPER_ONLY)
 StatusAnnouncer:SetLocalParameter("EXPLICIT", GetModConfigData("EXPLICIT"))
 StatusAnnouncer:SetLocalParameter("OVERRIDEB", OVERRIDEB)
 StatusAnnouncer:SetLocalParameter("SHOWDURABILITY", GetModConfigData("SHOWDURABILITY"))
@@ -218,13 +243,19 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 			self.announce_text:Hide()
 		end
 	end
-	self.inst:DoTaskInTime(0, function() --delay it in case Combined Status loads after
-		if OVERRIDEB then
-			self.temperature.announce_text = self.temperature:AddChild(Text(GLOBAL.UIFONT, 30))
-			self.temperature.announce_text:SetPosition(25, -50)
-			self.temperature.announce_text:Hide()
-		end
-	end)
+	if OVERRIDEB then
+		--delay it until Combined Status loads
+		self._override_b_task = self.inst:DoPeriodicTask(0, function()
+			if self.temperature then --If Combined Status has loaded, add the button hint
+				self.temperature.announce_text = self.temperature:AddChild(Text(GLOBAL.UIFONT, 30))
+				self.temperature.announce_text:SetPosition(25, -50)
+				self.temperature.announce_text:Hide()
+				--We succeeded, clear the task
+				self._override_b_task:Cancel()
+				self._override_b_task = nil
+			end
+		end)
+	end
 	local _SetBeaverMode = self.SetBeaverMode
 	function self:SetBeaverMode(beavermode, ...)
 		self._beavermode = beavermode

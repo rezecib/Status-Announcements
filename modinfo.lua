@@ -8,7 +8,7 @@ description = "Alt-click parts of the HUD to announce their status (\"I'm wounde
 author = "rezecib"
 
 --A version number so you can ask people if they are running an old version of your mod.
-version = "2.2.2"
+version = "2.3.1"
 
 --This lets other players know if your mod is out of date. This typically needs to be updated every time there's a new game update.
 api_version = 10
@@ -31,13 +31,24 @@ forumthread = "http://forums.kleientertainment.com/files/file/923-dst-status-ann
 
 --[[
 Credits:
-    Silentdarkness1 for coming up with most of the character-specific quotes,
-	Acemurdock and OSMRhodey for helping out with the Woodie quotes,
-	and SuperPsiPower (and friends) for helping out with the Webber quotes.
+    Silentdarkness1 for coming up with most of the character-specific quotes
+	Acemurdock and OSMRhodey for helping out with the Woodie quotes
+	SuperPsiPower (and friends) for helping out with the Webber quotes
+	Vinicius Araújo for translating the quotes to Brazilian Portuguese
 ]]
 
 configuration_options =
 {
+	{
+		name = "LANGUAGE",
+		label = "Which language to use",
+		options =	{
+						{description = "Detect", data = "detect", hover = "Detect the language based on language mods installed."},
+						{description = "English", data = "english"},
+						{description = "Português (BR)", data = "brazil"},
+					},
+		default = "detect",
+	},
 	{
 		name = "WHISPER",
 		label = "Whisper by default",
