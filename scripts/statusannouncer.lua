@@ -101,7 +101,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 	local S = STRINGS._STATUS_ANNOUNCEMENTS._ --To save some table lookups
 	local builder = slot.owner.replica.builder
 	local buffered = builder:IsBuildBuffered(slot.recipe.name)
-	local knows = builder:KnowsRecipe(slot.recipe.name)
+	local knows = builder:KnowsRecipe(slot.recipe.name) or CanPrototypeRecipe(slot.recipe.level, builder:GetTechTrees())
 	local can_build = builder:CanBuild(slot.recipe.name)
 	local name = STRINGS.NAMES[slot.recipe.name:upper()]:lower()
 	local a = S.getArticle(name)
@@ -121,21 +121,22 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 	if ingredient == nil then
 		local start_q = ""
 		local to_do = ""
-		local s = S.S
+		local s = ""
 		local pre_built = ""
 		local end_q = ""
 		local i_need = ""
 		local for_it = ""
 		if buffered then
 			to_do = S.ANNOUNCE_RECIPE.I_HAVE
-			s = ""
 			pre_built = S.ANNOUNCE_RECIPE.PRE_BUILT
-		elseif knows and can_build then
+		elseif can_build and knows then
 			to_do = S.ANNOUNCE_RECIPE.ILL_MAKE
-			s = ""
-		elseif not knows then
+		elseif knows then
+			to_do = S.ANNOUNCE_RECIPE.WE_NEED
+			a = ""
+			s = string.find(name, s.."$") == nil and S.S or ""
+		else
 			to_do = S.ANNOUNCE_RECIPE.CAN_SOMEONE
-			s = ""
 			if prototyper ~= "" and SHOWPROTOTYPER then
 				i_need = S.ANNOUNCE_RECIPE.I_NEED
 				a_proto = S.getArticle(prototyper) .. " "
@@ -144,12 +145,6 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 			end
 			start_q = S.ANNOUNCE_RECIPE.START_Q
 			end_q = S.ANNOUNCE_RECIPE.END_Q
-		else
-			to_do = S.ANNOUNCE_RECIPE.WE_NEED
-			a = ""
-			if string.find(name, s.."$") ~= nil then
-				s = ""
-			end
 		end
 		local announce_str = subfmt(S.ANNOUNCE_RECIPE.FORMAT_STRING,
 									{
@@ -169,6 +164,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 	else
 		local num = 0
 		local ingname = ingredient.ing.texture:sub(1,-5)
+		local ing_s = S.S
 		local amount_needed = 1
 		for k,v in pairs(slot.recipe.ingredients) do
 			if ingname == v.type then amount_needed = v.amount end
@@ -178,13 +174,12 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 			if ingname == v.type then
 				amount_needed = v.amount
 				has, num_found = slot.owner.replica.builder:HasCharacterIngredient(v)
-				s = "" --health and sanity are already plural
+				ing_s = "" --health and sanity are already plural
 			end
 		end
 		num = amount_needed - num_found
 		local can_make = math.floor(num_found / amount_needed)*slot.recipe.numtogive
 		local ingredient_str = ingredient.tooltip:lower()
-		local ing_s = S.S
 		if num == 1 or ingredient_str:find(ing_s.."$") ~= nil then ing_s = "" end
 		local announce_str = "";
 		if num > 0 then
@@ -439,7 +434,8 @@ function StatusAnnouncer:ChooseStatMessage(stat)
 	--dirty but efficient version (just substituting in the variables)
 	local message = messages[stat:upper()][self.stats[stat].category_names[get_category(self.stats[stat].thresholds, percent)]]
 	if EXPLICIT then
-		return string.format("(%s: %d/%d) %s", stat, cur, max, message)
+		return string.format("(%s: %d/%d) %s", STRINGS._STATUS_ANNOUNCEMENTS._.STAT_NAMES[stat] or stat,
+								cur, max, message)
 	else
 		return message
 	end
