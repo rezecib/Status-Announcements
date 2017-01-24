@@ -11,8 +11,8 @@ ANNOUNCE_STRINGS = {
 		S = "s",
 		STAT_NAMES = {
 			Hunger = "Fome",
-			Sanity = "Vida",
-			Health = "Sanidade",
+			Sanity = "Sanidade",
+			Health = "Vida",
 			["Log Meter"] = "Medidor de Tronco",
 			Wetness = "Umidade",
 			--Other mod stats won't have translations, but at least we can support these
