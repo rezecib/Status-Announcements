@@ -461,7 +461,7 @@ ANNOUNCE_STRINGS = {
 			FULL  = "I've had quite the feast.",
 			HIGH  = "I'm sated, but not to excess.",
 			MID   = "A snack might be in order.",
-			LOW   = "I am empty inside",
+			LOW   = "I am empty inside.",
 			EMPTY = "No! I didn't earn my freedom just to starve here!",
 		},
 		SANITY = {
