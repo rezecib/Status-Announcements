@@ -52,13 +52,13 @@ local CHECK_MODS = {
 }
 --If the mod is a]ready loaded at this point
 for mod_name, key in pairs(CHECK_MODS) do
-	HAS_MOD[key] = HAS_MOD[key] or GLOBAL.KnownModIndex:IsModEnabled(mod_name)
+	HAS_MOD[key] = HAS_MOD[key] or (GLOBAL.KnownModIndex:IsModEnabled(mod_name) and mod_name)
 end
 --If the mod hasn't loaded yet
 for k,v in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
 	local mod_type = CHECK_MODS[v]
 	if mod_type then
-		HAS_MOD[mod_type] = true
+		HAS_MOD[mod_type] = v
 	end
 end
 
@@ -97,7 +97,11 @@ GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS = ANNOUNCE_STRINGS
 local StatusAnnouncer = require("statusannouncer")()
 
 --actually need this one locally to add the controller button hint
-local OVERRIDEB = HAS_MOD.COMBINED_STATUS and GetModConfigData("OVERRIDEB")
+local OVERRIDEB = false
+if HAS_MOD.COMBINED_STATUS and GetModConfigData("OVERRIDEB") then
+	-- Only try to do temperature if they have it configured to show temperature
+	OVERRIDEB = GLOBAL.GetModConfigData("SHOWTEMPERATURE", HAS_MOD.COMBINED_STATUS)
+end
 StatusAnnouncer:SetLocalParameter("WHISPER", GetModConfigData("WHISPER"))
 StatusAnnouncer:SetLocalParameter("WHISPER_ONLY", HAS_MOD.WHISPER_ONLY)
 StatusAnnouncer:SetLocalParameter("EXPLICIT", GetModConfigData("EXPLICIT"))
