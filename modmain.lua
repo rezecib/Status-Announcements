@@ -38,7 +38,6 @@ end
 
 ]]
 
---TODO: Generalize this and add language mod detection
 --Mods that are already enabled
 local HAS_MOD = {}
 local CHECK_MODS = {
@@ -49,6 +48,14 @@ local CHECK_MODS = {
 	["workshop-383128216"] = "BRAZIL",
 	["workshop-628971544"] = "BRAZIL",
 	["workshop-629042840"] = "BRAZIL",
+	["workshop-367546858"] = "CHINESE",
+	["workshop-624759018"] = "CHINESE",
+	["workshop-757621274"] = "CHINESE",
+	["workshop-572538624"] = "CHINESE",
+	["workshop-367546858"] = "CHINESE",
+	["workshop-460972875"] = "CHINESE",
+	["workshop-609429306"] = "CHINESE",
+	["workshop-803906762"] = "CHINESE",
 }
 --If the mod is a]ready loaded at this point
 for mod_name, key in pairs(CHECK_MODS) do
@@ -62,15 +69,12 @@ for k,v in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
 	end
 end
 
-for k,v in pairs(HAS_MOD) do
-	print("Has mod:",k,v)
-end
-
---TODO: load language-appropriate version
 local LANGUAGE = GetModConfigData("LANGUAGE")
 if LANGUAGE == "detect" then --We should try to detect the language
 	if HAS_MOD.BRAZIL then
 		LANGUAGE = "brazil"
+	elseif HAS_MOD.CHINESE then
+		LANGUAGE = "chinese" --we use this for Chinese
 	else
 		LANGUAGE = "english" --we use this for English
 	end
@@ -281,7 +285,7 @@ function RecipePopup:Refresh(...)
 	if TheInput:ControllerAttached() then
 		self.teaser:SetString(self.teaser:GetString() .. "\n"
 			.. TheInput:GetLocalizedControl(TheInput:GetControllerID(), GLOBAL.CONTROL_MENU_MISC_2)
-			.. " Announce")
+			.. " " .. ANNOUNCE_STRINGS._.ANNOUNCE_HINT)
 		local x, y, z = self.teaser:GetPosition():Get()
 		if self.skins_spinner then
 			self.teaser:SetPosition(x, y%50 == 0 and y-15 or y, z)
@@ -372,7 +376,7 @@ function InventoryBar:UpdateCursorText(...)
 	if TheInput:ControllerAttached() and self.open then
 		if self:GetCursorItem() and not self.owner.replica.inventory:GetActiveItem() then
 			self.actionstringbody:SetString(TheInput:GetLocalizedControl(TheInput:GetControllerID(), GLOBAL.CONTROL_USE_ITEM_ON_ITEM)
-				.." Announce\n"..self.actionstringbody:GetString())
+				.." "..ANNOUNCE_STRINGS._.ANNOUNCE_HINT.."\n"..self.actionstringbody:GetString())
 		end
 	end
 end
@@ -383,8 +387,8 @@ AddClassPostConstruct("widgets/giftitemtoast", function(self)
 		local ret = _OnMouseButton(self, button, down, ...)
 		if button == 1000 and down and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT) then
 			StatusAnnouncer:Announce(self.enabled
-									and "I have a gift and I'm about to open it!"
-									or "I require additional science to open this gift!")
+								and ANNOUNCE_STRINGS._.ANNOUNCE_GIFT.CAN_OPEN
+								or ANNOUNCE_STRINGS._.ANNOUNCE_GIFT.NEED_SCIENCE)
 		end
 	end
 end)

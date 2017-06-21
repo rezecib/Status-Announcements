@@ -109,7 +109,7 @@ ANNOUNCE_STRINGS = {
 		ANNOUNCE_SKIN = {
 			-- This needs to reflect the translating language's grammar
 			-- For example, this might become "I have the Tragic Torch skin for the Torch"
-			FORMAT_STRING = "I have the {SKIN} for the {ITEM}.",
+			FORMAT_STRING = "I have the {SKIN} skin for the {ITEM}.",
 			
 			--{SKIN} comes form the skin's name
 			
@@ -138,6 +138,11 @@ ANNOUNCE_STRINGS = {
 				FREEZING = " freezing!",
 			},
 		},
+		ANNOUNCE_GIFT = {
+			CAN_OPEN = "I have a gift and I'm about to open it!",
+			NEED_SCIENCE = "I require additional science to open this gift!",
+		},
+		ANNOUNCE_HINT = "Announce",
 	},
 	-- Everything below is character-specific
 	UNKNOWN = {

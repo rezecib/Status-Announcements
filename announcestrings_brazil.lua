@@ -138,6 +138,11 @@ ANNOUNCE_STRINGS = {
 				FREEZING = " congelando, que frio!!",
 			},
 		},
+		ANNOUNCE_GIFT = {
+			CAN_OPEN = "Tenho um presente e estou prestes a abri-lo!",
+			NEED_SCIENCE = "Eu preciso de ciência adicional para abrir esse presente!",
+		},
+		ANNOUNCE_HINT = "Anunciar",
 	},
 	-- Everything below is character-specific
 	UNKNOWN = {

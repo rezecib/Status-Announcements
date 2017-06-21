@@ -8,7 +8,7 @@ description = "Alt-click parts of the HUD to announce their status (\"I'm wounde
 author = "rezecib"
 
 --A version number so you can ask people if they are running an old version of your mod.
-version = "2.3.3"
+version = "2.4.0"
 
 --This lets other players know if your mod is out of date. This typically needs to be updated every time there's a new game update.
 api_version = 10
@@ -46,6 +46,7 @@ configuration_options =
 						{description = "Detect", data = "detect", hover = "Detect the language based on language mods installed."},
 						{description = "English", data = "english"},
 						{description = "Português (BR)", data = "brazil"},
+						{description = "Chinese", data = "chinese"},
 					},
 		default = "detect",
 	},
