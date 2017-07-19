@@ -179,7 +179,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 		end
 		num = amount_needed - num_found
 		local can_make = math.floor(num_found / amount_needed)*slot.recipe.numtogive
-		local ingredient_str = ingredient.tooltip:lower()
+		local ingredient_str = (ingredient.tooltip or "<missing_string>"):lower()
 		if num == 1 or ingredient_str:find(ing_s.."$") ~= nil then ing_s = "" end
 		local announce_str = "";
 		if num > 0 then
