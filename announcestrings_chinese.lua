@@ -142,7 +142,7 @@ ANNOUNCE_STRINGS = {
 			CAN_OPEN = "我有一个礼物，我要打开它！",
 			NEED_SCIENCE = "我需要额外的科学来打开这个礼物！",
 		},
-		ANNOUNCE_HINT = "宣布",
+		ANNOUNCE_HINT = "宣告",
 	},
 	-- Everything below is character-specific
 	UNKNOWN = {
