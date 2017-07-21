@@ -1,3 +1,15 @@
+---Intercept characters
+function cutchar( str, chbefore, chafter)  
+   
+    local bparam1, bparam2 = string.find(str, chbefore)
+	local aparam1, aparam2 = string.find(str, chafter)
+    local be = bparam2 + 1 
+    local af = aparam1 - 1
+    local result = string.sub(str, be, af)    
+    return result  
+end 
+
+
 ANNOUNCE_STRINGS = {
 	-- These are not character-specific strings, but are here to ease translation
 	-- Note that spaces at the beginning and end of these are important and should be preserved
@@ -45,7 +57,7 @@ ANNOUNCE_STRINGS = {
 			--{PERCENT} is acquired from the item's durability
 			
 			--Goes into {DURABILITY}
-			DURABILITY = " 的耐久度。",
+			DURABILITY = " 的耐久度",
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar
@@ -72,7 +84,7 @@ ANNOUNCE_STRINGS = {
 			--{S} uses S above
 
 			--Goes into {PRE_BUILT}
-			PRE_BUILT = " 建好了准备放置",
+			PRE_BUILT = " 准备放置",
 			
 			--This goes into {END_Q} if it's a question
 			END_Q = "吗?",
@@ -83,11 +95,18 @@ ANNOUNCE_STRINGS = {
 			--{PROTOTYPER} is taken from the recipepopup.teaser:GetString with this function
 			getPrototyper = function(teaser)
 				--This extracts from sentences like "Use a (science machine) to..." and "Use an (alchemy engine) to..."
-				return teaser:gmatch("<.*>")()
+				Prototyperstr = teaser:gmatch("<.*>")()
+				if Prototyperstr ~= nil then
+				    return Prototyperstr
+				else 
+				    Prototyperstr = teaser:gmatch("需要.*来")()				    
+				    Protostr = cutchar(Prototyperstr,"需要","来")
+				    return Protostr
+				end
 			end,
 			
 			--Goes into {FOR_IT}
-			FOR_IT = " 来制造它",
+			FOR_IT = " 才能制造它",
 		},
 		ANNOUNCE_INGREDIENTS = {
 			-- This needs to reflect the translating language's grammar
@@ -101,7 +120,7 @@ ANNOUNCE_STRINGS = {
 			-- This needs to reflect the translating language's grammar
 			-- Examples of what this makes:
 			-- "I have enough twigs to make 9 bird traps, but I need a science machine."
-			FORMAT_HAVE = "我有足够的 {INGREDIENT}{ING_S} 来制造 {RECIPE}{REC_S}{BUT_NEED}{A_PROTO}{PROTOTYPER}。",
+			FORMAT_HAVE = "我有足够的 {INGREDIENT} 来制造 {A_REC}{REC_S}{RECIPE}{BUT_NEED}{A_PROTO}{PROTOTYPER}。",
 			---{A_REC}
 			--If a prototyper is needed, goes into {BUT_NEED}
 			BUT_NEED = ", 我还需要 ",
