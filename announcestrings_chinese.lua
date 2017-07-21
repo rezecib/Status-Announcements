@@ -1,15 +1,3 @@
----Intercept characters
-function cutchar( str, chbefore, chafter)  
-   
-    local bparam1, bparam2 = string.find(str, chbefore)
-	local aparam1, aparam2 = string.find(str, chafter)
-    local be = bparam2 + 1 
-    local af = aparam1 - 1
-    local result = string.sub(str, be, af)    
-    return result  
-end 
-
-
 ANNOUNCE_STRINGS = {
 	-- These are not character-specific strings, but are here to ease translation
 	-- Note that spaces at the beginning and end of these are important and should be preserved
@@ -95,14 +83,7 @@ ANNOUNCE_STRINGS = {
 			--{PROTOTYPER} is taken from the recipepopup.teaser:GetString with this function
 			getPrototyper = function(teaser)
 				--This extracts from sentences like "Use a (science machine) to..." and "Use an (alchemy engine) to..."
-				Prototyperstr = teaser:gmatch("<.*>")()
-				if Prototyperstr ~= nil then
-				    return Prototyperstr
-				else 
-				    Prototyperstr = teaser:gmatch("需要.*来")()				    
-				    Protostr = cutchar(Prototyperstr,"需要","来")
-				    return Protostr
-				end
+				return teaser:gmatch("<.*>")() or teaser:gmatch("需要(.*)来")()			    
 			end,
 			
 			--Goes into {FOR_IT}
