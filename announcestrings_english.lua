@@ -646,8 +646,8 @@ ANNOUNCE_STRINGS = {
 			FULL  = "*hops around clapping his hands*", 	-- >75%
 			HIGH  = "*claps hands happily*",			-- >55%
 			MID   = "*rubs his belly*", 	-- >35%
-			LOW   = "*sad look and rubs belly*", 				-- >15%
-			EMPTY = "OOAOE! *rubs helly*", 			-- <15%
+			LOW   = "*looks sad and rubs belly*", 				-- >15%
+			EMPTY = "OOAOE! *rubs belly*", 			-- <15%
 		},
 		SANITY = {
 			FULL  = "*knocks on head*", 			-- >75%
