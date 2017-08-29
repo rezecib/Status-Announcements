@@ -356,7 +356,7 @@ ANNOUNCE_STRINGS = {
 		},
 	},
 	WOODIE = {
-		{ -- human form
+		HUMAN = { -- human form
 			HUNGER = {
 				FULL  = "全部都满了！",
 				HIGH  = "对于砍树仍然足够。",
@@ -385,7 +385,7 @@ ANNOUNCE_STRINGS = {
 				LOW   = "格子花呢很温暖, 也很潮湿。",
 				EMPTY = "对我几乎不受影响, eh？",
 			},
-			["伐木"] = {	
+			["LOG METER"] = {	
 				FULL  = "一直有更多的木头，但不是在我的肚子里，eh？",
 				HIGH  = "我渴望有一个小树枝。",
 				MID   = "木头看起来真的很好吃。",
@@ -422,7 +422,7 @@ ANNOUNCE_STRINGS = {
 				LOW   = "野兽头上一点水滴.",
 				EMPTY = "野兽的毛皮是干燥的.",
 			},
-			["伐木"] = {
+			["LOG METER"] = {
 				FULL  = "野兽看起来和人类几乎差不多了。",	-- > 90%
 				HIGH  = "野兽要咀嚼一个树木。",	-- > 70%
 				MID   = "野兽要用力咀嚼一个树枝。",	-- > 50%
