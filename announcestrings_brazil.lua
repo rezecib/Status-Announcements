@@ -551,6 +551,36 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "Seca o suficiente para a batalha!", 						-- <15%
 		},
 	},
+	WINONA = {
+		HUNGER = {
+			FULL  = "Eu consegui minha refeição para o dia.",
+			HIGH  = "Eu sempre tenho espaço para um pouco mais de comida!",
+			MID   = "Posso ir ao meu intervado de almoço?",
+			LOW   = "Estou ficando sem combustível, chefe.",
+			EMPTY = "A fábrica vai ser um trabalho duro, caso eu não conseguir algum rango",
+		},
+		SANITY = {
+			FULL  = "Tão sã como eu jamais serei.",
+			HIGH  = "Tudo certo por aqui!",
+			MID   = "Eu acho que tenho alguns parafusos soltos...",
+			LOW   = "Minha mente está quebrada, eu deveria ser a única a corriga-la.",
+			EMPTY = "Isto é um pesadelo! Ha! Mesmo assim.",
+		},
+		HEALTH = {
+			FULL  = "Estou tão saudável quanto um cavalo!",
+			HIGH  = "Beleza, eu vou resolver isso.",
+			MID   = "Eu não posso desistir ainda.",
+			LOW   = "Posso pegar a pensão do meu trabalho ainda...?",
+			EMPTY = "Acho que o meu turno acabou...",
+		},
+		WETNESS = {
+			FULL  = "Não posso trabalhar nessas condições!",
+			HIGH  = "Meu macacão está coletando água!",
+			MID   = "Alguém deveria colocar um sinal de chão molhado.",
+			LOW   = "É sempre bom ficar hidratada durante o trabalho.",
+			EMPTY = "Isso não é nada.",
+		},
+	},
 	WARLY = {
 		HUNGER = {
 			FULL  = "Minha culinária será a morte de mim!", 	-- >75%

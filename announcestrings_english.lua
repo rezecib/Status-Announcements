@@ -551,6 +551,36 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "Dry enough for battle!", 						-- <15%
 		},
 	},
+	WINONA = {
+		HUNGER = {
+			FULL  = "I got my square meal for the day.",
+			HIGH  = "I always got room for some more grub!",
+			MID   = "Can I take my lunch break yet?",
+			LOW   = "I'm running low on fuel, boss.",
+			EMPTY = "The factory's gonna be short a worker if I don't get some grub!",
+		},
+		SANITY = {
+			FULL  = "As sane as I'll ever be.",
+			HIGH  = "All's good under the hood!",
+			MID   = "I think I got a few screws loose...",
+			LOW   = "My mind's broke, I should be the one to fix it.",
+			EMPTY = "This is a nightmare! Ha! Really though.",
+		},
+		HEALTH = {
+			FULL  = "I'm as healthy as a horse!",
+			HIGH  = "Eh, I'll work it off.",
+			MID   = "I can't give up yet.",
+			LOW   = "Can I collect my worker's pension yet...?",
+			EMPTY = "I think my shift is over...",
+		},
+		WETNESS = {
+			FULL  = "I can't work in these conditions!",
+			HIGH  = "My overalls are collecting water!",
+			MID   = "Someone should put down a wet floor sign.",
+			LOW   = "It's always good to stay hydrated while on the job.",
+			EMPTY = "This is nothin'.",
+		},
+	},
 	WARLY = {
 		HUNGER = {
 			FULL  = "My cooking will be the death of me!", 	-- >75%
