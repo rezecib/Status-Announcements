@@ -299,15 +299,16 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 	local stat_categorynames = {"EMPTY", "LOW", "MID", "HIGH", "FULL"}
 	local default_thresholds = {	.15,	.35,	.55,	.75		 }
 	
-	local has_beavermode = type(HUD.controls.status.beaverness) == "table"
+	local status = HUD.controls.status
+	local has_beavermode = type(status.beaverness) == "table"
 	local switch_fn = has_beavermode
 		and function(ThePlayer) return ThePlayer.isbeavermode:value() and "WEREBEAVER" or "HUMAN" end
 		or nil 
 	
-	if hunger ~= false then
+	if hunger ~= false and type(status.stomach) == "table" then
 		self:RegisterStat(
 			"Hunger",
-			HUD.controls.status.stomach,
+			status.stomach,
 			CONTROL_INVENTORY_USEONSCENE, -- D-Pad Left
 			default_thresholds,
 			stat_categorynames,
@@ -318,10 +319,10 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			switch_fn
 		)
 	end
-	if sanity ~= false then
+	if sanity ~= false and type(status.brain) == "table" then
 		self:RegisterStat(
 			"Sanity",
-			HUD.controls.status.brain,
+			status.brain,
 			CONTROL_INVENTORY_EXAMINE, -- D-Pad Up
 			default_thresholds,
 			stat_categorynames,
@@ -332,10 +333,10 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			switch_fn
 		)
 	end
-	if health ~= false then
+	if health ~= false and type(status.heart) == "table" then
 		self:RegisterStat(
 			"Health",
-			HUD.controls.status.heart,
+			status.heart,
 			CONTROL_INVENTORY_USEONSELF, -- D-Pad Right
 			{.25, .5, .75, 1},
 			stat_categorynames,
@@ -349,7 +350,7 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 	if beaverness ~= false and has_beavermode then
 		self:RegisterStat(
 			"Log Meter",
-			HUD.controls.status.beaverness,
+			status.beaverness,
 			CONTROL_ROTATE_LEFT, -- Left Bumper
 			{ .25, .5, .7, .9 },
 			stat_categorynames,
@@ -360,10 +361,10 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			switch_fn
 		)
 	end
-	if moisture ~= false then
+	if moisture ~= false and type(status.moisturemeter) == "table" then
 		self:RegisterStat(
 			"Wetness",
-			HUD.controls.status.moisturemeter,
+			status.moisturemeter,
 			CONTROL_ROTATE_RIGHT, -- Right Bumper
 			default_thresholds,
 			stat_categorynames,
