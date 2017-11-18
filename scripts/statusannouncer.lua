@@ -239,7 +239,7 @@ function StatusAnnouncer:AnnounceSkin(recipepopup)
 	local item_name = recipepopup.recipe.name
 	if skin_name ~= item_name then --don't announce default skins
 		return self:Announce(subfmt(STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_SKIN.FORMAT_STRING,
-									{SKIN = GetName(skin_name), ITEM = GetName(item_name)}))
+									{SKIN = GetSkinName(skin_name), ITEM = item_name}))
 	end
 end
 
