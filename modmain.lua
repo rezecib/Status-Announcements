@@ -98,6 +98,13 @@ ANNOUNCE_STRINGS._.LANGUAGE = LANGUAGE --attach it here so mods can check it if 
 -- Store the merged ANNOUNCE_STRINGS in the global table (so mods that run after can add to / change it)
 GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS = ANNOUNCE_STRINGS
 
+-- This is kind of gross, but seems like the least-problematic solution
+-- Mod characters aren't allowed in The Forge, so we don't have to worry about those
+-- And Woodie is the only dual-form vanilla character, so we just collapse his table for The Forge
+if GLOBAL.TheNet:GetServerGameMode() == "lavaarena" then
+	GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS.WOODIE = GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS.WOODIE.HUMAN
+end
+
 local StatusAnnouncer = require("statusannouncer")()
 
 --actually need this one locally to add the controller button hint
