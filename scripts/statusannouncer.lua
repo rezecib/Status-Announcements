@@ -51,8 +51,8 @@ function StatusAnnouncer:AnnounceItem(item, percent, container, owner)
 			end
 		end
 	end
-	local container_name = container.type and container.inst.name:lower()
-	local name = item.name:lower()
+	local container_name = container.type and container.inst:GetBasicDisplayName():lower()
+	local name = item:GetBasicDisplayName():lower()
 	local has, num_found = container:Has(item.prefab, 1)
 	num_found = num_found + num_equipped
 	local i_have = ""
