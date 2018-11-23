@@ -199,23 +199,31 @@ function PlayerHud:ShowStatusControllerButtonHints()
 		SetModHUDFocus("StatusAnnouncements", true)
 	end
 	local controller_id = TheInput:GetControllerID()
-	self.controls.status.stomach.announce_text:Show()
-	self.controls.status.stomach.announce_text:SetString(
-		TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_INVENTORY_USEONSCENE))
-	self.controls.status.brain.announce_text:Show()
-	self.controls.status.brain.announce_text:SetString(
-		TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_INVENTORY_EXAMINE))
-	self.controls.status.heart.announce_text:Show()
-	self.controls.status.heart.announce_text:SetString(
-		TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_INVENTORY_USEONSELF))
+	if self.controls.status.stomach then
+		self.controls.status.stomach.announce_text:Show()
+		self.controls.status.stomach.announce_text:SetString(
+			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_INVENTORY_USEONSCENE))
+	end
+	if self.controls.status.brain then
+		self.controls.status.brain.announce_text:Show()
+		self.controls.status.brain.announce_text:SetString(
+			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_INVENTORY_EXAMINE))
+	end
+	if self.controls.status.heart then
+		self.controls.status.heart.announce_text:Show()
+		self.controls.status.heart.announce_text:SetString(
+			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_INVENTORY_USEONSELF))
+	end
 	if self.controls.status._custombadge then
 		self.controls.status._custombadge.announce_text:Show()
 		self.controls.status._custombadge.announce_text:SetString(
 			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_ROTATE_LEFT))
 	end
-	self.controls.status.moisturemeter.announce_text:SetString(
-		TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_ROTATE_RIGHT))
-	self.controls.status.moisturemeter.controller_crafting_open = true
+	if self.controls.status.moisturemeter then
+		self.controls.status.moisturemeter.announce_text:SetString(
+			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_ROTATE_RIGHT))
+		self.controls.status.moisturemeter.controller_crafting_open = true
+	end
 	if self.controls.status.moisturemeter.activated then
 		self.controls.status.moisturemeter.announce_text:Show()
 	end
@@ -233,14 +241,22 @@ end
 function PlayerHud:HideStatusControllerButtonHints()
 	self._statuscontrollerbuttonhintsshown = false
 	SetModHUDFocus("StatusAnnouncements", false)
-	self.controls.status.stomach.announce_text:Hide()
-	self.controls.status.brain.announce_text:Hide()
-	self.controls.status.heart.announce_text:Hide()
+	if self.controls.status.stomach then
+		self.controls.status.stomach.announce_text:Hide()
+	end
+	if self.controls.status.brain then
+		self.controls.status.brain.announce_text:Hide()
+	end
+	if self.controls.status.heart then
+		self.controls.status.heart.announce_text:Hide()
+	end
 	if self.controls.status._custombadge then
 		self.controls.status._custombadge.announce_text:Hide()
 	end
-	self.controls.status.moisturemeter.controller_crafting_open = false
-	self.controls.status.moisturemeter.announce_text:Hide()
+	if self.controls.status.moisturemeter then
+		self.controls.status.moisturemeter.controller_crafting_open = false
+		self.controls.status.moisturemeter.announce_text:Hide()
+	end
 	if OVERRIDEB then
 		self.controls.status.temperature.announce_text:Hide()
 	end
@@ -249,15 +265,21 @@ end
 --Adds the controller button hints to the stat badges
 local Text = GLOBAL.require("widgets/text")
 AddClassPostConstruct("widgets/statusdisplays", function(self)
-	self.stomach.announce_text = self.stomach:AddChild(Text(GLOBAL.UIFONT, 30))
-	self.stomach.announce_text:SetPosition(-30, 0)
-	self.stomach.announce_text:Hide()
-	self.brain.announce_text = self.brain:AddChild(Text(GLOBAL.UIFONT, 30))
-	self.brain.announce_text:SetPosition(0, 30)
-	self.brain.announce_text:Hide()
-	self.heart.announce_text = self.heart:AddChild(Text(GLOBAL.UIFONT, 30))
-	self.heart.announce_text:SetPosition(30, 0)
-	self.heart.announce_text:Hide()
+	if self.stomach then
+		self.stomach.announce_text = self.stomach:AddChild(Text(GLOBAL.UIFONT, 30))
+		self.stomach.announce_text:SetPosition(-30, 0)
+		self.stomach.announce_text:Hide()
+	end
+	if self.brain then
+		self.brain.announce_text = self.brain:AddChild(Text(GLOBAL.UIFONT, 30))
+		self.brain.announce_text:SetPosition(0, 30)
+		self.brain.announce_text:Hide()	
+	end
+	if self.heart then
+		self.heart.announce_text = self.heart:AddChild(Text(GLOBAL.UIFONT, 30))
+		self.heart.announce_text:SetPosition(30, 0)
+		self.heart.announce_text:Hide()
+	end
 	if self.beaverness then
 		self._custombadge = self.beaverness
 	end
@@ -268,23 +290,25 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 			self._custombadge.announce_text:Hide()
 		end
 	end)
-	self.moisturemeter.announce_text = self.moisturemeter:AddChild(Text(GLOBAL.UIFONT, 30))
-	self.moisturemeter.announce_text:SetPosition(30*math.cos(math.pi*.4), 30*math.sin(math.pi*.4))
-	self.moisturemeter.announce_text:Hide()
-	local _Activate = self.moisturemeter.Activate
-	function self.moisturemeter:Activate(...)
-		_Activate(self, ...)
-		self.activated = true
-		if self.controller_crafting_open then
-			self.announce_text:Show()
+	if self.moisturemeter then
+		self.moisturemeter.announce_text = self.moisturemeter:AddChild(Text(GLOBAL.UIFONT, 30))
+		self.moisturemeter.announce_text:SetPosition(30*math.cos(math.pi*.4), 30*math.sin(math.pi*.4))
+		self.moisturemeter.announce_text:Hide()
+		local _Activate = self.moisturemeter.Activate
+		function self.moisturemeter:Activate(...)
+			_Activate(self, ...)
+			self.activated = true
+			if self.controller_crafting_open then
+				self.announce_text:Show()
+			end
 		end
-	end
-	local _Deactivate = self.moisturemeter.Deactivate
-	function self.moisturemeter:Deactivate(...)
-		_Deactivate(self, ...)
-		self.activated = false
-		if self.controller_crafting_open then
-			self.announce_text:Hide()
+		local _Deactivate = self.moisturemeter.Deactivate
+		function self.moisturemeter:Deactivate(...)
+			_Deactivate(self, ...)
+			self.activated = false
+			if self.controller_crafting_open then
+				self.announce_text:Hide()
+			end
 		end
 	end
 	if OVERRIDEB then
