@@ -47,6 +47,8 @@ configuration_options =
 						{description = "English", data = "english"},
 						{description = "Português (BR)", data = "brazil"},
 						{description = "Chinese", data = "chinese"},
+						{description = "русский", data = "russian"},
+						{description = "Español", data = "spanish"},
 					},
 		default = "detect",
 	},
