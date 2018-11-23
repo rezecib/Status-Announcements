@@ -62,6 +62,11 @@ function StatusAnnouncer:AnnounceItem(item, percent, container, owner)
 		end
 	end
 	local container_name = container.type and container.inst:GetBasicDisplayName():lower()
+	--container name was empty or blank, and matches the bundle container prefab naming system
+	local underscore_index = container and container.inst and container.inst.prefab and container.inst.prefab:find("_container")
+	if type(container_name) == "string" and container_name:find("^%s*$") and underscore_index then
+		container_name = STRINGS.NAMES[container.inst.prefab:sub(1, underscore_index-1):upper()]:lower()
+	end
 	local name = item:GetBasicDisplayName():lower()
 	local has, num_found = container:Has(item.prefab, 1)
 	num_found = num_found + num_equipped
