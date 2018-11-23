@@ -82,6 +82,16 @@ configuration_options =
 		hover = "When announcing a crafting recipe, whether to announce that you need a science machine or another prototyper.",
 	},
 	{
+		name = "SHOWEMOJI",
+		label = "Announce Emoji",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+		hover = "When announcing stats, show an emoji for the stat (if using \"Show current/max\").",
+	},
+	{
 		name = "SHOWDURABILITY",
 		label = "Announce Durability",
 		options =	{

@@ -4,6 +4,7 @@ local EXPLICIT = true
 local OVERRIDEB = false
 local SHOWDURABILITY = true
 local SHOWPROTOTYPER = true
+local SHOWEMOJI = true
 
 local setters = {
 	WHISPER = function(v) WHISPER = v end,
@@ -12,6 +13,7 @@ local setters = {
 	OVERRIDEB = function(v) OVERRIDEB = v end,
 	SHOWDURABILITY = function(v) SHOWDURABILITY = v end,
 	SHOWPROTOTYPER = function(v) SHOWPROTOTYPER = v end,
+	SHOWEMOJI = function(v) SHOWEMOJI = v end,
 }
 
 local needs_strings = {
@@ -453,8 +455,7 @@ function StatusAnnouncer:ChooseStatMessage(stat)
 	--dirty but efficient version (just substituting in the variables)
 	local message = messages[stat:upper()][self.stats[stat].category_names[get_category(self.stats[stat].thresholds, percent)]]
 	if EXPLICIT then
-		return string.format("(%s: %d/%d) %s", STRINGS._STATUS_ANNOUNCEMENTS._.STAT_NAMES[stat] or stat,
-								cur, max, message)
+		return string.format("(%s: %d/%d) %s", self.stat_names[stat] or stat, cur, max, message)
 	else
 		return message
 	end
@@ -474,6 +475,17 @@ function StatusAnnouncer:SetCharacter(prefab)
 	self:ClearCooldowns()
 	self:ClearStats()
 	self.char_messages = STRINGS._STATUS_ANNOUNCEMENTS[prefab:upper()] or STRINGS._STATUS_ANNOUNCEMENTS.UNKNOWN
+	self.stat_names = {}
+	for stat, name in pairs(STRINGS._STATUS_ANNOUNCEMENTS._.STAT_NAMES) do
+		self.stat_names[stat] = name
+	end
+	if SHOWEMOJI then
+		for stat, emoji in pairs(STRINGS._STATUS_ANNOUNCEMENTS._.STAT_EMOJI) do
+			if TheInventory:CheckOwnership("emoji_"..emoji) then
+				self.stat_names[stat] = ":"..emoji
+			end
+		end
+	end
 end
 
 function StatusAnnouncer:SetLocalParameter(parameter, value)

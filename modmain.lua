@@ -114,6 +114,15 @@ if type(GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS) == "table" then
 	end
 end
 ANNOUNCE_STRINGS._.LANGUAGE = LANGUAGE --attach it here so mods can check it if they want to provide translations
+--as emoji these are translation-independent, so add it here instead of in the language files
+ANNOUNCE_STRINGS._.STAT_EMOJI = {
+	Hunger = "hunger",
+	Sanity = "sanity",
+	Health = "heart",
+	--no emoji for these (yet)
+	-- ["Log Meter"] = "Log Meter",
+	-- Wetness = "Wetness",
+}
 -- Store the merged ANNOUNCE_STRINGS in the global table (so mods that run after can add to / change it)
 GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS = ANNOUNCE_STRINGS
 
@@ -138,6 +147,7 @@ StatusAnnouncer:SetLocalParameter("EXPLICIT", GetModConfigData("EXPLICIT"))
 StatusAnnouncer:SetLocalParameter("OVERRIDEB", OVERRIDEB)
 StatusAnnouncer:SetLocalParameter("SHOWDURABILITY", GetModConfigData("SHOWDURABILITY"))
 StatusAnnouncer:SetLocalParameter("SHOWPROTOTYPER", GetModConfigData("SHOWPROTOTYPER"))
+StatusAnnouncer:SetLocalParameter("SHOWEMOJI", GetModConfigData("SHOWEMOJI"))
 
 local PlayerHud = require("screens/playerhud")
 local PlayerHud_SetMainCharacter = PlayerHud.SetMainCharacter
