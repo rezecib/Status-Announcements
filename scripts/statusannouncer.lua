@@ -14,6 +14,14 @@ local setters = {
 	SHOWPROTOTYPER = function(v) SHOWPROTOTYPER = v end,
 }
 
+local needs_strings = {
+	NEEDSCIENCEMACHINE = "RESEARCHLAB",
+	NEEDALCHEMYENGINE = "RESEARCHLAB2",
+	NEEDSHADOWMANIPULATOR = "RESEARCHLAB3",
+	NEEDPRESTIHATITATOR = "RESEARCHLAB4",
+	NEEDSANCIENT_FOUR = "ANCIENT_ALTAR",
+}
+
 local StatusAnnouncer = Class(function(self)
 	self.cooldown = false
 	self.cooldowns = {}
@@ -114,11 +122,21 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 	else --controller controls, we pick it by number (determined by which button was pressed)
 		ingredient = recipepopup.ing[ingnum]
 	end
-	if ingnum and ingredient == nil then return end --controller button for ing that doesn't exist
-	local prototyper = recipepopup.teaser.shown and S.ANNOUNCE_RECIPE.getPrototyper(recipepopup.teaser:GetString())
+	if ingnum and ingredient == nil then return end --controller button for ingredient that doesn't exist
+	local prototyper = ""
+	if recipepopup.teaser.shown then
+		--we patch RecipePopup in the modmain to insert _original_string when the teaser string gets set
+		local teaser_string = recipepopup.teaser._original_string
+		local CRAFTING = STRINGS.UI.CRAFTING
+		for needs_string, prototyper_prefab in pairs(needs_strings) do
+			if teaser_string == CRAFTING[needs_string] then
+				prototyper = STRINGS.NAMES[prototyper_prefab]:lower()
+			end
+		end
+	end
 	local a_proto = ""
 	local proto = ""
-	if ingredient == nil then
+	if ingredient == nil then --announce the recipe (need more x, can make x, have x ready)
 		local start_q = ""
 		local to_do = ""
 		local s = ""
@@ -161,7 +179,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 										FOR_IT = for_it,
 									})
 		return self:Announce(announce_str)
-	else
+	else --announce the ingredient (need more, have enough to make x of recipe)
 		local num = 0
 		local ingname = ingredient.ing.texture:sub(1,-5)
 		local ing_s = S.S
@@ -184,7 +202,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 		local announce_str = "";
 		if num > 0 then
 			local and_str = ""
-			if prototyper and SHOWPROTOTYPER then
+			if prototyper ~= "" and SHOWPROTOTYPER then
 				and_str = S.ANNOUNCE_INGREDIENTS.AND
 				a_proto = S.getArticle(prototyper) .. " "
 				proto = prototyper
@@ -202,7 +220,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 									})
 		else
 			local but_need = ""
-			if prototyper and SHOWPROTOTYPER then
+			if prototyper ~= "" and SHOWPROTOTYPER then
 				but_need = S.ANNOUNCE_INGREDIENTS.BUT_NEED
 				a_proto = S.getArticle(prototyper) .. " "
 				proto = prototyper

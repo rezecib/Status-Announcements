@@ -313,6 +313,14 @@ function RecipePopup:Refresh(...)
 	end
 	return ret
 end
+--Capture the original string sent to SetMultilineTruncatedString so we can recover the prototyper
+local function patch_recipepopup_teaser(teaser)
+	local teaser_SetMultilineTruncatedString = teaser.SetMultilineTruncatedString
+	teaser.SetMultilineTruncatedString = function(self, str, ...)
+		teaser_SetMultilineTruncatedString(self, str, ...)
+		self._original_string = str
+	end
+end
 local RecipePopup_BuildWithSpinner = RecipePopup.BuildWithSpinner
 function RecipePopup:BuildWithSpinner(...)
 	RecipePopup_BuildWithSpinner(self, ...)
@@ -320,7 +328,14 @@ function RecipePopup:BuildWithSpinner(...)
 		self.skins_spinner.announce_text = self.skins_spinner:AddChild(Text(GLOBAL.UIFONT, 30))
 		self.skins_spinner.announce_text:SetPosition(-20,70)
 	end
+	patch_recipepopup_teaser(self.teaser)
 end
+local RecipePopup_BuildNoSpinner = RecipePopup.BuildNoSpinner
+function RecipePopup:BuildNoSpinner(...)
+	RecipePopup_BuildNoSpinner(self, ...)
+	patch_recipepopup_teaser(self.teaser)
+end
+
 
 --Captures mouse clicks on recipe tiles
 local CraftSlot = require("widgets/craftslot")
