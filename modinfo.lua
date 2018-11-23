@@ -27,7 +27,7 @@ server_filter_tags = {}
 icon_atlas = "statusannouncements.xml"
 icon = "statusannouncements.tex"
 
-forumthread = "http://forums.kleientertainment.com/files/file/923-dst-status-announcements"
+forumthread = "/files/file/923-dst-status-announcements"
 
 --[[
 Credits:
