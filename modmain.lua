@@ -39,24 +39,34 @@ end
 ]]
 
 --Mods that are already enabled
-local HAS_MOD = {}
+local LANGUAGES = {
+	BRAZIL = {
+		"499547543",
+		"383128216",
+		"628971544",
+		"629042840",
+	},
+	CHINESE = {
+		"367546858",
+		"624759018",
+		"757621274",
+		"572538624",
+		"460972875",
+		"609429306",
+		"803906762",
+	},
+}
 local CHECK_MODS = {
 	["workshop-346479579"] = "WHISPER_ONLY",
 	["workshop-376333686"] = "COMBINED_STATUS",
 	["CombinedStatus"] = "COMBINED_STATUS",
-	["workshop-499547543"] = "BRAZIL",
-	["workshop-383128216"] = "BRAZIL",
-	["workshop-628971544"] = "BRAZIL",
-	["workshop-629042840"] = "BRAZIL",
-	["workshop-367546858"] = "CHINESE",
-	["workshop-624759018"] = "CHINESE",
-	["workshop-757621274"] = "CHINESE",
-	["workshop-572538624"] = "CHINESE",
-	["workshop-367546858"] = "CHINESE",
-	["workshop-460972875"] = "CHINESE",
-	["workshop-609429306"] = "CHINESE",
-	["workshop-803906762"] = "CHINESE",
 }
+for lang,ids in pairs(LANGUAGES) do
+	for _, id in ipairs(ids) do
+		CHECK_MODS["workshop-"..id] = lang:upper()
+	end
+end
+local HAS_MOD = {}
 --If the mod is a]ready loaded at this point
 for mod_name, key in pairs(CHECK_MODS) do
 	HAS_MOD[key] = HAS_MOD[key] or (GLOBAL.KnownModIndex:IsModEnabled(mod_name) and mod_name)
@@ -71,16 +81,15 @@ end
 
 local LANGUAGE = GetModConfigData("LANGUAGE")
 if LANGUAGE == "detect" then --We should try to detect the language
-	if HAS_MOD.BRAZIL then
-		LANGUAGE = "brazil"
-	elseif HAS_MOD.CHINESE then
-		LANGUAGE = "chinese" --we use this for Chinese
-	else
-		LANGUAGE = "english" --we use this for English
+	LANGUAGE = "english" --Default to english, but then try to detect
+	for language,_ in pairs(LANGUAGES) do
+		if HAS_MOD[language:upper()] then
+			LANGUAGE = language:lower()
+		end
 	end
 end
-if not GLOBAL.kleifileexists(MODROOT.."announcestrings_"..LANGUAGE..".lua") then LANGUAGE = "english" end --failsafe
-modimport("announcestrings_"..LANGUAGE..".lua") --creates the ANNOUNCE_STRINGS table
+if not GLOBAL.kleifileexists(MODROOT.."announcestrings/"..LANGUAGE..".lua") then LANGUAGE = "english" end --failsafe
+modimport("announcestrings/"..LANGUAGE..".lua") --creates the ANNOUNCE_STRINGS table
 
 for k,v in pairs(ANNOUNCE_STRINGS) do
 	if k ~= "UNKNOWN" and k ~= "_" and GetModConfigData(k) == false then
