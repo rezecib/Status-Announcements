@@ -1,7 +1,8 @@
 local WHISPER = false
 local WHISPER_ONLY = false
 local EXPLICIT = true
-local OVERRIDEB = false
+local OVERRIDEB = true
+local OVERRIDESELECT = true
 local SHOWDURABILITY = true
 local SHOWPROTOTYPER = true
 local SHOWEMOJI = true
@@ -11,6 +12,7 @@ local setters = {
 	WHISPER_ONLY = function(v) WHISPER_ONLY = v end,
 	EXPLICIT = function(v) EXPLICIT = v end,
 	OVERRIDEB = function(v) OVERRIDEB = v end,
+	OVERRIDESELECT = function(v) OVERRIDESELECT = v end,
 	SHOWDURABILITY = function(v) SHOWDURABILITY = v end,
 	SHOWPROTOTYPER = function(v) SHOWPROTOTYPER = v end,
 	SHOWEMOJI = function(v) SHOWEMOJI = v end,
@@ -295,6 +297,16 @@ function StatusAnnouncer:AnnounceTemperature(pronoun)
 	end
 end
 
+function StatusAnnouncer:AnnounceSeason()
+	return self:Announce(subfmt(
+		STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_SEASON,
+		{
+			DAYS_LEFT = TheWorld.state.remainingdaysinseason,
+			SEASON = STRINGS.UI.SERVERLISTINGSCREEN.SEASONS[TheWorld.state.season:upper()],
+		}
+	))
+end
+
 --NOTE: Your mod is responsible for adding and deciding when to show/hide the controller button hint
 -- look at the modmain for examples-- most stats just show/hide with controller inventory,
 -- but moisture requires some special handling
@@ -402,6 +414,11 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 	end
 end
 
+local function has_seasons(HUD, ignore_focus)
+	return HUD.controls.seasonclock and (ignore_focus or HUD.controls.seasonclock.focus)
+		or HUD.controls.status.season and (ignore_focus or HUD.controls.status.season.focus)
+end
+
 function StatusAnnouncer:OnHUDMouseButton(HUD)
 	for stat_name,data in pairs(self.stats) do
 		if data.widget.focus then
@@ -410,6 +427,9 @@ function StatusAnnouncer:OnHUDMouseButton(HUD)
 	end
 	if HUD.controls.status.temperature and HUD.controls.status.temperature.focus then
 		return self:AnnounceTemperature(HUD.controls.status._beavermode and "BEAST" or nil)
+	end
+	if has_seasons(HUD, false) then
+		return self:AnnounceSeason()
 	end
 end
 
@@ -435,6 +455,9 @@ function StatusAnnouncer:OnHUDControl(HUD, control)
 		end
 		if OVERRIDEB and HUD.controls.status.temperature and control == CONTROL_CANCEL then
 			return self:AnnounceTemperature(HUD.controls.status._beavermode and "BEAST" or nil)
+		end
+		if OVERRIDESELECT and control == CONTROL_MAP and has_seasons(HUD, true) then
+			return self:AnnounceSeason()
 		end
 	end
 end

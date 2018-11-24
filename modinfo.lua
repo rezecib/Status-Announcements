@@ -109,7 +109,17 @@ configuration_options =
 						{description = "No", data = false},
 					},
 		default = true,
-		hover = "When controller inventory is open, allow the B/cancel button\nto be used to announce temperature.",
+		hover = "When controller inventory is open, allow the B/cancel button\nto be used to announce temperature\n(if you are using Combined Status).",
+	},
+	{
+		name = "OVERRIDESELECT",
+		label = "Controller Map",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+		hover = "When controller inventory is open, allow the SELECT/map button\nto be used to announce the season\n(if you are using Combined Status).",
 	},
 	{
 		name = "WILSON",

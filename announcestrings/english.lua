@@ -138,6 +138,7 @@ ANNOUNCE_STRINGS = {
 				FREEZING = " freezing!",
 			},
 		},
+		ANNOUNCE_SEASON = "There are {DAYS_LEFT} days left in {SEASON}.",
 		ANNOUNCE_GIFT = {
 			CAN_OPEN = "I have a gift and I'm about to open it!",
 			NEED_SCIENCE = "I require additional science to open this gift!",

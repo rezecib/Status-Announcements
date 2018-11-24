@@ -138,6 +138,7 @@ ANNOUNCE_STRINGS = {
 				FREEZING = " Я переохладился!",
 			},
 		},
+		ANNOUNCE_SEASON = "{SEASON} осталось {DAYS_LEFT} дня.",
 		ANNOUNCE_GIFT = {
 			CAN_OPEN = "У меня есть подарок, и я собираюсь его открыть!",
 			NEED_SCIENCE = "Мне нужна наука, чтобы открыть этот подарок!",

@@ -138,6 +138,7 @@ ANNOUNCE_STRINGS = {
 				FREEZING = " “凝固”了！",
 			},
 		},
+		ANNOUNCE_SEASON = "{SEASON}天還有{DAYS_LEFT}天。",
 		ANNOUNCE_GIFT = {
 			CAN_OPEN = "我有一个礼物，我要打开它！",
 			NEED_SCIENCE = "我需要额外的科学来打开这个礼物！",

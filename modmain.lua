@@ -137,14 +137,22 @@ local StatusAnnouncer = require("statusannouncer")()
 
 --actually need this one locally to add the controller button hint
 local OVERRIDEB = false
-if HAS_MOD.COMBINED_STATUS and GetModConfigData("OVERRIDEB") then
-	-- Only try to do temperature if they have it configured to show temperature
-	OVERRIDEB = GLOBAL.GetModConfigData("SHOWTEMPERATURE", HAS_MOD.COMBINED_STATUS)
+local OVERRIDESELECT = false
+if HAS_MOD.COMBINED_STATUS then
+	if GetModConfigData("OVERRIDEB") then
+		-- Only try to do temperature if they have it configured to show temperature
+		OVERRIDEB = GLOBAL.GetModConfigData("SHOWTEMPERATURE", HAS_MOD.COMBINED_STATUS)
+	end
+	if GetModConfigData("OVERRIDESELECT") then
+		-- Only try to do temperature if they have it configured to show temperature
+		OVERRIDESELECT = GLOBAL.GetModConfigData("SEASONOPTIONS", HAS_MOD.COMBINED_STATUS) ~= ""
+	end
 end
 StatusAnnouncer:SetLocalParameter("WHISPER", GetModConfigData("WHISPER"))
 StatusAnnouncer:SetLocalParameter("WHISPER_ONLY", HAS_MOD.WHISPER_ONLY)
 StatusAnnouncer:SetLocalParameter("EXPLICIT", GetModConfigData("EXPLICIT"))
 StatusAnnouncer:SetLocalParameter("OVERRIDEB", OVERRIDEB)
+StatusAnnouncer:SetLocalParameter("OVERRIDESELECT", OVERRIDESELECT)
 StatusAnnouncer:SetLocalParameter("SHOWDURABILITY", GetModConfigData("SHOWDURABILITY"))
 StatusAnnouncer:SetLocalParameter("SHOWPROTOTYPER", GetModConfigData("SHOWPROTOTYPER"))
 StatusAnnouncer:SetLocalParameter("SHOWEMOJI", GetModConfigData("SHOWEMOJI"))
@@ -187,6 +195,17 @@ function PlayerHud:OnControl(control, down, ...)
 
 end
 
+local function find_season_badge(HUD)
+	HUD = HUD or GLOBAL.ThePlayer.HUD
+	if HUD.controls.seasonclock then
+		return HUD.controls.seasonclock, "Clock"
+	elseif HUD.controls.season then -- actually needs to get checked before Compact because they both get attached to status
+		return HUD.controls.season, "Micro"
+	elseif HUD.controls.status.season then
+		return HUD.controls.status.season, "Compact"
+	end
+end
+
 --Hook into the controller open/close inventory to display the controller button hints
 local PlayerHud_OpenControllerInventory = PlayerHud.OpenControllerInventory
 function PlayerHud:OpenControllerInventory(...)
@@ -223,14 +242,20 @@ function PlayerHud:ShowStatusControllerButtonHints()
 		self.controls.status.moisturemeter.announce_text:SetString(
 			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_ROTATE_RIGHT))
 		self.controls.status.moisturemeter.controller_crafting_open = true
+		if self.controls.status.moisturemeter.activated then
+			self.controls.status.moisturemeter.announce_text:Show()
+		end
 	end
-	if self.controls.status.moisturemeter.activated then
-		self.controls.status.moisturemeter.announce_text:Show()
-	end
-	if OVERRIDEB then
+	if OVERRIDEB and self.controls.status.temperature then
 		self.controls.status.temperature.announce_text:Show()
 		self.controls.status.temperature.announce_text:SetString(
 			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_CANCEL))
+	end
+	local season, _ = find_season_badge(self)
+	if OVERRIDESELECT and season then
+		season.announce_text:Show()
+		season.announce_text:SetString(
+			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_MAP))
 	end
 end
 local PlayerHud_CloseControllerInventory = PlayerHud.CloseControllerInventory
@@ -257,8 +282,12 @@ function PlayerHud:HideStatusControllerButtonHints()
 		self.controls.status.moisturemeter.controller_crafting_open = false
 		self.controls.status.moisturemeter.announce_text:Hide()
 	end
-	if OVERRIDEB then
+	if OVERRIDEB and self.controls.status.temperature then
 		self.controls.status.temperature.announce_text:Hide()
+	end
+	local season, _ = find_season_badge(self)
+	if OVERRIDESELECT and season then
+		season.announce_text:Hide()
 	end
 end
 
@@ -321,6 +350,26 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 				--We succeeded, clear the task
 				self._override_b_task:Cancel()
 				self._override_b_task = nil
+			end
+		end)
+	end
+	if OVERRIDESELECT then
+		--delay it until Combined Status loads
+		self._override_select_task = self.inst:DoPeriodicTask(0, function()
+			local season, season_type = find_season_badge()
+			if season then --If Combined Status has loaded, add the button hint
+				season.announce_text = season:AddChild(Text(GLOBAL.UIFONT, 30))
+				if season_type == "Clock" then
+					season.announce_text:SetPosition(0, -52)
+				elseif season_type == "Compact" then					
+					season.announce_text:SetPosition(0, -75)
+				elseif season_type == "Micro" then
+					season.announce_text:SetPosition(40, -30)
+				end
+				season.announce_text:Hide()
+				--We succeeded, clear the task
+				self._override_select_task:Cancel()
+				self._override_select_task = nil
 			end
 		end)
 	end
