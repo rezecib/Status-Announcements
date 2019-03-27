@@ -47,7 +47,18 @@ function StatusAnnouncer:Announce(message)
 	return true
 end
 
-function StatusAnnouncer:AnnounceItem(item, percent, container, owner)
+function StatusAnnouncer:AnnounceItem(slot)
+	local item = slot.tile.item
+	local container = slot.container
+	local percent = nil
+	local percent_type = nil
+	if slot.tile.percent then
+		percent = slot.tile.percent:GetString()
+		percent_type = "DURABILITY"
+	elseif slot.tile.hasspoilage then
+		percent = math.floor(item.replica.inventoryitem.classified.perish:value()*(1/.62)) .. "%"
+		percent_type = "FRESHNESS"
+	end
 	local S = STRINGS._STATUS_ANNOUNCEMENTS._ --To save some table lookups
 	if container == nil or (container and container.type == "pack") then
 		--\equipslots/        \backpacks/
@@ -85,11 +96,11 @@ function StatusAnnouncer:AnnounceItem(item, percent, container, owner)
 	local plural = num_found > 1
 	local with = ""
 	local durability = ""
-	if percent and SHOWDURABILITY then
+	if SHOWDURABILITY and percent then
 		with = plural 
 				and S.ANNOUNCE_ITEM.AND_THIS_ONE_HAS
 				 or S.ANNOUNCE_ITEM.WITH
-		durability = S.ANNOUNCE_ITEM.DURABILITY
+		durability = percent and S.ANNOUNCE_ITEM[percent_type]
 	else
 		percent = ""
 	end

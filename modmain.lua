@@ -472,8 +472,7 @@ for _,classname in pairs({"invslot", "equipslot"}) do
 			and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT)
 			and TheInput:IsKeyDown(GLOBAL.KEY_SHIFT)
 			and self.tile then --ignore empty slots
-			return StatusAnnouncer:AnnounceItem(self.tile.item,
-				self.tile.percent and self.tile.percent:GetString(), self.container, self.owner)
+			return StatusAnnouncer:AnnounceItem(self)
 		else
 			return SlotClass_OnControl(self, control, down, ...)
 		end
@@ -493,9 +492,7 @@ function InventoryBar:OnControl(control, down, ...)
 		--We shouldn't actually need to check if it's the other scenario for this,
 		-- because it would've returned true above
 		--also, GetCursorItem() returns nil if there's no active slot, so we know it exists
-		return StatusAnnouncer:AnnounceItem(inv_item,
-							self.active_slot.tile.percent and self.active_slot.tile.percent:GetString(),
-							self.active_slot.container, self.owner)
+		return StatusAnnouncer:AnnounceItem(self.active_slot)
 	end
 end
 --Add the Announce hint text

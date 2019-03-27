@@ -46,6 +46,7 @@ ANNOUNCE_STRINGS = {
 			
 			--Goes into {DURABILITY}
 			DURABILITY = " 的耐久度",
+			FRESHNESS = " 新鲜",
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar

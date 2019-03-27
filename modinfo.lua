@@ -104,7 +104,7 @@ configuration_options =
 						{description = "No", data = false},
 					},
 		default = true,
-		hover = "Whether to announce the durability of an item when announcing that you have it.",
+		hover = "Whether to announce the durability/freshness of an item when announcing that you have it.",
 	},
 	{
 		name = "OVERRIDEB",

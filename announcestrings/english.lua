@@ -46,6 +46,7 @@ ANNOUNCE_STRINGS = {
 			
 			--Goes into {DURABILITY}
 			DURABILITY = " durability",
+			FRESHNESS = " freshness",
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar
