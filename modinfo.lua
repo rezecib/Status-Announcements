@@ -35,6 +35,10 @@ Credits:
 	Acemurdock and OSMRhodey for helping out with the Woodie quotes
 	SuperPsiPower (and friends) for helping out with the Webber quotes
 	Vinicius Araújo for translating the quotes to Brazilian Portuguese
+	GoforDream and Shang for translating to Chinese
+	Gum for translating to Spanish
+	deshkas and Shire for a partial Russian translation
+	Redhead for translating to German
 ]]
 
 configuration_options =
@@ -45,6 +49,7 @@ configuration_options =
 		options =	{
 						{description = "Detect", data = "detect", hover = "Detect the language based on language mods installed."},
 						{description = "English", data = "english"},
+						{description = "Deutsch", data = "german"},
 						{description = "Português (BR)", data = "brazil"},
 						{description = "Chinese", data = "chinese"},
 						{description = "русский", data = "russian"},

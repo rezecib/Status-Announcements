@@ -40,6 +40,11 @@ end
 
 --Mods that are already enabled
 local LANGUAGES = {
+	GERMAN = {
+		"1537789714",
+		"880105914",
+		"685854724",
+	},
 	BRAZIL = {
 		"499547543",
 		"383128216",
