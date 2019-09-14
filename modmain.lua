@@ -9,7 +9,7 @@ in the format shown in announcestrings.lua
 
 If you have a custom stat (like Woodie has beaverness), here's what you should do:
 in a postinit on statusdisplays/controls, set status._custombadge = your_custom_badge
-(for example, I do status._custombadge = status.beaverness for Woodie)
+(for example, I do status._custombadge = status.wereness for Woodie)
 This will make it show/hide the controller button prompt for you custom badge
 
 Then, add onto PlayerHud's SetMainCharacter function to register your custom stat with StatusAnnouncer:
@@ -189,7 +189,7 @@ function PlayerHud:OnControl(control, down, ...)
 	if not down and self.owner ~= nil and self.shown and StatusAnnouncer:OnHUDControl(self, control) then
 		return true
 	end
-	if not down and control == GLOBAL.CONTROL_OPEN_INVENTORY and self.controls.status._beavermode then
+	if not down and control == GLOBAL.CONTROL_OPEN_INVENTORY and self.controls.status._weremode then
 		if self._statuscontrollerbuttonhintsshown then
 			self:HideStatusControllerButtonHints()
 		else
@@ -219,7 +219,7 @@ function PlayerHud:OpenControllerInventory(...)
 end
 function PlayerHud:ShowStatusControllerButtonHints()
 	self._statuscontrollerbuttonhintsshown = true
-	if self.controls.status._beavermode then
+	if self.controls.status._weremode then
 		SetModHUDFocus("StatusAnnouncements", true)
 	end
 	local controller_id = TheInput:GetControllerID()
@@ -314,8 +314,8 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 		self.heart.announce_text:SetPosition(30, 0)
 		self.heart.announce_text:Hide()
 	end
-	if self.beaverness then
-		self._custombadge = self.beaverness
+	if self.wereness then
+		self._custombadge = self.wereness
 	end
 	self.inst:DoTaskInTime(0, function()
 		if self._custombadge then
@@ -378,11 +378,11 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 			end
 		end)
 	end
-	local _SetBeaverMode = self.SetBeaverMode
-	function self:SetBeaverMode(beavermode, ...)
-		self._beavermode = beavermode
-		-- if self.isghostmode or self.beaverness == nil then return end
-		_SetBeaverMode(self, beavermode, ...)
+	local _SetWereMode = self.SetWereMode
+	function self:SetWereMode(weremode, ...)
+		self._weremode = weremode
+		-- if self.isghostmode or self.wereness == nil then return end
+		_SetWereMode(self, weremode, ...)
 	end
 end)
 

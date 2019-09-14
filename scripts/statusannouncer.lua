@@ -343,14 +343,14 @@ end
 
 --The other arguments are here so that mods can use them to override this function
 -- and avoid some of these stats if their character doesn't have them
-function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health, moisture, beaverness)
+function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health, moisture, wereness)
 	local stat_categorynames = {"EMPTY", "LOW", "MID", "HIGH", "FULL"}
 	local default_thresholds = {	.15,	.35,	.55,	.75		 }
 	
 	local status = HUD.controls.status
-	local has_beavermode = type(status.beaverness) == "table"
-	local switch_fn = has_beavermode
-		and function(ThePlayer) return ThePlayer.isbeavermode:value() and "WEREBEAVER" or "HUMAN" end
+	local has_weremode = type(status.wereness) == "table"
+	local switch_fn = has_weremode
+		and function(ThePlayer) return ThePlayer.weremode:value() ~= 0 and "WEREBEAVER" or "HUMAN" end
 		or nil 
 	
 	if hunger ~= false and type(status.stomach) == "table" then
@@ -395,15 +395,15 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			switch_fn
 		)
 	end
-	if beaverness ~= false and has_beavermode then
+	if wereness ~= false and has_weremode then
 		self:RegisterStat(
 			"Log Meter",
-			status.beaverness,
+			status.wereness,
 			CONTROL_ROTATE_LEFT, -- Left Bumper
 			{ .25, .5, .7, .9 },
 			stat_categorynames,
 			function(ThePlayer)
-				return	ThePlayer.player_classified.currentbeaverness:value(),
+				return	ThePlayer.player_classified.currentwereness:value(),
 						100 -- looks like the only way is to hardcode this; not networked
 			end,
 			switch_fn
@@ -437,7 +437,7 @@ function StatusAnnouncer:OnHUDMouseButton(HUD)
 		end
 	end
 	if HUD.controls.status.temperature and HUD.controls.status.temperature.focus then
-		return self:AnnounceTemperature(HUD.controls.status._beavermode and "BEAST" or nil)
+		return self:AnnounceTemperature(HUD.controls.status._weremode and "BEAST" or nil)
 	end
 	if has_seasons(HUD, false) then
 		return self:AnnounceSeason()
@@ -459,13 +459,13 @@ function StatusAnnouncer:OnHUDControl(HUD, control)
 			return self:AnnounceSkin(cc.recipepopup)
 		end
 	elseif HUD:IsControllerInventoryOpen()
-	or (HUD.controls.status._beavermode and HUD._statuscontrollerbuttonhintsshown) then
+	or (HUD.controls.status._weremode and HUD._statuscontrollerbuttonhintsshown) then
 		local stat = self.button_to_stat[control]
 		if stat and self.stats[stat].widget.shown then
 			return self:Announce(self:ChooseStatMessage(stat))
 		end
 		if OVERRIDEB and HUD.controls.status.temperature and control == CONTROL_CANCEL then
-			return self:AnnounceTemperature(HUD.controls.status._beavermode and "BEAST" or nil)
+			return self:AnnounceTemperature(HUD.controls.status._weremode and "BEAST" or nil)
 		end
 		if OVERRIDESELECT and control == CONTROL_MAP and has_seasons(HUD, true) then
 			return self:AnnounceSeason()
@@ -487,12 +487,9 @@ function StatusAnnouncer:ChooseStatMessage(stat)
 	local messages = self.stats[stat].switch_fn
 						and self.char_messages[self.stats[stat].switch_fn(ThePlayer)]
 						or self.char_messages
-	--nice-looking version
-	-- local category = get_category(self.stats[stat].thresholds, percent)
-	-- local category_name = self.stats[stat].category_names[category]
-	-- local message = messages[stat:upper()][category_name]
-	--dirty but efficient version (just substituting in the variables)
-	local message = messages[stat:upper()][self.stats[stat].category_names[get_category(self.stats[stat].thresholds, percent)]]
+	local category = get_category(self.stats[stat].thresholds, percent)
+	local category_name = self.stats[stat].category_names[category]
+	local message = messages[stat:upper()][category_name]
 	if EXPLICIT then
 		return string.format("(%s: %d/%d) %s", self.stat_names[stat] or stat, cur, max, message)
 	else
