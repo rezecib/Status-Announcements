@@ -151,13 +151,14 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 	local name = STRINGS.NAMES[slot.recipe.name:upper()]:lower()
 	local a = S.getArticle(name)
 	local ingredient = nil
-	if recipepopup == nil then --mouse controls, we have to find the focused ingredient
-		recipepopup = slot.recipepopup
-		for i, ing in ipairs(recipepopup.ing) do
+	recipepopup = recipepopup or slot.recipepopup
+	local ing = recipepopup.ing or {recipepopup.ingredient}
+	if ingnum == nil then --mouse controls, we have to find the focused ingredient
+		for i, ing in ipairs(ing) do
 			if ing.focus then ingredient = ing end
 		end
 	else --controller controls, we pick it by number (determined by which button was pressed)
-		ingredient = recipepopup.ing[ingnum]
+		ingredient = ing[ingnum]
 	end
 	if ingnum and ingredient == nil then return end --controller button for ingredient that doesn't exist
 	local prototyper = ""
@@ -218,7 +219,17 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 		return self:Announce(announce_str)
 	else --announce the ingredient (need more, have enough to make x of recipe)
 		local num = 0
-		local ingname = ingredient.ing.texture:sub(1,-5)
+		local ingname = nil
+		local ingtooltip = nil
+		if ingredient.ing then
+			-- RecipePopup
+			ingname = ingredient.ing.texture:sub(1,-5)
+			ingtooltip = ingredient.tooltip
+		else
+			-- Quagmire_RecipePopup
+			ingname = recipepopup.recipe.ingredients[1].type
+			ingtooltip = STRINGS.NAMES[string.upper(ingname)]
+		end
 		local ing_s = S.S
 		local amount_needed = 1
 		for k,v in pairs(slot.recipe.ingredients) do
@@ -234,7 +245,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 		end
 		num = amount_needed - num_found
 		local can_make = math.floor(num_found / amount_needed)*slot.recipe.numtogive
-		local ingredient_str = (ingredient.tooltip or "<missing_string>"):lower()
+		local ingredient_str = (ingtooltip or "<missing_string>"):lower()
 		if num == 1 or ingredient_str:find(ing_s.."$") ~= nil then ing_s = "" end
 		local announce_str = "";
 		if num > 0 then
