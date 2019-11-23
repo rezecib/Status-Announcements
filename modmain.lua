@@ -443,6 +443,22 @@ function RecipePopup:BuildNoSpinner(...)
 	patch_recipepopup_teaser(self.teaser)
 end
 
+local QuagmireRecipePopup = require("widgets/quagmire_recipepopup")
+QuagmireRecipePopup_Refresh = QuagmireRecipePopup.Refresh
+function QuagmireRecipePopup:Refresh(...)
+	local ret = QuagmireRecipePopup_Refresh(self, ...)
+	if TheInput:ControllerAttached() then
+		self.teaser:SetString(self.teaser:GetString() .. "\n"
+			.. TheInput:GetLocalizedControl(TheInput:GetControllerID(), GLOBAL.CONTROL_MENU_MISC_2)
+			.. " " .. ANNOUNCE_STRINGS._.ANNOUNCE_HINT)
+	end
+	self.ingredient.announce_hint = self.ingredient:AddChild(Text(GLOBAL.UIFONT, 30,
+		TheInput:GetLocalizedControl(TheInput:GetControllerID(), ing_controls[1])))
+	self.ingredient.announce_hint:SetScale(1/self.ingredient_backing:GetScale().x)
+	self.ingredient.announce_hint:SetPosition(-45, 0, 0)
+	return ret
+end
+
 
 --Captures mouse clicks on recipe tiles
 local CraftSlot = require("widgets/craftslot")

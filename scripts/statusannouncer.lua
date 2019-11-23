@@ -475,16 +475,18 @@ end
 function StatusAnnouncer:OnHUDControl(HUD, control)
 	if HUD:IsControllerCraftingOpen() then
 		local cc = HUD.controls.crafttabs.controllercrafting
+		local slot = cc.oldslot or cc.craftslots.slots[cc.selected_slot]
+		local recipepopup = cc.recipepopup or slot.recipepopup
 		if control == CONTROL_MENU_MISC_2 then --Y
-			return self:AnnounceRecipe(cc.oldslot, cc.recipepopup)
+			return self:AnnounceRecipe(slot, recipepopup)
 		elseif control == CONTROL_INVENTORY_USEONSCENE then --d-pad left
-			return self:AnnounceRecipe(cc.oldslot, cc.recipepopup, 1)
+			return self:AnnounceRecipe(slot, recipepopup, 1)
 		elseif control == CONTROL_INVENTORY_EXAMINE then --d-pad up
-			return self:AnnounceRecipe(cc.oldslot, cc.recipepopup, 2)
+			return self:AnnounceRecipe(slot, recipepopup, 2)
 		elseif control == CONTROL_INVENTORY_USEONSELF then --d-pad right
-			return self:AnnounceRecipe(cc.oldslot, cc.recipepopup, 3)
-		elseif control == CONTROL_INVENTORY_DROP and cc.recipepopup.skins_spinner then --d-pad down
-			return self:AnnounceSkin(cc.recipepopup)
+			return self:AnnounceRecipe(slot, recipepopup, 3)
+		elseif control == CONTROL_INVENTORY_DROP and recipepopup.skins_spinner then --d-pad down
+			return self:AnnounceSkin(recipepopup)
 		end
 	elseif HUD:IsControllerInventoryOpen()
 	or (HUD.controls.status._weremode and HUD._statuscontrollerbuttonhintsshown) then
