@@ -703,4 +703,34 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "Ooae Oooh Oaoa! Ooooe.", 				-- <15%
 		},
 	},
+	WORMWOOD = {
+		HUNGER = {
+			FULL  = "Too much.",
+			HIGH  = "No need belly stuff.",
+			MID   = "Could use belly fillers.",
+			LOW   = "Need stuff for belly.",
+			EMPTY = "Ooh, belly hurts...",
+		},
+		SANITY = {
+			FULL  = "Feels great!",
+			HIGH  = "Head feels okay.",
+			MID   = "Head hurts, but feeling okay.",
+			LOW   = "Creepy things watching me.",
+			EMPTY = "Creepy things hurt!",
+		},
+		HEALTH = {
+			FULL  = "Wormwood not hurt.",
+			HIGH  = "Stingy, but okay",
+			MID   = "Feeling weak.",
+			LOW   = "Hurts very bad.",
+			EMPTY = "Help, friends!",
+		},
+		WETNESS = {
+			FULL  = "Really really wet!",
+			HIGH  = "Really wet!",
+			MID   = "Feeling a bit wet.",
+			LOW   = "It's raining! Woohoo!",
+			EMPTY = "Feeling dry.",
+		},
+	},
 }
