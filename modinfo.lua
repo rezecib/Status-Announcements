@@ -225,4 +225,58 @@ configuration_options =
 					},
 		default = true,
 	},
+	{
+		name = "WINONA",
+		label = "Custom Winona Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
+	{
+		name = "WORMWOOD",
+		label = "Custom Wormwood Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
+	{
+		name = "WARLY",
+		label = "Custom Warly Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
+	{
+		name = "WALANI",
+		label = "Custom Walani Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
+	{
+		name = "WOODLEGS",
+		label = "Custom Woodlegs Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
+	{
+		name = "WILBUR",
+		label = "Custom Wilbur Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
 }
