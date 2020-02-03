@@ -191,7 +191,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 		elseif knows then
 			to_do = S.ANNOUNCE_RECIPE.WE_NEED
 			a = ""
-			s = string.find(name, s.."$") == nil and S.S or ""
+			s = string.find(name, S.S.."$") == nil and S.S or ""
 		else
 			to_do = S.ANNOUNCE_RECIPE.CAN_SOMEONE
 			if prototyper ~= "" and SHOWPROTOTYPER then
