@@ -148,7 +148,8 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 	local buffered = builder:IsBuildBuffered(slot.recipe.name)
 	local knows = builder:KnowsRecipe(slot.recipe.name) or CanPrototypeRecipe(slot.recipe.level, builder:GetTechTrees())
 	local can_build = builder:CanBuild(slot.recipe.name)
-	local name = STRINGS.NAMES[slot.recipe.name:upper()]:lower()
+	local strings_name = STRINGS.NAMES[slot.recipe.product:upper()] or STRINGS.NAMES[slot.recipe.name:upper()]
+	local name = strings_name and strings_name:lower() or "<missing_string>"
 	local a = S.getArticle(name)
 	local ingredient = nil
 	recipepopup = recipepopup or slot.recipepopup
