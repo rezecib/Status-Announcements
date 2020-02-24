@@ -244,6 +244,15 @@ configuration_options =
 		default = true,
 	},
 	{
+		name = "WURT",
+		label = "Custom Wurt Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
+	{
 		name = "WARLY",
 		label = "Custom Warly Quotes",
 		options =	{

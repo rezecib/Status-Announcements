@@ -733,4 +733,34 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "Feeling dry.",
 		},
 	},
+	WURT = {
+		HUNGER = {
+			FULL  = "Glurgh, no more.",
+			HIGH  = "Not hungry, florpt.",
+			MID   = "Could eat some more.",
+			LOW   = "Really want food!",
+			EMPTY = "Really really hungry!",
+		},
+		SANITY = {
+			FULL  = "Very happy!",
+			HIGH  = "Head okay, flort.",
+			MID   = "Glurgh, head hurt.",
+			LOW   = "Scary shadows coming!",
+			EMPTY = "Glargh, scary nightmares!!",
+		},
+		HEALTH = {
+			FULL  = "Feeling great, florpt!",
+			HIGH  = "Feels good!",
+			MID   = "Need help, missing scales...",
+			LOW   = "*Sob* Hurts so bad...",
+			EMPTY = "I... need... help...",
+		},
+		WETNESS = {
+			FULL  = "Aaah, splish-splash!",
+			HIGH  = "Feels good on scales!",
+			MID   = "Mermfolk love water, florp!",
+			LOW   = "Ahh... wetter feel better, florp!",
+			EMPTY = "Too dry, glorp.",
+		}
+	},
 }
