@@ -763,4 +763,34 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "Too dry, glorp.",
 		}
 	},
+	WORTOX = {
+		HUNGER = {
+			FULL  = "How mortal of me to have a stomach so full!",
+			HIGH  = "I'm well-fueled for a good trick! Hyuyu!",
+			MID   = "In need of a morsel... so very mortal.",
+			LOW   = "I'd love a tasty soul! I'll save the tricking for later...",
+			EMPTY = "My craving for souls has grown ravenous!",
+		},
+		SANITY = {
+			FULL  = "My head is clear... fun times are near! Hyuyu!",
+			HIGH  = "Might I suck some souls to keep a clear head?",
+			MID   = "All my hopping has caused quite the headache...",
+			LOW   = "I envy the trickery of these shadows! Hyuyu!",
+			EMPTY = "My mind inhabits a new plane of pure madness!",
+		},
+		HEALTH = {
+			FULL  = "I'm in the perfect mood for a good mischief!",
+			HIGH  = "Just a scratch, nothing a soul can't restore!",
+			MID   = "A few souls to close these wounds... Hyuyu!",
+			LOW   = "My very own soul grows weak...",
+			EMPTY = "My soul is soon to not be my own! Hyuyu...",
+		},
+		WETNESS = {
+			FULL  = "I AM DRENCHED!",
+			HIGH  = "I am the soggiest imp!",
+			MID   = "There is a wet imp smell in my future.",
+			LOW   = "The world is giving me a shower!",
+			EMPTY = "I should keep an eye on the sky, if I wish to stay dry!",
+		}
+	},
 }
