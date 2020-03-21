@@ -253,6 +253,15 @@ configuration_options =
 		default = true,
 	},
 	{
+		name = "WORTOX",
+		label = "Custom Wortox Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
+	{
 		name = "WARLY",
 		label = "Custom Warly Quotes",
 		options =	{
