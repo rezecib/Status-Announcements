@@ -120,23 +120,23 @@ ANNOUNCE_STRINGS = {
 			-- This needs to reflect the translating language's grammar
 			-- For example, this might become "I'm at a comfortable temperature"
 			-- or "The beast is freezing!"
-			FORMAT_STRING = "{PRONOUN}{TEMPERATURE}",
+			FORMAT_STRING = "{PRONOUN} {TEMPERATURE}",
 			
 			--{PRONOUN} is picked from this
 			PRONOUN = {
-				DEFAULT = "Estoy ",
-				BEAST = "La bestia está ", --for Werebeaver
+				DEFAULT = "Estoy",
+				BEAST = "La bestia está", --for Werebeaver
 			},
 			
 			--{TEMPERATURE} is picked from this
 			TEMPERATURE = {
-				BURNING = " demasiado caliente!",
-				HOT = " casi sobrecalentandome!",
-				WARM = " un poco acalorado.",
-				GOOD = " una temperatura confortable",
-				COOL = " un poco de frio",
-				COLD = " casi congelado",
-				FREEZING = " me congelo!",
+				BURNING = "demasiado caliente!",
+				HOT = "casi sobrecalentandome!",
+				WARM = "un poco acalorado.",
+				GOOD = "una temperatura confortable",
+				COOL = "un poco de frio",
+				COLD = "casi congelado",
+				FREEZING = "me congelo!",
 			},
 		},
 		ANNOUNCE_SEASON = "Quedan {DAYS_LEFT} días en {SEASON}.",

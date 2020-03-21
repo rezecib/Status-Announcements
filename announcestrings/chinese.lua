@@ -125,17 +125,17 @@ ANNOUNCE_STRINGS = {
 			--{PRONOUN} is picked from this
 			PRONOUN = {
 				DEFAULT = "我",
-				BEAST = "这个怪物是 ", --for Werebeaver
+				BEAST = "这个怪物是", --for Werebeaver
 			},
 			
 			--{TEMPERATURE} is picked from this
 			TEMPERATURE = {
-				BURNING = " 过热了！",
-				HOT = " 几乎过热！",
-				WARM = " 有点热。",
-				GOOD = " 在一个舒适的温度。",
-				COOL = " 稍微有点冷。",
-				COLD = " 几乎冻结！",
+				BURNING = "过热了！",
+				HOT = "几乎过热！",
+				WARM = "有点热。",
+				GOOD = "在一个舒适的温度。",
+				COOL = "稍微有点冷。",
+				COLD = "几乎冻结！",
 				FREEZING = " “凝固”了！",
 			},
 		},

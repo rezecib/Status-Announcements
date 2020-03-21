@@ -329,7 +329,11 @@ function StatusAnnouncer:AnnounceTemperature(pronoun)
 	elseif temp <= 15 then
 		message = S.TEMPERATURE.COOL
 	end
-	message = pronoun .. message
+	message = subfmt(S.FORMAT_STRING,
+						{
+							PRONOUN = pronoun,
+							TEMPERATURE = message,
+						})
 	if EXPLICIT then
 		return self:Announce(string.format("(%d\176) %s", temp, message))
 	else

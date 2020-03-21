@@ -120,7 +120,7 @@ ANNOUNCE_STRINGS = {
 			-- This needs to reflect the translating language's grammar
 			-- For example, this might become "I'm at a comfortable temperature"
 			-- or "The beast is freezing!"
-			FORMAT_STRING = "{PRONOUN}{TEMPERATURE}",
+			FORMAT_STRING = "{PRONOUN} {TEMPERATURE}",
 			
 			--{PRONOUN} is picked from this
 			PRONOUN = {
@@ -130,13 +130,13 @@ ANNOUNCE_STRINGS = {
 			
 			--{TEMPERATURE} is picked from this
 			TEMPERATURE = {
-				BURNING = " pegando fogo!",
-				HOT = " queimando!",
-				WARM = " um pouco quente.",
-				GOOD = " á uma temperatura confortável.",
-				COOL = " com um pouco de frio.",	
-				COLD = " congelando!",
-				FREEZING = " congelando, que frio!!",
+				BURNING = "pegando fogo!",
+				HOT = "queimando!",
+				WARM = "um pouco quente.",
+				GOOD = "á uma temperatura confortável.",
+				COOL = "com um pouco de frio.",	
+				COLD = "congelando!",
+				FREEZING = "congelando, que frio!!",
 			},
 		},
 		ANNOUNCE_SEASON = "Faltam {DAYS_LEFT} dias para o {SEASON}.",
