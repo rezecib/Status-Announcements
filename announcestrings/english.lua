@@ -793,4 +793,64 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "I should keep an eye on the sky, if I wish to stay dry!",
 		}
 	},
+	WANDA = {
+		HUNGER = {
+			FULL  = "I need time to digest all this food!",							-- >75%
+			HIGH  = "I’m still full from earlier. Or later.",						-- >55%
+			MID   = "I have just enough time for a snack break!", 					-- >35%
+			LOW   = "My stomach is its own passage of time!", 						-- >15%
+			EMPTY = "Time will catch up to me quickly if I don’t eat right now!", 	-- <15%
+		},
+		SANITY = {
+			FULL  = "Everything looks normal in this timeline!", 							-- >75%
+			HIGH  = "Feeling grand enough for some quantum leaps!",							-- >55%
+			MID   = "If I didn’t carry clocks I wouldn’t know what time it is anymore!",	-- >35%
+			LOW   = "Reality is breaking apart!", 											-- >15%
+			EMPTY = "You’ll never catch me! Past, present, or future!", 					-- <15%
+		},
+		HEALTH = {
+			FULL  = "They say your 20s are your best years after all!",					 	-- 100%
+			HIGH  = "Still young and full of vigor!", 										-- >75%
+			MID   = "Wait a tick! I need a moment to recover!", 							-- >50%
+			LOW   = "I just need more time!", 												-- >25%
+			EMPTY = "The sands of my hourglass are about to run out!",					 	-- <25%
+		},
+		WETNESS = {
+			FULL  = "Time is just like this rain. It doesn’t stop!", 								-- >75%
+			HIGH  = "If this keeps up, my pocket watches are going to rust!",						-- >55%
+			MID   = "How many years has it been since I've been this soaked?", 						-- >35%
+			LOW   = "Oh botheration! I need to find some cover from this rain!", 					-- >15%
+			EMPTY = "A little rain is nothing compared to the temporal complexities of travel!", 	-- <15%
+		}
+	},
+	WALTER = {
+		HUNGER = {
+			FULL  = "A pinetree pioneer always runs on a full stomach!", 	-- >75%
+			HIGH  = "I should prepare a snack for our next hike.",			-- >55%
+			MID   = "I hope I packed a few snacks in Woby...", 				-- >35%
+			LOW   = "I wish we could eat s’mores!", 						-- >15%
+			EMPTY = "Don’t worry girl we’ll find some grub soon!", 			-- <15%
+		},
+		SANITY = {
+			FULL  = "My pioneer sense is better than ever!", 	-- >75%
+			HIGH  = "How about a story to ease the tension?", 	-- >55%
+			MID   = "Do you hear the whispers too Woby?", 		-- >35%
+			LOW   = "H-hey Woby, did you see that?!", 			-- >15%
+			EMPTY = "The monsters from my stories are REAL!!", 	-- <15%
+		},
+		HEALTH = {
+			FULL  = "No bruises or bee stings here!", 					-- 100%
+			HIGH  = "Nothing a Pinetree Pioneer can’t handle!",		 	-- >75%
+			MID   = "My first aid training is about to come in handy!", -- >50%
+			LOW   = "Woby should carry me to safety!", 					-- >25%
+			EMPTY = "You might have to go on without me girl..", 		-- <25%
+		},
+		WETNESS = {
+			FULL  = "Now I’m all pruney!",					 	-- >75%
+			HIGH  = "Did anyone remember to pack a towel?",		-- >55%
+			MID   = "All my badges are soaked!", 				-- >35%
+			LOW   = "Just a little water!", 					-- >15%
+			EMPTY = "I’ve camped through worse storms!", 		-- <15%
+		}
+	}
 }
