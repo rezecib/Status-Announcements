@@ -15,6 +15,7 @@ ANNOUNCE_STRINGS = {
 			Health = "Здоровье",
 			["Log Meter"] = "Бревно метр",
 			Wetness = "Влажность",
+			Age = "возраст",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {

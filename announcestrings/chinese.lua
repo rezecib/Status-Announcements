@@ -15,6 +15,7 @@ ANNOUNCE_STRINGS = {
 			Health = "生命值",
 			["Log Meter"] = "木头值",
 			Wetness = "雨露值",
+			Age = "年齡",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {

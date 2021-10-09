@@ -15,6 +15,7 @@ ANNOUNCE_STRINGS = {
 			Health = "Vida",
 			["Log Meter"] = "Medidor de Tronco",
 			Wetness = "Umidade",
+			Age = "Idade",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {

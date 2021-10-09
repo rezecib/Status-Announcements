@@ -558,6 +558,16 @@ end
 function StatusAnnouncer:ChooseStatMessage(stat)
 	local cur, max = self.stats[stat].value_fn(ThePlayer)
 	local percent = cur/max
+	local stat_name = self.stat_names[stat] or stat
+	if stat == "Health" and ThePlayer:HasTag("health_as_oldage") then
+		stat_name = self.stat_names["Age"] or "Age"
+		-- I wanted to make this more generic, but unfortunately it's encapsulated by widgets/wandaagebadge
+		-- in a way that doesn't really promote extensibility
+		max = TUNING.WANDA_MAX_YEARS_OLD
+		cur = max - cur
+		-- Conveniently, percent already makes sense because it's essentially considering Wanda to have 60 health
+		-- (where 60 is Age 20 and 0 is Age 80)
+	end
 	local messages = self.stats[stat].switch_fn
 						and self.char_messages[self.stats[stat].switch_fn(ThePlayer)]
 						or self.char_messages
@@ -565,7 +575,7 @@ function StatusAnnouncer:ChooseStatMessage(stat)
 	local category_name = self.stats[stat].category_names[category]
 	local message = messages[stat:upper()][category_name]
 	if EXPLICIT then
-		return string.format("(%s: %d/%d) %s", self.stat_names[stat] or stat, cur, max, message)
+		return string.format("(%s: %d/%d) %s", stat_name, cur, max, message)
 	else
 		return message
 	end
