@@ -91,11 +91,15 @@ function StatusAnnouncer:AnnounceItem(slot)
 		percent_type = "DURABILITY"
 		percent = slot.tile.percent:GetString()
 	elseif slot.tile.hasspoilage then
-		percent_type = "FRESHNESS"
-		-- .62 comes from the way perish values are serialized; they presumably use a 6-bit unsigned int,
-		-- and assign 63 (max value) as "default, unknown"; 0-62 span the actual perish values;
-		-- so 1/62 would convert this to a fraction, and 100/62 (or 1/.62) convert to percentage points
-		percent = math.floor(item.replica.inventoryitem.classified.perish:value()*(1/.62)) .. "%"
+		if type(item.replica) == "table"
+		and type(item.replica.inventoryitem) == "table"
+		and type(item.replica.inventoryitem.classified) == "table" then
+			percent_type = "FRESHNESS"
+			-- .62 comes from the way perish values are serialized; they presumably use a 6-bit unsigned int,
+			-- and assign 63 (max value) as "default, unknown"; 0-62 span the actual perish values;
+			-- so 1/62 would convert this to a fraction, and 100/62 (or 1/.62) convert to percentage points
+			percent = math.floor(item.replica.inventoryitem.classified.perish:value()*(1/.62)) .. "%"
+		end
 	elseif item:HasTag("rechargeable") then
 		percent_type = "RECHARGE"
 		percent = math.floor(slot.tile.rechargepct*100) .. "%"
