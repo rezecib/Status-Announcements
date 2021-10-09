@@ -47,6 +47,14 @@ ANNOUNCE_STRINGS = {
 			--Goes into {DURABILITY}
 			DURABILITY = " прочности",
 			FRESHNESS = " свежесть",
+			RECHARGE = " зарядом",
+			
+			-- Optionally added into {PERCENT}
+			REMAINING = {
+				DURABILITY = "Осталось {AMOUNT} использований", -- note that this is unused because durability is only published as a percent to clients
+				FRESHNESS = "осталось {AMOUNT} дней", -- note that this is unused because perishables only publish percent to clients
+				RECHARGE = "{AMOUNT} до подзарядки",
+			},
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar

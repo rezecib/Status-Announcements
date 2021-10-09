@@ -46,6 +46,14 @@ ANNOUNCE_STRINGS = {
 			--Goes into {DURABILITY}
 			DURABILITY = " Haltbarkeit",
 			FRESHNESS = " Frische",
+			RECHARGE = " Aufladung",
+			
+			-- Optionally added into {PERCENT}
+			REMAINING = {
+				DURABILITY = "{AMOUNT} Verwendungen übrig", -- note that this is unused because durability is only published as a percent to clients
+				FRESHNESS = "Noch {AMOUNT} Tage", -- note that this is unused because perishables only publish percent to clients
+				RECHARGE = "{AMOUNT} bis zum Aufladen",
+			},
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar

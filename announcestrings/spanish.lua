@@ -22,31 +22,39 @@ ANNOUNCE_STRINGS = {
 			-- For example, this might become "I have 6 papyrus in this chest."
 			FORMAT_STRING = "{I_HAVE}{THIS_MANY} {ITEM}{S}{IN_THIS}{CONTAINER}{WITH}{PERCENT}{DURABILITY}.",
 			
-			--One of these goes into {I_HAVE}
+			-- One of these goes into {I_HAVE}
 			I_HAVE = "Tengo ",
 			WE_HAVE = "Tenemos ",
 			
-			--{THIS_MANY} is a number if multiple, but singular varies a lot by language,
+			-- {THIS_MANY} is a number if multiple, but singular varies a lot by language,
 			-- so we use getArticle above to get it
 			
-			--{ITEM} is acquired from item.name
+			-- {ITEM} is acquired from item.name
 			
-			--{S} uses S above
+			-- {S} uses S above
 			
-			--Goes into {IN_THIS}, if present
+			-- Goes into {IN_THIS}, if present
 			IN_THIS = " en esto ",
 			
-			--{CONTAINER} is acquired from container.name
+			-- {CONTAINER} is acquired from container.name
 			
-			--One of these goes into {WITH}
+			-- One of these goes into {WITH}
 			WITH = " con ", --if it's only one thing
 			AND_THIS_ONE_HAS = ", y este tiene ", --if there are multiple, show durability of one
 			
-			--{PERCENT} is acquired from the item's durability
+			-- {PERCENT} is acquired from the item's durability
 			
-			--Goes into {DURABILITY}
+			-- Goes into {DURABILITY}
 			DURABILITY = " durabilidad",
 			FRESHNESS = " frescura",
+			RECHARGE = " de carga",
+			
+			-- Optionally added into {PERCENT}
+			REMAINING = {
+				DURABILITY = "quedan {AMOUNT} usos", -- note that this is unused because durability is only published as a percent to clients
+				FRESHNESS = "quedan {AMOUNT} días", -- note that this is unused because perishables only publish percent to clients
+				RECHARGE = "{AMOUNT} hasta que se recargue",
+			},
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar

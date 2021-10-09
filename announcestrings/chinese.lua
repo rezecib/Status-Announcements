@@ -47,6 +47,14 @@ ANNOUNCE_STRINGS = {
 			--Goes into {DURABILITY}
 			DURABILITY = " 的耐久度",
 			FRESHNESS = " 新鲜",
+			RECHARGE = " 的費用",
+			
+			-- Optionally added into {PERCENT}
+			REMAINING = {
+				DURABILITY = "剩餘 {AMOUNT} 次使用", -- note that this is unused because durability is only published as a percent to clients
+				FRESHNESS = "還剩 {AMOUNT} 天", -- note that this is unused because perishables only publish percent to clients
+				RECHARGE = "充電 {AMOUNT} 分鐘",
+			},
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar

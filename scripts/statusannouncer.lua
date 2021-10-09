@@ -59,17 +59,48 @@ local function get_container_name(container)
 	return container_name and container_name:lower()
 end
 
+local function time_remaining_str(remaining_s)
+	local remaining = ""
+	local remaining_m = 0
+	local remaining_h = 0
+	if remaining_s >= 60 then
+		remaining_m = math.floor(remaining_s / 60)
+		remaining_s = remaining_s - 60*remaining_m
+	end
+	if remaining_m >= 60 then
+		remaining_h = math.floor(remaining_m / 60)
+		remaining_m = remaining_m - 60*remaining_h
+	end
+	remaining = remaining_s .. "s"
+	if remaining_m > 0 then
+		remaining = remaining_m .. "m" .. remaining
+	end
+	if remaining_h > 0 then
+		remaining = remaining_h .. "h" .. remaining
+	end
+	return remaining
+end
+
 function StatusAnnouncer:AnnounceItem(slot)
 	local item = slot.tile.item
 	local container = slot.container
-	local percent = nil
 	local percent_type = nil
+	local percent = nil
+	local remaining = nil
 	if slot.tile.percent then
-		percent = slot.tile.percent:GetString()
 		percent_type = "DURABILITY"
+		percent = slot.tile.percent:GetString()
 	elseif slot.tile.hasspoilage then
-		percent = math.floor(item.replica.inventoryitem.classified.perish:value()*(1/.62)) .. "%"
 		percent_type = "FRESHNESS"
+		-- .62 comes from the way perish values are serialized; they presumably use a 6-bit unsigned int,
+		-- and assign 63 (max value) as "default, unknown"; 0-62 span the actual perish values;
+		-- so 1/62 would convert this to a fraction, and 100/62 (or 1/.62) convert to percentage points
+		percent = math.floor(item.replica.inventoryitem.classified.perish:value()*(1/.62)) .. "%"
+	elseif item:HasTag("rechargeable") then
+		percent_type = "RECHARGE"
+		percent = math.floor(slot.tile.rechargepct*100) .. "%"
+		local remaining_s = math.floor(slot.tile.rechargetime*(1 - slot.tile.rechargepct) + 0.5)
+		remaining = time_remaining_str(remaining_s)
 	end
 	local S = STRINGS._STATUS_ANNOUNCEMENTS._ --To save some table lookups
 	if container == nil or (container and container.type == "pack") then
@@ -118,6 +149,14 @@ function StatusAnnouncer:AnnounceItem(slot)
 				and S.ANNOUNCE_ITEM.AND_THIS_ONE_HAS
 				 or S.ANNOUNCE_ITEM.WITH
 		durability = percent and S.ANNOUNCE_ITEM[percent_type]
+		if remaining ~= nil and percent ~= "100%" then
+			local remaining_str = subfmt(S.ANNOUNCE_ITEM.REMAINING[percent_type],
+										{
+											AMOUNT = remaining,
+										})
+			percent = remaining_str .. " (" .. percent .. ")"
+			durability = ""
+		end
 	else
 		percent = ""
 	end

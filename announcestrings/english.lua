@@ -22,31 +22,39 @@ ANNOUNCE_STRINGS = {
 			-- For example, this might become "I have 6 papyrus in this chest."
 			FORMAT_STRING = "{I_HAVE}{THIS_MANY} {ITEM}{S}{IN_THIS}{CONTAINER}{WITH}{PERCENT}{DURABILITY}.",
 			
-			--One of these goes into {I_HAVE}
+			-- One of these goes into {I_HAVE}
 			I_HAVE = "I have ",
 			WE_HAVE = "We have ",
 			
-			--{THIS_MANY} is a number if multiple, but singular varies a lot by language,
+			-- {THIS_MANY} is a number if multiple, but singular varies a lot by language,
 			-- so we use getArticle above to get it
 			
-			--{ITEM} is acquired from item.name
+			-- {ITEM} is acquired from item.name
 			
-			--{S} uses S above
+			-- {S} uses S above
 			
-			--Goes into {IN_THIS}, if present
+			-- Goes into {IN_THIS}, if present
 			IN_THIS = " in this ",
 			
-			--{CONTAINER} is acquired from container.name
+			-- {CONTAINER} is acquired from container.name
 			
-			--One of these goes into {WITH}
+			-- One of these goes into {WITH}
 			WITH = " with ", --if it's only one thing
 			AND_THIS_ONE_HAS = ", and this one has ", --if there are multiple, show durability of one
 			
-			--{PERCENT} is acquired from the item's durability
+			-- {PERCENT} is acquired from the item's durability
 			
-			--Goes into {DURABILITY}
+			-- Goes into {DURABILITY}
 			DURABILITY = " durability",
 			FRESHNESS = " freshness",
+			RECHARGE = " charge",
+			
+			-- Optionally added into {PERCENT}
+			REMAINING = {
+				DURABILITY = "{AMOUNT} uses left", -- note that this is unused because durability is only published as a percent to clients
+				FRESHNESS = "{AMOUNT} days left", -- note that this is unused because perishables only publish percent to clients
+				RECHARGE = "{AMOUNT} until charged",
+			},
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar
