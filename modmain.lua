@@ -486,7 +486,7 @@ for _,classname in pairs({"invslot", "equipslot"}) do
 	function SlotClass:OnControl(control, down, ...)
 		if down and control == GLOBAL.CONTROL_ACCEPT
 			and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT)
-			and TheInput:IsKeyDown(GLOBAL.KEY_SHIFT)
+			and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_TRADE)
 			and self.tile then --ignore empty slots
 			return StatusAnnouncer:AnnounceItem(self)
 		else
