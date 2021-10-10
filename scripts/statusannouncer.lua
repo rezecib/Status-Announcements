@@ -39,7 +39,7 @@ nil,
 
 function StatusAnnouncer:Announce(message)
 	if not self.cooldown and not self.cooldowns[message] then
-		local whisper = TheInput:IsKeyDown(KEY_CTRL) or TheInput:IsControlPressed(CONTROL_MENU_MISC_3)
+		local whisper = TheInput:IsControlPressed(CONTROL_FORCE_ATTACK) or TheInput:IsControlPressed(CONTROL_MENU_MISC_3)
 		self.cooldown = ThePlayer:DoTaskInTime(1, function() self.cooldown = false end)
 		self.cooldowns[message] = ThePlayer:DoTaskInTime(10, function() self.cooldowns[message] = nil end)
 		TheNet:Say(STRINGS.LMB .. " " .. message, WHISPER_ONLY or WHISPER ~= whisper)
