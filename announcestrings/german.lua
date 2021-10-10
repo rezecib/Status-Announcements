@@ -41,6 +41,7 @@ ANNOUNCE_STRINGS = {
 			--One of these goes into {WITH}
 			WITH = " mit ", --if it's only one thing
 			AND_THIS_ONE_HAS = ", und dieser hat ", --if there are multiple, show durability of one
+			AND_THIS_ONE_IS = ", und dieser ist ", --if there are multiple, show durability of one
 			
 			--{PERCENT} is acquired from the item's durability
 			
@@ -55,6 +56,15 @@ ANNOUNCE_STRINGS = {
 				FRESHNESS = "Noch {AMOUNT} Tage", -- note that this is unused because perishables only publish percent to clients
 				RECHARGE = "{AMOUNT} bis zum Aufladen",
 			},
+			
+			-- Optionally added into {ITEM} or {WITH} for thermal stones.
+			HEATROCK = {
+				"eingefroren",
+				"kalt",
+				"zimmertemperatur",
+				"warm",
+				"heiﬂ",
+			}
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar

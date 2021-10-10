@@ -42,6 +42,7 @@ ANNOUNCE_STRINGS = {
 			--One of these goes into {WITH}
 			WITH = " на нём ", --if it's only one thing
 			AND_THIS_ONE_HAS = ", на них ", --if there are multiple, show durability of one
+			AND_THIS_ONE_IS = ", и этот ", --if there are multiple, show durability of one
 			
 			--{PERCENT} is acquired from the item's durability
 			
@@ -56,6 +57,15 @@ ANNOUNCE_STRINGS = {
 				FRESHNESS = "осталось {AMOUNT} дней", -- note that this is unused because perishables only publish percent to clients
 				RECHARGE = "{AMOUNT} до подзарядки",
 			},
+			
+			-- Optionally added into {ITEM} or {WITH} for thermal stones.
+			HEATROCK = {
+				"замороженный",
+				"холодно",
+				"комнатная температура",
+				"тепло",
+				"горячий",
+			}
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar

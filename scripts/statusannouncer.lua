@@ -87,6 +87,7 @@ function StatusAnnouncer:AnnounceItem(slot)
 	local percent_type = nil
 	local percent = nil
 	local remaining = nil
+	local thermal_stone_warmth = nil
 	if slot.tile.percent then
 		percent_type = "DURABILITY"
 		percent = slot.tile.percent:GetString()
@@ -107,6 +108,19 @@ function StatusAnnouncer:AnnounceItem(slot)
 		remaining = time_remaining_str(remaining_s)
 	end
 	local S = STRINGS._STATUS_ANNOUNCEMENTS._ --To save some table lookups
+	if item.prefab == "heatrock" then
+		-- Try to get thermal stone temperature range to announce
+		local image_hash = item.replica.inventoryitem:GetImage()
+		local hash_lookup = {}
+		local skin_name = item:GetSkinName() or "heat_rock"
+		for i = 1,5 do
+			hash_lookup[hash(skin_name .. i .. ".tex")] = i
+		end
+		local range = hash_lookup[image_hash]
+		if range ~= nil and range >= 1 and range <= 5 then
+			thermal_stone_warmth = S.ANNOUNCE_ITEM.HEATROCK[range]
+		end
+	end
 	if container == nil or (container and container.type == "pack") then
 		--\equipslots/        \backpacks/
 		container = ThePlayer.replica.inventory
@@ -168,6 +182,13 @@ function StatusAnnouncer:AnnounceItem(slot)
 	local s = S.S
 	if (not plural) or string.find(name, s.."$") ~= nil then
 		s = ""
+	end
+	if thermal_stone_warmth then
+		if plural then
+			with = S.ANNOUNCE_ITEM.AND_THIS_ONE_IS .. thermal_stone_warmth .. S.ANNOUNCE_ITEM.WITH
+		else			
+			name = thermal_stone_warmth .. " " .. name
+		end
 	end
 	if this_many == nil or this_many == "1" then this_many = a end
 	local announce_str = subfmt(S.ANNOUNCE_ITEM.FORMAT_STRING,

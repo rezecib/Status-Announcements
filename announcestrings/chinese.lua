@@ -42,6 +42,7 @@ ANNOUNCE_STRINGS = {
 			--One of these goes into {WITH}
 			WITH = " 拥有 ", --if it's only one thing
 			AND_THIS_ONE_HAS = ", 这个拥有 ", --if there are multiple, show durability of one
+			AND_THIS_ONE_IS = ", 这个拥是 ", --if there are multiple, show durability of one
 			
 			--{PERCENT} is acquired from the item's durability
 			
@@ -56,6 +57,15 @@ ANNOUNCE_STRINGS = {
 				FRESHNESS = "還剩 {AMOUNT} 天", -- note that this is unused because perishables only publish percent to clients
 				RECHARGE = "充電 {AMOUNT} 分鐘",
 			},
+			
+			-- Optionally added into {ITEM} or {WITH} for thermal stones.
+			HEATROCK = {
+				"冱",
+				"冷",
+				"在室溫下",
+				"燠",
+				"燙",
+			}
 		},
 		ANNOUNCE_RECIPE = {
 			-- This needs to reflect the translating language's grammar
