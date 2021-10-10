@@ -440,7 +440,7 @@ end
 
 --The other arguments are here so that mods can use them to override this function
 -- and avoid some of these stats if their character doesn't have them
-function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health, moisture, wereness, pethealth)
+function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health, moisture, wereness, pethealth, inspiration)
 	local stat_categorynames = {"EMPTY", "LOW", "MID", "HIGH", "FULL"}
 	local default_thresholds = {	.15,	.35,	.55,	.75		 }
 	
@@ -516,6 +516,20 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			function(ThePlayer)
 				return	math.floor(ThePlayer.components.pethealthbar:GetMaxHealth() * ThePlayer.components.pethealthbar:GetPercent() + 0.5),
 						ThePlayer.components.pethealthbar:GetMaxHealth()
+			end,
+			switch_fn
+		)
+	end
+	if inspiration ~= false and status.inspirationbadge ~= nil then
+		self:RegisterStat(
+			"Inspiration",
+			status.inspirationbadge,
+			CONTROL_ROTATE_LEFT, -- Left Bumper
+			TUNING.BATTLESONG_THRESHOLDS,
+			{"LOW", "MID", "HIGH", "FULL"},
+			function(ThePlayer)
+				return	ThePlayer.player_classified.currentinspiration:value(),
+						TUNING.INSPIRATION_MAX
 			end,
 			switch_fn
 		)

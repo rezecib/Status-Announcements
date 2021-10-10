@@ -17,6 +17,7 @@ ANNOUNCE_STRINGS = {
 			Wetness = "Wetness",
 			Age = "Age",
 			Abigail = "Abigail",
+			Inspiration = "Inspiration",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {
@@ -578,6 +579,12 @@ ANNOUNCE_STRINGS = {
 			MID   = "My armor will rust!", 							-- >35%
 			LOW   = "I won't need a bath after this.", 				-- >15%
 			EMPTY = "Dry enough for battle!", 						-- <15%
+		},
+		INSPIRATION = {
+			FULL  = "My voice is strong enough for three songs!", 			-- >5/6, 3 songs
+			HIGH  = "I could sing a duet by myself!",						-- >3/6, 2 songs
+			MID   = "I am ready to sing!", 									-- >1/6, 1 song
+			LOW   = "I must warm up my voice... in the heat of battle!", 	-- <1/6
 		},
 	},
 	WINONA = {

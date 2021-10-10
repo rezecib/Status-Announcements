@@ -17,6 +17,7 @@ ANNOUNCE_STRINGS = {
 			Wetness = "雨露值",
 			Age = "年齡",
 			Abigail = "阿比蓋爾",
+			Inspiration = "靈感",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {
@@ -578,6 +579,12 @@ ANNOUNCE_STRINGS = {
 			MID   = "我的护甲会生锈！", 							-- >35%
 			LOW   = "我不需要洗澡。", 				-- >15%
 			EMPTY = "干澡够了继续战斗！", 						-- <15%
+		},
+		INSPIRATION = {
+			FULL  = "我的聲音足以唱三首歌！", 			-- >5/6, 3 songs
+			HIGH  = "我可以自己唱二重唱了！",						-- >3/6, 2 songs
+			MID   = "我準備好唱歌了！", 									-- >1/6, 1 song
+			LOW   = "我必須讓我的聲音暖和起來……在激烈的戰鬥中！", 	-- <1/6
 		},
 	},
 	WINONA = {
