@@ -16,6 +16,7 @@ ANNOUNCE_STRINGS = {
 			["Log Meter"] = "Бревно метр",
 			Wetness = "Влажность",
 			Age = "возраст",
+			Abigail = "Абигейл",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {
@@ -314,6 +315,13 @@ ANNOUNCE_STRINGS = {
 			MID   = "Мокрая и грустная.",
 			LOW   = "Возможно, эта вода заполнит дыру в моем сердце.",
 			EMPTY = "Моя кожа такая же сухая, как и мое сердце.",
+		},
+		ABIGAIL = {
+			FULL  = "Эбигейл ярче, чем когда-либо!",
+			HIGH  = "Абигейл ярко светится.",
+			MID   = "Абигейл начинает увядать ...",
+			LOW   = "Будь осторожна, Эбигейл! Я тебя больше не вижу!",
+			EMPTY = "Не оставляй меня, Эбигейл!",
 		},
 	},
 	WX78 = {

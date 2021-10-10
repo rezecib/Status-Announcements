@@ -15,6 +15,7 @@ ANNOUNCE_STRINGS = {
 			["Log Meter"] = "Holzmeter",
 			Wetness = "Feuchtigkeit",
 			Age = "Alter",
+			Abigail = "Abigail",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {
@@ -313,6 +314,13 @@ ANNOUNCE_STRINGS = {
 			MID   = "Feucht und traurig.",
 			LOW   = "Vielleicht füllt dieses Wasser die Leere in meinem Herzen.",
 			EMPTY = "Meine Haut ist genauso trocken wie mein Herz.",
+		},
+		ABIGAIL = {
+			FULL  = "Abigail ist heller denn je!",
+			HIGH  = "Abigail strahlt hell.",
+			MID   = "Abigail beginnt zu verblassen...",
+			LOW   = "Sei vorsichtig, Abigail! Ich kann dich kaum noch sehen!",
+			EMPTY = "Verlass mich nicht, Abigail!",
 		},
 	},
 	WX78 = {

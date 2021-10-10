@@ -16,6 +16,7 @@ ANNOUNCE_STRINGS = {
 			["Log Meter"] = "Medidor de Tronco",
 			Wetness = "Humedad",
 			Age = "Edad",
+			Abigail = "Abigail",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {
@@ -314,6 +315,13 @@ ANNOUNCE_STRINGS = {
 			MID   = "Empapada y triste.",
 			LOW   = "Tal vez esta agua llenará el agujero en mi corazón.",
 			EMPTY = "Mi piel es tan seca como mi corazón.",
+		},
+		ABIGAIL = {
+			FULL  = "¡Abigail es más brillante que nunca!",
+			HIGH  = "Abigail brilla intensamente.",
+			MID   = "Abigail comienza a desvanecerse ...",
+			LOW   = "¡Ten cuidado, Abigail! ¡Ya casi no puedo verte!",
+			EMPTY = "¡No me dejes, Abigail!",
 		},
 	},
 	WX78 = {

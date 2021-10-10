@@ -16,6 +16,7 @@ ANNOUNCE_STRINGS = {
 			["Log Meter"] = "木头值",
 			Wetness = "雨露值",
 			Age = "年齡",
+			Abigail = "阿比蓋爾",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {
@@ -314,6 +315,13 @@ ANNOUNCE_STRINGS = {
 			MID   = "湿软而又悲伤。",
 			LOW   = "或许这些水分能填补我心灵的虚空。",
 			EMPTY = "我的皮肤和我的心灵一样干。",
+		},
+		ABIGAIL = {
+			FULL  = "阿比蓋爾比以往任何時候都更亮！",
+			HIGH  = "阿比蓋爾光芒四射。",
+			MID   = "阿比蓋爾開始衰落……",
+			LOW   = "小心點，阿比蓋爾！ 我再也見不到你了！",
+			EMPTY = "不要離開我，阿比蓋爾！",
 		},
 	},
 	WX78 = {

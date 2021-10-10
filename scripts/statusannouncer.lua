@@ -440,7 +440,7 @@ end
 
 --The other arguments are here so that mods can use them to override this function
 -- and avoid some of these stats if their character doesn't have them
-function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health, moisture, wereness)
+function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health, moisture, wereness, pethealth)
 	local stat_categorynames = {"EMPTY", "LOW", "MID", "HIGH", "FULL"}
 	local default_thresholds = {	.15,	.35,	.55,	.75		 }
 	
@@ -502,6 +502,20 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			function(ThePlayer)
 				return	ThePlayer.player_classified.currentwereness:value(),
 						100 -- looks like the only way is to hardcode this; not networked
+			end,
+			switch_fn
+		)
+	end
+	if pethealth ~= false and ThePlayer.components.pethealthbar ~= nil then
+		self:RegisterStat(
+			"Abigail",
+			status.pethealthbadge,
+			CONTROL_ROTATE_LEFT, -- Left Bumper
+			{ .25, .5, .7, .9 },
+			stat_categorynames,
+			function(ThePlayer)
+				return	math.floor(ThePlayer.components.pethealthbar:GetMaxHealth() * ThePlayer.components.pethealthbar:GetPercent() + 0.5),
+						ThePlayer.components.pethealthbar:GetMaxHealth()
 			end,
 			switch_fn
 		)
