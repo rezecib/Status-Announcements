@@ -31,14 +31,20 @@ forumthread = "/files/file/923-dst-status-announcements"
 
 --[[
 Credits:
-    Silentdarkness1 for coming up with most of the character-specific quotes
-	Acemurdock and OSMRhodey for helping out with the Woodie quotes
-	SuperPsiPower (and friends) for helping out with the Webber quotes
-	Vinicius Araújo for translating the quotes to Brazilian Portuguese
-	GoforDream and Shang for translating to Chinese
-	Gum for translating to Spanish
-	deshkas and Shire for a partial Russian translation
-	Redhead for translating to German
+	A ton of people have helped with writing quotes, I wouldn't have been able to do it without them. A huge thanks to all of you!
+	Character quotes:
+		Most of the core crew of characters: Silentdarkness1
+		Woodie: Acemurdock and OSMRhodey
+		Webber, Wanda, Walter: SuperPsiPower (and friends)
+		Wormwood + Wurt: Checkered Scars
+		Wortox: RatRat
+		Shipwrecked characters: Lying Cake
+	Translators:
+		Brazilian Portuguese: Vinicius Araújo
+		Chinese: GoforDream and Shang
+		Spanish: Gum
+		Russian: deshkas and Shire
+		German: Redhead
 ]]
 
 configuration_options =
@@ -291,6 +297,24 @@ configuration_options =
 	{
 		name = "WILBUR",
 		label = "Custom Wilbur Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
+	{
+		name = "WANDA",
+		label = "Custom Wanda Quotes",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = true,
+	},
+	{
+		name = "WALTER",
+		label = "Custom Walter Quotes",
 		options =	{
 						{description = "Yes", data = true},
 						{description = "No", data = false},
