@@ -863,7 +863,7 @@ ANNOUNCE_STRINGS = {
 			HIGH  = "I should prepare a snack for our next hike.",			-- >55%
 			MID   = "I hope I packed a few snacks in Woby...", 				-- >35%
 			LOW   = "I wish we could eat s’mores!", 						-- >15%
-			EMPTY = "Don’t worry girl we’ll find some grub soon!", 			-- <15%
+			EMPTY = "Don’t worry girl, we’ll find some grub soon!", 		-- <15%
 		},
 		SANITY = {
 			FULL  = "My pioneer sense is better than ever!", 	-- >75%
@@ -877,7 +877,7 @@ ANNOUNCE_STRINGS = {
 			HIGH  = "Nothing a Pinetree Pioneer can’t handle!",		 	-- >75%
 			MID   = "My first aid training is about to come in handy!", -- >50%
 			LOW   = "Woby should carry me to safety!", 					-- >25%
-			EMPTY = "You might have to go on without me girl..", 		-- <25%
+			EMPTY = "You might have to go on without me girl...", 		-- <25%
 		},
 		WETNESS = {
 			FULL  = "Now I’m all pruney!",					 	-- >75%
