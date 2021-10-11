@@ -112,7 +112,10 @@ function StatusAnnouncer:AnnounceItem(slot)
 		-- Try to get thermal stone temperature range to announce
 		local image_hash = item.replica.inventoryitem:GetImage()
 		local hash_lookup = {}
-		local skin_name = item:GetSkinName() or "heat_rock"
+		local skin_name = item.AnimState:GetSkinBuild()
+		if skin_name == "" then
+			skin_name = "heat_rock"
+		end
 		for i = 1,5 do
 			hash_lookup[hash(skin_name .. i .. ".tex")] = i
 		end
