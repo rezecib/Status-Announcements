@@ -493,32 +493,32 @@ ANNOUNCE_STRINGS = {
 	},
 	WAXWELL = {
 		HUNGER = {
-			FULL  = "He tenido todo el festin",
+			FULL  = "¡He tenido todo un festín!",
 			HIGH  = "Estoy saciado, pero no en exceso.",
-			MID   = "Una merienda podría estar en orden.",
+			MID   = "Un bocadillo podría estar en orden.",
 			LOW   = "Estoy vacío por dentro.",
 			EMPTY = "¡No! ¡No gané mi libertad solo para morirme de hambre aquí!",
 		},
 		SANITY = {
-			FULL  = "Dapper como puede ser.",
-			HIGH  = "Mi intelecto normalmente inquebrantable parece ser ... vacilante.",
-			MID   = "Ugh. Me duele la cabeza.",
-			LOW   = "Necesito aclarar mi cabeza, estoy empezando a ver... a Ellos.",
-			EMPTY = "¡Ayuda! Estas sombras son bestias reales, ¿sabes?",
+			FULL  = "Apuesto, como pueda seguir siendo.",
+			HIGH  = "Mi intelecto normalmente inquebrantable parece estar... vacilando.",
+			MID   = "Uf. Me duele la cabeza.",
+			LOW   = "Necesito aclarar mi mente, estoy empezando a ver a... Ellos.",
+			EMPTY = "¡Ayuda! Estas sombras son bestias reales, ¡¿sabes?!",
 		},
 		HEALTH = {
-			FULL  = "Estoy completamente ileso.",
+			FULL  = "Estoy absolutamente ileso.",
 			HIGH  = "Es sólo un rasguño.",
-			MID   = "Puede que tenga que arreglarme.",
-			LOW   = "Esta no es mi canción de cisne, pero estoy cerca.",
-			EMPTY = "¡No! ¡No me escapé solo para morir aquí!",
+			MID   = "Puede que necesite un vendaje.",
+			LOW   = "Este no es mi Canto del Cisne, pero estoy cerca.",
+			EMPTY = "¡No! ¡No escapé solo para morir aquí!",
 		},
 		WETNESS = {
 			FULL  = "Más húmedo que el agua misma.",
-			HIGH  = "No creo que vuelva a estar seco otra vez.",
-			MID   = "Esta agua arruinará mi traje.",
-			LOW   = "La humedad no es tonta.",
-			EMPTY = "Seco y apuesto.",
+			HIGH  = "No creo que alguna vez vuelva a estar seco de nuevo.",
+			MID   = "¡Esta agua arruinará mi traje!",
+			LOW   = "La humedad no es elegante...",
+			EMPTY = "Seco y Apuesto.",
 		},
 	},
 	WEBBER = {
@@ -736,5 +736,125 @@ ANNOUNCE_STRINGS = {
 			LOW   = "Oooh?", 		-- >15%
 			EMPTY = "Ooae Oooh Oaoa! Ooooe.", 				-- <15%
 		},
+	},
+	WURT = {
+		HUNGER = {
+			FULL  = "Gluf, no más.",
+			HIGH  = "No tener hambre, flop.",
+			MID   = "Poder comer un poco más.",
+			LOW   = "¡Realmente querer comida!",
+			EMPTY = "¡Realmente realmente hambrienta!",
+		},
+		SANITY = {
+			FULL  = "¡Muy feliz!",
+			HIGH  = "Cabeza estar bien, flop.",
+			MID   = "Gluaj, cabeza doler.",
+			LOW   = "¡Sombras tenebrosas estar viniendo!",
+			EMPTY = "¡¡Glgrrr, pesadillas aterradoras!!",
+		},
+		HEALTH = {
+			FULL  = "¡Sentirme estupenda, flop!",
+			HIGH  = "¡Sentirse bien!",
+			MID   = "Necesitar ayuda, faltan escamas...",
+			LOW   = "*Sollozar* Es TÁN doloroso...",
+			EMPTY = "Yo... necesito... ayuda...",
+		},
+		WETNESS = {
+			FULL  = "¡Aaah, salpicar-chapotear!",
+			HIGH  = "¡Sentirse bien en las escamas!",
+			MID   = "¡La gente Tritón ama el agua, flop!",
+			LOW   = "Ahh... ¡humedecida sentirse mejor, flop!",
+			EMPTY = "Demasiado seco, glup.",
+		}
+	},
+	WORTOX = {
+		HUNGER = {
+			FULL  = "¡Qué mortal de mi parte tener el estómago tan lleno!",
+			HIGH  = "¡Estoy bien alimentado para un buen truco! ¡Jyuyu!",
+			MID   = "En necesidad de un bocado... tan mortal.",
+			LOW   = "¡Me encantaría una sabrosa alma! Guardaré los truquillos para más tarde...",
+			EMPTY = "¡Mi ansia de almas se ha vuelto voraz!",
+		},
+		SANITY = {
+			FULL  = "Tengo la mente despejada... ¡Los tiempos de diversión se acercan! ¡Jyuyu!",
+			HIGH  = "¿Quizás podría chupar algunas almas para mantener la cabeza despejada?",
+			MID   = "Todos mis saltos me han causado bastante dolor de cabeza...",
+			LOW   = "¡Envidio los truquillos de estas sombras! ¡Jyuyu!",
+			EMPTY = "¡Mi mente habita un nuevo plano de pura demencia!",
+		},
+		HEALTH = {
+			FULL  = "¡Estoy de perfecto humor para una buena travesura!",
+			HIGH  = "¡Solo es un rasguño, nada que un alma no pueda restaurar!",
+			MID   = "Unas cuantas almas para cerrar estas heridas... ¡Jyuyu!",
+			LOW   = "Mi propia alma se debilita...",
+			EMPTY = "¡Mi alma pronto dejará de ser mía! Jyuyu...",
+		},
+		WETNESS = {
+			FULL  = "¡¡ESTOY SUMERGIDO!!",
+			HIGH  = "¡Soy el diablillo más empapado!",
+			MID   = "Hay un olor a diablillo húmedo en mi futuro.",
+			LOW   = "¡El mundo me está dando una ducha!",
+			EMPTY = "¡Debería vigilar el cielo, si deseo permanecer seco!",
+		}
+	},
+	WANDA = {
+		HUNGER = {
+			FULL  = "¡Necesito tiempo para digerir toda esta comida!",							-- >75%
+			HIGH  = "Todavía estoy satisfecha de lo de antes. O después.",						-- >55%
+			MID   = "¡Tengo el suficiente tiempo para tomar un refrigerio!", 					-- >35%
+			LOW   = "¡Mi estómago es su propio paso del tiempo!", 						-- >15%
+			EMPTY = "¡El tiempo rápidamente me alcanzará si no como en éste preciso instante!", 	-- <15%
+		},
+		SANITY = {
+			FULL  = "¡Todo parece normal en esta línea de tiempo!", 							-- >75%
+			HIGH  = "¡Me siento lo suficientemente grandiosa como para dar unos cuantos saltos cuánticos!",							-- >55%
+			MID   = "¡Si no llevara relojes, ya no sabría más qué hora es!",	-- >35%
+			LOW   = "¡La realidad se está rompiendo en pedazos!", 											-- >15%
+			EMPTY = "¡Ustedes nunca me atraparán! ¡Ni en pasado, presente o futuro!", 					-- <15%
+		},
+		HEALTH = {
+			FULL  = "¡Dicen que tus 20s son tus mejores años después de todo!",					 	-- 100%
+			HIGH  = "¡Todavía joven y llena de vigor!", 										-- >75%
+			MID   = "¡Espera un tic! ¡Necesito un momento para recuperarme!", 							-- >50%
+			LOW   = "¡¡Tan solo necesito más tiempo!!", 												-- >25%
+			EMPTY = "¡Los granitos de mi reloj de arena están a punto de agotarse!",					 	-- <25%
+		},
+		WETNESS = {
+			FULL  = "El tiempo es precisamente como esta lluvia. ¡¡No se detiene!!", 								-- >75%
+			HIGH  = "Si esto sigue así... ¡Mis relojes de bolsillo se oxidarán!",						-- >55%
+			MID   = "¿Cuántos años habrán pasado desde que estuve así de empapada?", 						-- >35%
+			LOW   = "¡Oh, caray! ¡Necesito encontrar algún refugio para esta lluvia!", 					-- >15%
+			EMPTY = "¡Un poco de lluvia no es nada comparado con las complejidades de los viajes temporales!", 	-- <15%
+		}
+	},
+	WALTER = {
+		HUNGER = {
+			FULL  = "¡Un Pionero Pino siempre sale con el estómago lleno!", 	-- >75%
+			HIGH  = "Debería preparar un bocadillo para nuestra próxima caminata.",			-- >55%
+			MID   = "Espero haber empacado unos cuantos bocadillos en Woby...", 				-- >35%
+			LOW   = "¡Desearía que pudiéramos comer unos S'mores!", 						-- >15%
+			EMPTY = "¡No te preocupes amiga, encontraremos algo que comer pronto!", 		-- <15%
+		},
+		SANITY = {
+			FULL  = "¡Mi instinto pionero está mejor que nunca!", 	-- >75%
+			HIGH  = "¿Qué tal una historia para calmar los nervios?", 	-- >55%
+			MID   = "¿Escuchas los susurros también Woby?", 		-- >35%
+			LOW   = "O-oye Woby, ¡¿viste eso?!", 			-- >15%
+			EMPTY = "¡¡Los monstruos de mis historias son REALES!!", 	-- <15%
+		},
+		HEALTH = {
+			FULL  = "¡No moretones ni picaduras de abejas por aquí!", 					-- 100%
+			HIGH  = "¡Nada que un Pionero Pino no pueda soportar!",		 	-- >75%
+			MID   = "¡Mi entrenamiento en primeros auxilios está a punto de ser útil!", -- >50%
+			LOW   = "¡Woby debería cargarme a un lugar seguro!", 					-- >25%
+			EMPTY = "Puede que tengas que seguir sin mí, amiga...", 		-- <25%
+		},
+		WETNESS = {
+			FULL  = "¡Ahora soy todo arrugas!",					 	-- >75%
+			HIGH  = "¿Alguien se acordó de empacar una toalla?",		-- >55%
+			MID   = "¡Todas mis insignias están empapadas!", 				-- >35%
+			LOW   = "¡Solo es un poco de agua!", 					-- >15%
+			EMPTY = "¡He pasado por campamentos con peores tormentas!", 		-- <15%
+		}
 	},
 }

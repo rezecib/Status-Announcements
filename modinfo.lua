@@ -42,7 +42,7 @@ Credits:
 	Translators:
 		Brazilian Portuguese: Vinicius Araújo
 		Chinese: GoforDream and Shang
-		Spanish: Gum
+		Spanish: Gum, oPt
 		Russian: deshkas and Shire
 		German: Redhead
 ]]
