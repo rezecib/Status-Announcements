@@ -42,9 +42,10 @@ Credits:
 	Translators:
 		Brazilian Portuguese: Vinicius Araújo
 		Chinese: GoforDream and Shang
+		German: Redhead
+		Korean: AFS
 		Spanish: Gum, oPt
 		Russian: deshkas and Shire
-		German: Redhead
 ]]
 
 configuration_options =
