@@ -25,11 +25,11 @@ ANNOUNCE_STRINGS = {
 			-- For example, this might become "I have 6 papyrus in this chest."
 			-- AFS:
 			--  Ex)"상자 안에 고기(대상 신선도 88%) 18개 보유 중."
-			FORMAT_STRING = "{CONTAINER}{IN_THIS}{ITEM} {THIS_MANY}{S}{WITH}{DURABILITY}{PERCENT}{I_HAVE}.",
+			FORMAT_STRING = "{CONTAINER}{IN_THIS}{ITEM} {THIS_MANY}{S}{I_HAVE}{WITH}{DURABILITY}{PERCENT}.",
 			
 			-- One of these goes into {I_HAVE}
-			I_HAVE = ") 보유 중",
-			WE_HAVE = ") 보유 중",
+			I_HAVE = " 보유 중",
+			WE_HAVE = " 보유 중",
 			
 			-- {THIS_MANY} is a number if multiple, but singular varies a lot by language,
 			-- so we use getArticle above to get it
@@ -44,9 +44,9 @@ ANNOUNCE_STRINGS = {
 			-- {CONTAINER} is acquired from container.name
 			
 			-- One of these goes into {WITH}
-			WITH = "(대상 ", --if it's only one thing
-			AND_THIS_ONE_HAS = "(대상 ", --if there are multiple, show durability of one
-			AND_THIS_ONE_IS = "(대상 ", --if there are multiple, show durability of one
+			WITH = " - 대상 ", --if it's only one thing
+			AND_THIS_ONE_HAS = " - 대상 ", --if there are multiple, show durability of one
+			AND_THIS_ONE_IS = " - 대상 ", --if there are multiple, show durability of one
 			
 			-- {PERCENT} is acquired from the item's durability
 			
