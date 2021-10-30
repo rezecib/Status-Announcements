@@ -103,12 +103,6 @@ ANNOUNCE_STRINGS = {
 			--Goes into {I_NEED}
 			I_NEED = " Eu precisaria de ",
 			
-			--{PROTOTYPER} is taken from the recipepopup.teaser:GetString with this function
-			getPrototyper = function(teaser)
-				--This extracts from sentences like "Use a (science machine) to..." and "Use an (alchemy engine) to..."
-				return teaser:gmatch("Use uma (.*) para")():gsub("\n", "")
-			end,
-			
 			--Goes into {FOR_IT}
 			FOR_IT = " para isso",
 		},
