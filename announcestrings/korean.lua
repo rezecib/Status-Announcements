@@ -8,7 +8,7 @@ ANNOUNCE_STRINGS = {
 		end,
 		--Goes into {S} if there are multiple items (plural)
 		-- This isn't perfect for making plural even in English, but it's close enough
-		S = "개",
+		S = "개 ",
 		STAT_NAMES = {
 			Hunger = "허기",
 			Sanity = "정신력",
@@ -24,12 +24,12 @@ ANNOUNCE_STRINGS = {
 			-- This needs to reflect the translating language's grammar
 			-- For example, this might become "I have 6 papyrus in this chest."
 			-- AFS:
-			--  Ex)"상자 안에 고기(대상 신선도 88%) 18개 보유 중."
+			--  Ex)"상자에 고기 18개 보유 중 - 대상 신선도 86%."
 			FORMAT_STRING = "{CONTAINER}{IN_THIS}{ITEM} {THIS_MANY}{S}{I_HAVE}{WITH}{DURABILITY}{PERCENT}.",
 			
 			-- One of these goes into {I_HAVE}
-			I_HAVE = " 보유 중",
-			WE_HAVE = " 보유 중",
+			I_HAVE = "보유 중",
+			WE_HAVE = "보유 중",
 			
 			-- {THIS_MANY} is a number if multiple, but singular varies a lot by language,
 			-- so we use getArticle above to get it
@@ -78,14 +78,14 @@ ANNOUNCE_STRINGS = {
 			-- "I'll make an axe." -> known and have ingredients
 			-- "Can someone make me an alchemy engine? I would need a science machine for it." -> not known
 			-- "We need more drying racks." -> known but don't have ingredients
-			FORMAT_STRING = "{START_Q}{ITEM} {THIS_MANY}{S} {TO_DO}{PRE_BUILT}{END_Q}{FOR_IT}{PROTOTYPER}{I_NEED}.",
+			FORMAT_STRING = "{START_Q}{ITEM} {THIS_MANY}{S}{TO_DO}{PRE_BUILT}{END_Q}{FOR_IT}{PROTOTYPER}{I_NEED}.",
 			
 			--{START_Q} is for languages that match ? at both ends
 			START_Q = "", --English doesn't do that AFS: Korean doesn't, too
 			
 			--One of these goes into {TO_DO}
 			I_HAVE = "", --for pre-built
-			ILL_MAKE = " 만들 예정", --for known recipes where you have ingredients
+			ILL_MAKE = "제작 예정", --for known recipes where you have ingredients
 			CAN_SOMEONE = "제작 요청", --for unknown recipes
 			WE_NEED = "더 필요함", --for known recipes where you don't have ingredients
 			
@@ -96,16 +96,16 @@ ANNOUNCE_STRINGS = {
 			--{S} uses S above
 
 			--Goes into {PRE_BUILT}
-			PRE_BUILT = " 프리빌딩 및 설치 준비 완료",
+			PRE_BUILT = "프리빌딩 및 설치 준비 완료",
 			
 			--This goes into {END_Q} if it's a question
-			END_Q = ": ",
+			END_Q = ":",
 			
 			--Goes into {I_NEED}
 			I_NEED = " 필요함",
 			
 			--Goes into {FOR_IT}
-			FOR_IT = " 제작에",
+			FOR_IT = " 제작에 ",
 		},
 		ANNOUNCE_INGREDIENTS = {
 			-- This needs to reflect the translating language's grammar
@@ -114,7 +114,7 @@ ANNOUNCE_STRINGS = {
 			FORMAT_NEED = "{RECIPE} 제작에 {INGREDIENT} {NUM_ING}{S}{AND}{PROTOTYPER} 필요.",
 			
 			--If a prototyper is needed, goes into {AND}
-			AND = " 및 ",
+			AND = "및 ",
 			
 			-- This needs to reflect the translating language's grammar
 			-- Examples of what this makes:
@@ -309,13 +309,13 @@ ANNOUNCE_STRINGS = {
 		WETNESS = {
 			FULL  = "물의 심판이야!",
 			HIGH  = "비와 슬픔의 영원이로다.",
-			MID   = "축축하고 .",
+			MID   = "축축하고 슬퍼.",
 			LOW   = "혹시 이 비가 내 마음의 빈 자리를 채워줄까.",
 			EMPTY = "내 마음만큼이나 피부도 건조해.",
 		},
 		ABIGAIL = {
-			FULL  = "아비게일은 여느 때보다도 기분이 밝아!",
-			HIGH  = "아비게일의 비소가 반짝여.",
+			FULL  = "아비게일의 기분이 여느 때보다도 밝아!",
+			HIGH  = "아비게일의 미소가 빛나고 있어.",
 			MID   = "아비게일이 사라지려고 해...",
 			LOW   = "조심해, 아비게일! 이젠 네가 거의 보이질 않아!",
 			EMPTY = "가지 말아줘, 아비게일!",
@@ -344,10 +344,10 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "동체 상태: 기능 상실",
 		},
 		WETNESS = {
-			FULL  = "수분 상태: 임계 상태",
-			HIGH  = "수분 상태: 준임계 상태",
+			FULL  = "수분 상태: 임계치",
+			HIGH  = "수분 상태: 준임계치",
 			MID   = "수분 상태: 허용 불능",
-			LOW   = "수분 상태: 상한선",
+			LOW   = "수분 상태: 상한치",
 			EMPTY = "수분 상태: 허용 가능",
 		},
 	},
@@ -360,7 +360,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "당장 식사를 하지 않으면 아사하고 말 게야!",
 		},
 		SANITY = {
-			FULL  = ".",
+			FULL  = "이성 상실 징후는 없단다.",
 			HIGH  = "두통이 좀 있는 게 분명하구나.",
 			MID   = "편두통을 참을 수가 없어.",
 			LOW   = "더는 상상이 맞는지가 의문이구나!",
@@ -398,21 +398,21 @@ ANNOUNCE_STRINGS = {
 				EMPTY = "공포는 진짜야! 아픈 것도 진짜야!",
 			},
 			HEALTH = {
-				FULL  = "피리처럼 우뚝 섰어!",
-				HIGH  = "죽지 않는 정도라면 강해질 뿐이라지.",
+				FULL  = "피리처럼 꼿꼿해!",
+				HIGH  = "죽지만 않으면 강해질 뿐이라지.",
 				MID   = "좀 건강했으면 좋겠는데.",
 				LOW   = "거 참 몸이 안 좋구만...",
 				EMPTY = "내가 죽으면... 숲에 묻어줘...",
 			},
 			WETNESS = {
 				FULL  = "나무 베기엔 너무 축축한데.",
-				HIGH  = "체크무늬 셔츠로 이런 비는 역부족이야.",
+				HIGH  = "내 셔츠는 이런 비엔 역부족이야.",
 				MID   = "거 참 축축해지는구만 그래.",
-				LOW   = "내 셔츠는 젖어도 축축하단 말씀.",
+				LOW   = "내 셔츠는 젖어도 따뜻하단 말씀.",
 				EMPTY = "비 몇 방울 맞는다고 죽나.",
 			},
 			["LOG METER"] = {
-				FULL  = "나무가 좀 더 필요해. 먹을 건 아니야.",	-- > 90%
+				FULL  = "나무는 많으면 좋긴 한데, 지금은 먹을 건 아니고.",	-- > 90%
 				HIGH  = "뭔가 잔가지 같은 게 좀 먹고 싶은데.",						-- > 70%
 				MID   = "나무가 점점 맛있어 보이는데.",									-- > 50%
 				LOW   = "저주가 일어나는 게 느껴져.",									-- > 25%
@@ -469,7 +469,7 @@ ANNOUNCE_STRINGS = {
 			FULL  = "*경례한다*",
 			HIGH  = "*엄지를 치켜세운다*",
 			MID   = "*관자놀이를 문지른다*",
-			LOW   = "*미친 듯이 주변을 응시한다*",
+			LOW   = "*정신 나간 듯 주변을 응시한다*",
 			EMPTY = "*머리를 부여잡고 앞뒤로 흔든다*",
 		},
 		HEALTH = {
@@ -602,7 +602,7 @@ ANNOUNCE_STRINGS = {
 			FULL  = "야생마처럼 튼튼해!",
 			HIGH  = "아, 이 정도 쯤이야.",
 			MID   = "아직 포기할 수는 없지.",
-			LOW   = "퇴직연금은 아직 안 나왔어...?",
+			LOW   = "근로연금은 아직인가...?",
 			EMPTY = "퇴근할 시간이 됐나 보네...",
 		},
 		WETNESS = {
@@ -637,7 +637,7 @@ ANNOUNCE_STRINGS = {
 		},
 		WETNESS = {
 			FULL  = "내 옷 속에서 물고기들이 헤엄치는 것 같아.", 	-- >75%
-			HIGH  = "물 때문에 내 완벽한 음식을 망치고 말 거야!",					-- >55%
+			HIGH  = "물 때문에 기껏 만든 음식을 망치겠어!",					-- >55%
 			MID   = "감기 걸리기 전에 옷을 좀 말려둬야지.", 				-- >35%
 			LOW   = "목욕하기 좋은 곳은 아닌데.", 		-- >15%
 			EMPTY = "물방울 좀 맞았을 뿐이야.", 				-- <15%
@@ -679,7 +679,7 @@ ANNOUNCE_STRINGS = {
 			HIGH  = "나가 배가 들 고픈가벼.",			-- >55%
 			MID   = "끼니 챙겨묵을 때여.", 	-- >35%
 			LOW   = "여! 애송이, 내 밥 으딨어!?", 				-- >15%
-			EMPTY = "굶어죽는구만!", 			-- <15%
+			EMPTY = "배 곯아 죽것구만!", 			-- <15%
 		},
 		SANITY = {
 			FULL  = "야, 바다 참 이쁘장하구만!", 			-- >75%
