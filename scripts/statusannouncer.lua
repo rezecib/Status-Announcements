@@ -37,11 +37,14 @@ nil,
 {
 })
 
-function StatusAnnouncer:Announce(message)
-	if not self.cooldown and not self.cooldowns[message] then
+function StatusAnnouncer:Announce(message, key)
+	if type(key) ~= "string" then
+		key = "__UNKNOWN__"
+	end
+	if not self.cooldown and not self.cooldowns[key] then
 		local whisper = TheInput:IsControlPressed(CONTROL_FORCE_ATTACK) or TheInput:IsControlPressed(CONTROL_MENU_MISC_3)
 		self.cooldown = ThePlayer:DoTaskInTime(1, function() self.cooldown = false end)
-		self.cooldowns[message] = ThePlayer:DoTaskInTime(10, function() self.cooldowns[message] = nil end)
+		self.cooldowns[key] = ThePlayer:DoTaskInTime(10, function() self.cooldowns[key] = nil end)
 		TheNet:Say(STRINGS.LMB .. " " .. message, WHISPER_ONLY or WHISPER ~= whisper)
 	end
 	return true
@@ -206,7 +209,7 @@ function StatusAnnouncer:AnnounceItem(slot)
 									PERCENT = percent,
 									DURABILITY = durability,
 								})
-	return self:Announce(announce_str)
+	return self:Announce(announce_str, "ITEM_" .. tostring(item.GUID))
 end
 
 function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
@@ -215,7 +218,13 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 	local buffered = builder:IsBuildBuffered(slot.recipe.name)
 	local knows = builder:KnowsRecipe(slot.recipe.name) or CanPrototypeRecipe(slot.recipe.level, builder:GetTechTrees())
 	local can_build = builder:CanBuild(slot.recipe.name)
-	local strings_name = STRINGS.NAMES[slot.recipe.product:upper()] or STRINGS.NAMES[slot.recipe.name:upper()]
+	local recipe_product = slot.recipe.product
+	local strings_name = STRINGS.NAMES[recipe_product:upper()]
+	if not strings_name then
+		recipe_product = slot.recipe.name
+		strings_name = STRINGS.NAMES[recipe_product:upper()]
+	end
+	local key = "RECIPE_" .. tostring(recipe_product)
 	local name = strings_name and strings_name:lower() or "<missing_string>"
 	local a = S.getArticle(name)
 	local ingredient = nil
@@ -284,7 +293,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 										PROTOTYPER = proto,
 										FOR_IT = for_it,
 									})
-		return self:Announce(announce_str)
+		return self:Announce(announce_str, key)
 	else --announce the ingredient (need more, have enough to make x of recipe)
 		local num = 0
 		local ingname = nil
@@ -298,6 +307,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 			ingname = recipepopup.recipe.ingredients[1].type
 			ingtooltip = STRINGS.NAMES[string.upper(ingname)]
 		end
+		key = key .. "_" .. ingname
 		local ing_s = S.S
 		local amount_needed = 1
 		for k,v in pairs(slot.recipe.ingredients) do
@@ -364,16 +374,22 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 										PROTOTYPER = proto,
 									})
 		end
-		return self:Announce(announce_str)
+		return self:Announce(announce_str, key)
 	end
 end
 
 function StatusAnnouncer:AnnounceSkin(recipepopup)
 	local skin_name = recipepopup.skins_spinner.GetItem()
-	local item_name = STRINGS.NAMES[string.upper(recipepopup.recipe.product)] or recipepopup.recipe.name
+	local recipe_name = recipepopup.recipe.product
+	local item_name = STRINGS.NAMES[string.upper(recipepopup.recipe.product)]
+	if not item_name then
+		recipe_name = recipepopup.recipe.name
+		item_name = recipe_name
+	end
 	if skin_name ~= item_name then --don't announce default skins
-		return self:Announce(subfmt(STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_SKIN.FORMAT_STRING,
-									{SKIN = GetSkinName(skin_name), ITEM = item_name}))
+		local message = subfmt(STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_SKIN.FORMAT_STRING,
+									{SKIN = GetSkinName(skin_name), ITEM = item_name})
+		return self:Announce(message, "SKIN_" .. recipe_name)
 	end
 end
 
@@ -402,9 +418,9 @@ function StatusAnnouncer:AnnounceTemperature(pronoun)
 							TEMPERATURE = message,
 						})
 	if EXPLICIT then
-		return self:Announce(string.format("(%d\176) %s", temp, message))
+		return self:Announce(string.format("(%d\176) %s", temp, message), "TEMPERATURE")
 	else
-		return self:Announce(message)
+		return self:Announce(message, "TEMPERATURE")
 	end
 end
 
@@ -415,7 +431,7 @@ function StatusAnnouncer:AnnounceSeason()
 			DAYS_LEFT = TheWorld.state.remainingdaysinseason,
 			SEASON = STRINGS.UI.SERVERLISTINGSCREEN.SEASONS[TheWorld.state.season:upper()],
 		}
-	))
+	), "SEASON")
 end
 
 --NOTE: Your mod is responsible for adding and deciding when to show/hide the controller button hint
@@ -592,7 +608,7 @@ function StatusAnnouncer:OnHUDControl(HUD, control)
 	or (HUD.controls.status._weremode and HUD._statuscontrollerbuttonhintsshown) then
 		local stat = self.button_to_stat[control]
 		if stat and self.stats[stat].widget.shown then
-			return self:Announce(self:ChooseStatMessage(stat))
+			return self:Announce(self:ChooseStatMessage(stat), stat)
 		end
 		if OVERRIDEB and HUD.controls.status.temperature and control == CONTROL_CANCEL then
 			return self:AnnounceTemperature(HUD.controls.status._weremode and "BEAST" or nil)
