@@ -134,6 +134,16 @@ configuration_options =
 		hover = "When controller inventory is open, allow the SELECT/map button\nto be used to announce the season\n(if you are using Combined Status).",
 	},
 	{
+		name = "HIDEANNOUNCEMENTS",
+		label = "Hide Announcements",
+		options =	{
+						{description = "Yes", data = true},
+						{description = "No", data = false},
+					},
+		default = false,
+		hover = "If you don't like other people announcing things constantly,\nyou can turn this on to filter out all announcements.",
+	},
+	{
 		name = "WILSON",
 		label = "Custom Wilson Quotes",
 		options =	{

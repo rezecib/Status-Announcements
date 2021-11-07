@@ -159,6 +159,7 @@ if HAS_MOD.COMBINED_STATUS then
 		OVERRIDESELECT = GLOBAL.GetModConfigData("SEASONOPTIONS", HAS_MOD.COMBINED_STATUS) ~= ""
 	end
 end
+local HIDEANNOUNCEMENTS = GetModConfigData("HIDEANNOUNCEMENTS")
 StatusAnnouncer:SetLocalParameter("WHISPER", GetModConfigData("WHISPER"))
 StatusAnnouncer:SetLocalParameter("WHISPER_ONLY", HAS_MOD.WHISPER_ONLY)
 StatusAnnouncer:SetLocalParameter("EXPLICIT", GetModConfigData("EXPLICIT"))
@@ -540,3 +541,50 @@ AddClassPostConstruct("widgets/giftitemtoast", function(self)
 		end
 	end
 end)
+
+if HIDEANNOUNCEMENTS then
+	local function IsStatusAnnouncementMessage(message)
+		return type(message) == "string" and message:len() > 3 and message:sub(1,3) == GLOBAL.STRINGS.LMB
+	end
+	local ChatHistory = GLOBAL.ChatHistory
+	-- Don't add new messages if they're announcements
+	local _ChatHistory_AddToHistory = ChatHistory.AddToHistory
+	function ChatHistory:AddToHistory(type, sender_userid, sender_netid, sender_name, message, ...)
+		if IsStatusAnnouncementMessage(message) then
+			return
+		end
+		return _ChatHistory_AddToHistory(self, type, sender_userid, sender_netid, sender_name, message, ...)
+	end
+	-- Don't add historical messages if they're announcements
+	local _ChatHistory_AddToHistoryAtIndex = ChatHistory.AddToHistoryAtIndex
+	function ChatHistory:AddToHistoryAtIndex(chat_message, ...)
+		if type(chat_message) == "table" then
+			local new_chat_message = {}
+			local count = math.max(#chat_message, 1)
+			if count > 1 then
+				for i, v in ipairs(chat_message) do
+					if not IsStatusAnnouncementMessage(v.message) then
+						table.insert(new_chat_message, v)
+					end
+					-- Otherwise, we don't copy it over to new_chat_message
+				end
+			else
+				if not IsStatusAnnouncementMessage(chat_message.message) then
+					new_chat_message = chat_message
+				end
+				-- Otherwise, we leave new_chat_message an empty table, which it does handle
+			end
+			chat_message = new_chat_message
+		end
+		return _ChatHistory_AddToHistoryAtIndex(self, chat_message, ...)
+	end
+	-- Don't activate the overhead text and "blah blah blah" animation/sounds if it's an announcement
+	local Talker = require("components/talker")
+	local _Talker_Say = Talker.Say
+	function Talker:Say(script, ...)
+		if IsStatusAnnouncementMessage(script) then
+			return
+		end
+		return _Talker_Say(self, script, ...)
+	end
+end
