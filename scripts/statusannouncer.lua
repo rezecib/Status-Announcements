@@ -577,7 +577,7 @@ end
 function StatusAnnouncer:OnHUDMouseButton(HUD)
 	for stat_name,data in pairs(self.stats) do
 		if data and data.widget and data.widget.focus then
-			return self:Announce(self:ChooseStatMessage(stat_name))
+			return self:Announce(self:ChooseStatMessage(stat_name), stat_name)
 		end
 	end
 	if HUD.controls.status.temperature and HUD.controls.status.temperature.focus then
