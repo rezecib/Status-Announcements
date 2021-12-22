@@ -525,7 +525,7 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			switch_fn
 		)
 	end
-	if pethealth ~= false and ThePlayer.components.pethealthbar ~= nil then
+	if pethealth ~= false and ThePlayer.components.pethealthbar ~= nil and type(status.pethealthbadge) == "table" then
 		self:RegisterStat(
 			"Abigail",
 			status.pethealthbadge,
@@ -539,7 +539,7 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			switch_fn
 		)
 	end
-	if inspiration ~= false and status.inspirationbadge ~= nil then
+	if inspiration ~= false and type(status.inspirationbadge) == "table" then
 		self:RegisterStat(
 			"Inspiration",
 			status.inspirationbadge,
@@ -576,7 +576,7 @@ end
 
 function StatusAnnouncer:OnHUDMouseButton(HUD)
 	for stat_name,data in pairs(self.stats) do
-		if data.widget.focus then
+		if data and data.widget and data.widget.focus then
 			return self:Announce(self:ChooseStatMessage(stat_name))
 		end
 	end
