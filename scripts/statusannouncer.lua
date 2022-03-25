@@ -291,7 +291,7 @@ function StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
 	local builder = ThePlayer.replica.builder
 	local buffered = builder:IsBuildBuffered(recipe.name)
 	local knows = builder:KnowsRecipe(recipe.name) or CanPrototypeRecipe(recipe.level, builder:GetTechTrees())
-	local can_build = builder:CanBuild(recipe.name)
+	local can_build = builder:HasIngredients(recipe.name)
 	local recipe_product = recipe.product
 	local strings_name = STRINGS.NAMES[recipe_product:upper()]
 	if not strings_name then
@@ -301,7 +301,10 @@ function StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
 	local key = "RECIPE_" .. tostring(recipe_product)
 	local name = strings_name and strings_name:lower() or "<missing_string>"
 	local a = S.getArticle(name)
-	local prototyper = GetMinPrototyper(recipe)
+	local prototyper = ""
+	if not knows then
+		prototyper = GetMinPrototyper(recipe) or prototyper
+	end
 	local a_proto = ""
 	local proto = ""
 	if ingredient == nil then
@@ -324,7 +327,7 @@ function StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
 			s = string.find(name, S.S.."$") == nil and S.S or ""
 		else
 			to_do = S.ANNOUNCE_RECIPE.CAN_SOMEONE
-			if prototyper ~= nil and SHOWPROTOTYPER then
+			if prototyper ~= "" and SHOWPROTOTYPER then
 				i_need = S.ANNOUNCE_RECIPE.I_NEED
 				a_proto = S.getArticle(prototyper) .. " "
 				proto = prototyper
