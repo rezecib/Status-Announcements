@@ -212,46 +212,100 @@ function StatusAnnouncer:AnnounceItem(slot)
 	return self:Announce(announce_str, "ITEM_" .. tostring(item.GUID))
 end
 
-function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
+-- Almost identical to CraftingMenuDetails:_GetHintTextForRecipe
+-- copied for stability reasons, and out of respect for the naming hint that it was intended to be local
+local function GetMinPrototyperTree(recipe)
+    local validmachines = {}
+    local adjusted_level = deepcopy(recipe.level)
+
+    -- Adjust recipe's level for bonus so that the hint gives the right message
+	local tech_bonus = ThePlayer.replica.builder:GetTechBonuses()
+	for k, v in pairs(adjusted_level) do
+		adjusted_level[k] = math.max(0, v - (tech_bonus[k] or 0))
+	end
+
+    for k, v in pairs(TUNING.PROTOTYPER_TREES) do
+        local canbuild = CanPrototypeRecipe(adjusted_level, v)
+        if canbuild then
+            table.insert(validmachines, {TREE = tostring(k), SCORE = 0})
+        end
+    end
+
+    if #validmachines > 0 then
+        if #validmachines == 1 then
+            --There's only once machine is valid. Return that one.
+            return validmachines[1].TREE
+        end
+
+        --There's more than one machine that gives the valid tech level! We have to find the "lowest" one (taking bonus into account).
+        for k,v in pairs(validmachines) do
+            for rk,rv in pairs(adjusted_level) do
+                local prototyper_level = TUNING.PROTOTYPER_TREES[v.TREE][rk]
+                if prototyper_level and (rv > 0 or prototyper_level > 0) then
+                    if rv == prototyper_level then
+                        --recipe level matches, add 1 to the score
+                        v.SCORE = v.SCORE + 1
+                    elseif rv < prototyper_level then
+                        --recipe level is less than prototyper level, remove 1 per level the prototyper overshot the recipe
+                        v.SCORE = v.SCORE - (prototyper_level - rv)
+                    end
+                end
+            end
+        end
+
+        table.sort(validmachines, function(a,b) return (a.SCORE) > (b.SCORE) end)
+
+        return validmachines[1].TREE
+    end
+
+    return "CANTRESEARCH"
+end
+
+local tree_to_prefab = {
+	SCIENCEMACHINE = "RESEARCHLAB",
+	ALCHEMYMACHINE = "RESEARCHLAB2",
+	SHADOWMANIPULATOR = "RESEARCHLAB3",
+	PRESTIHATITATOR = "RESEARCHLAB4",
+	ANCIENTALTAR_LOW = "ANCIENT_ALTAR_BROKEN",
+	ANCIENTALTAR_HIGH = "ANCIENT_ALTAR",
+	FISHING = "TACKLESTATION",
+	SEAFARING_STATION = "SEAFARING_PROTOTYPER",
+	-- Spidercraft doesn't seem to correspond to any prefab, so leaving it out
+	-- A bunch more from TUNING.PROTOTYPER_TREES could be added here,
+	-- but these were the only ones in CraftingMenuDetails
+}
+
+local function GetMinPrototyper(recipe)
+	local prefab = tree_to_prefab[GetMinPrototyperTree(recipe)]
+	if prefab ~= nil then
+		return STRINGS.NAMES[prefab] or prefab
+	end
+	return prefab
+end
+
+function StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
+	if recipe == nil then
+		return false
+	end
 	local S = STRINGS._STATUS_ANNOUNCEMENTS._ --To save some table lookups
-	local builder = slot.owner.replica.builder
-	local buffered = builder:IsBuildBuffered(slot.recipe.name)
-	local knows = builder:KnowsRecipe(slot.recipe.name) or CanPrototypeRecipe(slot.recipe.level, builder:GetTechTrees())
-	local can_build = builder:CanBuild(slot.recipe.name)
-	local recipe_product = slot.recipe.product
+	local builder = ThePlayer.replica.builder
+	local buffered = builder:IsBuildBuffered(recipe.name)
+	local knows = builder:KnowsRecipe(recipe.name) or CanPrototypeRecipe(recipe.level, builder:GetTechTrees())
+	local can_build = builder:CanBuild(recipe.name)
+	local recipe_product = recipe.product
 	local strings_name = STRINGS.NAMES[recipe_product:upper()]
 	if not strings_name then
-		recipe_product = slot.recipe.name
+		recipe_product = recipe.name
 		strings_name = STRINGS.NAMES[recipe_product:upper()]
 	end
 	local key = "RECIPE_" .. tostring(recipe_product)
 	local name = strings_name and strings_name:lower() or "<missing_string>"
 	local a = S.getArticle(name)
-	local ingredient = nil
-	recipepopup = recipepopup or slot.recipepopup
-	local ing = recipepopup.ing or {recipepopup.ingredient}
-	if ingnum == nil then --mouse controls, we have to find the focused ingredient
-		for i, ing in ipairs(ing) do
-			if ing.focus then ingredient = ing end
-		end
-	else --controller controls, we pick it by number (determined by which button was pressed)
-		ingredient = ing[ingnum]
-	end
-	if ingnum and ingredient == nil then return end --controller button for ingredient that doesn't exist
-	local prototyper = ""
-	if recipepopup.teaser.shown then
-		--we patch RecipePopup in the modmain to insert _original_string when the teaser string gets set
-		local teaser_string = recipepopup.teaser._original_string
-		local CRAFTING = STRINGS.UI.CRAFTING
-		for needs_string, prototyper_prefab in pairs(needs_strings) do
-			if teaser_string == CRAFTING[needs_string] then
-				prototyper = STRINGS.NAMES[prototyper_prefab]:lower()
-			end
-		end
-	end
+	local prototyper = GetMinPrototyper(recipe)
 	local a_proto = ""
 	local proto = ""
-	if ingredient == nil then --announce the recipe (need more x, can make x, have x ready)
+	if ingredient == nil then
+		-- announce the recipe (need more x, can make x, have x ready)
 		local start_q = ""
 		local to_do = ""
 		local s = ""
@@ -270,7 +324,7 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 			s = string.find(name, S.S.."$") == nil and S.S or ""
 		else
 			to_do = S.ANNOUNCE_RECIPE.CAN_SOMEONE
-			if prototyper ~= "" and SHOWPROTOTYPER then
+			if prototyper ~= nil and SHOWPROTOTYPER then
 				i_need = S.ANNOUNCE_RECIPE.I_NEED
 				a_proto = S.getArticle(prototyper) .. " "
 				proto = prototyper
@@ -293,37 +347,32 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 										PROTOTYPER = proto,
 										FOR_IT = for_it,
 									})
+		if string.find(announce_str, "\?\.$") ~= nil then
+			-- In some cases (maybe only reachable through testing partial code),
+			-- it ends up with ?. at the end, so trim the period
+			announce_str = announce_str:sub(1, announce_str:len() - 1)
+		end
 		return self:Announce(announce_str, key)
 	else --announce the ingredient (need more, have enough to make x of recipe)
 		local num = 0
-		local ingname = nil
-		local ingtooltip = nil
-		if ingredient.ing then
-			-- RecipePopup
-			ingname = ingredient.ing.texture:sub(1,-5)
-			ingtooltip = ingredient.tooltip
-		else
-			-- Quagmire_RecipePopup
-			ingname = recipepopup.recipe.ingredients[1].type
-			ingtooltip = STRINGS.NAMES[string.upper(ingname)]
-		end
-		key = key .. "_" .. ingname
+		key = key .. "_" .. ingredient
 		local ing_s = S.S
 		local amount_needed = 1
-		for k,v in pairs(slot.recipe.ingredients) do
-			if ingname == v.type then amount_needed = v.amount end
+		-- No special handling for tech ingredients (sculpting block), but it seems to work fine anyway?
+		for k,v in pairs(recipe.ingredients) do
+			if ingredient == v.type then amount_needed = v.amount end
 		end
-		local has, num_found = slot.owner.replica.inventory:Has(ingname, RoundBiasedUp(amount_needed * slot.owner.replica.builder:IngredientMod()))
-		for k,v in pairs(slot.recipe.character_ingredients) do
-			if ingname == v.type then
+		local has, num_found = ThePlayer.replica.inventory:Has(ingredient, RoundBiasedUp(amount_needed * ThePlayer.replica.builder:IngredientMod()))
+		for k,v in pairs(recipe.character_ingredients) do
+			if ingredient == v.type then
 				amount_needed = v.amount
-				has, num_found = slot.owner.replica.builder:HasCharacterIngredient(v)
-				ing_s = "" --health and sanity are already plural
+				has, num_found = ThePlayer.replica.builder:HasCharacterIngredient(v)
+				ing_s = "" -- health and sanity are already plural
 			end
 		end
 		num = amount_needed - num_found
-		local can_make = math.floor(num_found / amount_needed)*slot.recipe.numtogive
-		local ingredient_str = (ingtooltip or "<missing_string>"):lower()
+		local can_make = math.floor(num_found / amount_needed)*recipe.numtogive
+		local ingredient_str = (STRINGS.NAMES[ingredient:upper()] or "<missing_string>"):lower()
 		if num == 1 or ingredient_str:find(ing_s.."$") ~= nil then ing_s = "" end
 		local announce_str = "";
 		if num > 0 then
@@ -378,17 +427,16 @@ function StatusAnnouncer:AnnounceRecipe(slot, recipepopup, ingnum)
 	end
 end
 
-function StatusAnnouncer:AnnounceSkin(recipepopup)
-	local skin_name = recipepopup.skins_spinner.GetItem()
-	local recipe_name = recipepopup.recipe.product
-	local item_name = STRINGS.NAMES[string.upper(recipepopup.recipe.product)]
+function StatusAnnouncer:AnnounceSkin(recipe, skin)
+	local recipe_name = recipe.product
+	local item_name = STRINGS.NAMES[string.upper(recipe.product)]
 	if not item_name then
-		recipe_name = recipepopup.recipe.name
+		recipe_name = recipe.name
 		item_name = recipe_name
 	end
-	if skin_name ~= item_name then --don't announce default skins
+	if skin ~= item_name then --don't announce default skins
 		local message = subfmt(STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_SKIN.FORMAT_STRING,
-									{SKIN = GetSkinName(skin_name), ITEM = item_name})
+									{SKIN = GetSkinName(skin), ITEM = item_name})
 		return self:Announce(message, "SKIN_" .. recipe_name)
 	end
 end
@@ -589,20 +637,12 @@ function StatusAnnouncer:OnHUDMouseButton(HUD)
 end
 
 function StatusAnnouncer:OnHUDControl(HUD, control)
-	if HUD:IsControllerCraftingOpen() then
-		local cc = HUD.controls.crafttabs.controllercrafting
-		local slot = cc.oldslot or cc.craftslots.slots[cc.selected_slot]
-		local recipepopup = cc.recipepopup or slot.recipepopup
-		if control == CONTROL_MENU_MISC_2 then --Y
-			return self:AnnounceRecipe(slot, recipepopup)
-		elseif control == CONTROL_INVENTORY_USEONSCENE then --d-pad left
-			return self:AnnounceRecipe(slot, recipepopup, 1)
-		elseif control == CONTROL_INVENTORY_EXAMINE then --d-pad up
-			return self:AnnounceRecipe(slot, recipepopup, 2)
-		elseif control == CONTROL_INVENTORY_USEONSELF then --d-pad right
-			return self:AnnounceRecipe(slot, recipepopup, 3)
-		elseif control == CONTROL_INVENTORY_DROP and recipepopup.skins_spinner then --d-pad down
-			return self:AnnounceSkin(recipepopup)
+	if HUD:IsCraftingOpen() and TheInput:ControllerAttached() then
+		if control == CONTROL_CANCEL then
+			local details = HUD.controls.craftingmenu.craftingmenu.details_root
+			if details and details.data and details.data.recipe then
+				return self:AnnounceRecipe(details.data.recipe)
+			end
 		end
 	elseif HUD:IsControllerInventoryOpen()
 	or (HUD.controls.status._weremode and HUD._statuscontrollerbuttonhintsshown) then

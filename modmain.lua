@@ -22,15 +22,15 @@ function PlayerHud:SetMainCharacter(maincharacter, ...)
 		if self._StatusAnnouncer then
 			self._StatusAnnouncer:RegisterStat(
 				"My Stat's Display Name",
-				HUD.controls.status._custombadge, --you could also give it your_custom_badge
+				HUD.controls.status._custombadge, -- you could also give it your_custom_badge
 				CONTROL_ROTATE_LEFT, -- Left Bumper; keep this as-is
-				{     .15,    .35,   .55,    .75      }, --you can also set custom thresholds
-				{"EMPTY", "LOW", "MID", "HIGH", "FULL"}, --or custom category names, just match them with your strings table
+				{     .15,    .35,   .55,    .75      }, -- you can also set custom thresholds
+				{"EMPTY", "LOW", "MID", "HIGH", "FULL"}, -- or custom category names, just match them with your strings table
 				function(ThePlayer)
 					return	something_that_gets_your_stats_current_value,
 							something_that_gets_your_stats_max_value
 				end,
-				nil --you can give this a function if your character has multiple modes with different strings, see Woodie and StatusAnnouncer:RegisterCommonStats
+				nil -- you can give this a function if your character has multiple modes with different strings, see Woodie and StatusAnnouncer:RegisterCommonStats
 			)
 		end
 	end)
@@ -38,7 +38,7 @@ end
 
 ]]
 
---Mods that are already enabled
+-- Mods that are already enabled
 local LANGUAGES = {
 	BRAZIL = {
 		"499547543",
@@ -88,11 +88,11 @@ for lang,ids in pairs(LANGUAGES) do
 	end
 end
 local HAS_MOD = {}
---If the mod is a]ready loaded at this point
+-- If the mod is a]ready loaded at this point
 for mod_name, key in pairs(CHECK_MODS) do
 	HAS_MOD[key] = HAS_MOD[key] or (GLOBAL.KnownModIndex:IsModEnabled(mod_name) and mod_name)
 end
---If the mod hasn't loaded yet
+-- If the mod hasn't loaded yet
 for k,v in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
 	local mod_type = CHECK_MODS[v]
 	if mod_type then
@@ -101,16 +101,16 @@ for k,v in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do
 end
 
 local LANGUAGE = GetModConfigData("LANGUAGE")
-if LANGUAGE == "detect" then --We should try to detect the language
-	LANGUAGE = "english" --Default to english, but then try to detect
+if LANGUAGE == "detect" then -- We should try to detect the language
+	LANGUAGE = "english" -- Default to english, but then try to detect
 	for language,_ in pairs(LANGUAGES) do
 		if HAS_MOD[language:upper()] then
 			LANGUAGE = language:lower()
 		end
 	end
 end
-if not GLOBAL.kleifileexists(MODROOT.."announcestrings/"..LANGUAGE..".lua") then LANGUAGE = "english" end --failsafe
-modimport("announcestrings/"..LANGUAGE..".lua") --creates the ANNOUNCE_STRINGS table
+if not GLOBAL.kleifileexists(MODROOT.."announcestrings/"..LANGUAGE..".lua") then LANGUAGE = "english" end -- failsafe
+modimport("announcestrings/"..LANGUAGE..".lua") -- creates the ANNOUNCE_STRINGS table
 
 for k,v in pairs(ANNOUNCE_STRINGS) do
 	if k ~= "UNKNOWN" and k ~= "_" and GetModConfigData(k) == false then
@@ -124,13 +124,13 @@ if type(GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS) == "table" then
 		ANNOUNCE_STRINGS[k] = v;
 	end
 end
-ANNOUNCE_STRINGS._.LANGUAGE = LANGUAGE --attach it here so mods can check it if they want to provide translations
---as emoji these are translation-independent, so add it here instead of in the language files
+ANNOUNCE_STRINGS._.LANGUAGE = LANGUAGE -- attach it here so mods can check it if they want to provide translations
+-- as emoji these are translation-independent, so add it here instead of in the language files
 ANNOUNCE_STRINGS._.STAT_EMOJI = {
 	Hunger = "hunger",
 	Sanity = "sanity",
 	Health = "heart",
-	--no emoji for these (yet)
+	-- no emoji for these (yet)
 	-- ["Log Meter"] = "Log Meter",
 	-- Wetness = "Wetness",
 }
@@ -146,7 +146,7 @@ end
 
 local StatusAnnouncer = require("statusannouncer")()
 
---actually need this one locally to add the controller button hint
+-- actually need this one locally to add the controller button hint
 local OVERRIDEB = false
 local OVERRIDESELECT = false
 if HAS_MOD.COMBINED_STATUS then
@@ -175,7 +175,7 @@ function PlayerHud:SetMainCharacter(maincharacter, ...)
 	PlayerHud_SetMainCharacter(self, maincharacter, ...)
 	self._StatusAnnouncer = StatusAnnouncer
 	if maincharacter then
-		--Note that this also clears out the stats and cooldowns, so we have to re-register them
+		-- Note that this also clears out the stats and cooldowns, so we have to re-register them
 		StatusAnnouncer:SetCharacter(maincharacter.prefab)
 		StatusAnnouncer:RegisterCommonStats(self, maincharacter.prefab)
 	end
@@ -218,7 +218,7 @@ local function find_season_badge(HUD)
 	end
 end
 
---Hook into the controller open/close inventory to display the controller button hints
+-- Hook into the controller open/close inventory to display the controller button hints
 local PlayerHud_OpenControllerInventory = PlayerHud.OpenControllerInventory
 function PlayerHud:OpenControllerInventory(...)
 	PlayerHud_OpenControllerInventory(self, ...)
@@ -303,7 +303,7 @@ function PlayerHud:HideStatusControllerButtonHints()
 	end
 end
 
---Adds the controller button hints to the stat badges
+-- Adds the controller button hints to the stat badges
 local Text = GLOBAL.require("widgets/text")
 AddClassPostConstruct("widgets/statusdisplays", function(self)
 	if self.stomach then
@@ -353,23 +353,23 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 		end
 	end
 	if OVERRIDEB then
-		--delay it until Combined Status loads
+		-- delay it until Combined Status loads
 		self._override_b_task = self.inst:DoPeriodicTask(0, function()
-			if self.temperature then --If Combined Status has loaded, add the button hint
+			if self.temperature then -- If Combined Status has loaded, add the button hint
 				self.temperature.announce_text = self.temperature:AddChild(Text(GLOBAL.UIFONT, 30))
 				self.temperature.announce_text:SetPosition(25, -50)
 				self.temperature.announce_text:Hide()
-				--We succeeded, clear the task
+				-- We succeeded, clear the task
 				self._override_b_task:Cancel()
 				self._override_b_task = nil
 			end
 		end)
 	end
 	if OVERRIDESELECT then
-		--delay it until Combined Status loads
+		-- delay it until Combined Status loads
 		self._override_select_task = self.inst:DoPeriodicTask(0, function()
 			local season, season_type = find_season_badge()
-			if season then --If Combined Status has loaded, add the button hint
+			if season then -- If Combined Status has loaded, add the button hint
 				season.announce_text = season:AddChild(Text(GLOBAL.UIFONT, 30))
 				if season_type == "Clock" then
 					season.announce_text:SetPosition(0, -52)
@@ -379,7 +379,7 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 					season.announce_text:SetPosition(40, -30)
 				end
 				season.announce_text:Hide()
-				--We succeeded, clear the task
+				-- We succeeded, clear the task
 				self._override_select_task:Cancel()
 				self._override_select_task = nil
 			end
@@ -393,100 +393,104 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 	end
 end)
 
---Manages the controller button hints on recipe popups
-local RecipePopup = require("widgets/recipepopup")
-local RecipePopup_Refresh = RecipePopup.Refresh
-local ing_controls = {
-	GLOBAL.CONTROL_INVENTORY_USEONSCENE,	--d-pad left
-	GLOBAL.CONTROL_INVENTORY_EXAMINE,		--d-pad up
-	GLOBAL.CONTROL_INVENTORY_USEONSELF,		--d-pad right
-}
-function RecipePopup:Refresh(...)
-	local ret = RecipePopup_Refresh(self, ...)
-	if TheInput:ControllerAttached() then
-		self.teaser:SetString(self.teaser:GetString() .. "\n"
-			.. TheInput:GetLocalizedControl(TheInput:GetControllerID(), GLOBAL.CONTROL_MENU_MISC_2)
-			.. " " .. ANNOUNCE_STRINGS._.ANNOUNCE_HINT)
-		local x, y, z = self.teaser:GetPosition():Get()
-		if self.skins_spinner then
-			self.teaser:SetPosition(x, y%50 == 0 and y-15 or y, z)
-			if self.skins_spinner.announce_text then
-				self.skins_spinner.announce_text:SetString(TheInput:GetLocalizedControl(
-					TheInput:GetControllerID(), GLOBAL.CONTROL_INVENTORY_DROP))
-			end
-		else
-			self.teaser:SetPosition(x, y%50 == 0 and y or y+15, z)
-		end
-		for i,v in pairs(self.ing) do
-			if ing_controls[i] then --some mods may add more ingredients for a recipe; they won't be announceable, but at least this won't crash
-				v.announce_text = v:AddChild(Text(GLOBAL.UIFONT, 30,
-					TheInput:GetLocalizedControl(TheInput:GetControllerID(), ing_controls[i])))
-				v.announce_text:SetPosition(-32+32*(i-1), 32)
-			end
+-- Capture mouse clicks on recipes
+local function GetClickedIngredient(recipe, craftingmenu_ingredients)
+	if craftingmenu_ingredients == nil then
+		return nil
+	end
+	local _, ingredient_root = GLOBAL.next(craftingmenu_ingredients.children)
+	if ingredient_root == nil then
+		-- this occurs if the ingredients have never been expanded on a pinned item
+		return nil
+	end
+	local ingredient = nil
+	local NAMES = GLOBAL.STRINGS.NAMES
+	local name_to_ingredient = {}
+	for i, v in ipairs(recipe.tech_ingredients) do
+		name_to_ingredient[NAMES[v.type:upper()]] = v.type
+	end
+	for i, v in ipairs(recipe.ingredients) do
+		name_to_ingredient[NAMES[v.type:upper()]] = v.type
+	end
+	for i, v in ipairs(recipe.character_ingredients) do
+		name_to_ingredient[NAMES[v.type:upper()]] = v.type
+	end
+	local focused_ingredient = nil
+	for k,v in pairs(ingredient_root.children) do
+		if v.focus then
+			focused_ingredient = v
 		end
 	end
-	return ret
-end
---Capture the original string sent to SetMultilineTruncatedString so we can recover the prototyper
-local function patch_recipepopup_teaser(teaser)
-	local teaser_SetMultilineTruncatedString = teaser.SetMultilineTruncatedString
-	teaser.SetMultilineTruncatedString = function(self, str, ...)
-		teaser_SetMultilineTruncatedString(self, str, ...)
-		self._original_string = str
+	if focused_ingredient then
+		ingredient = name_to_ingredient[focused_ingredient.tooltip]
 	end
+	return ingredient
 end
-local RecipePopup_BuildWithSpinner = RecipePopup.BuildWithSpinner
-function RecipePopup:BuildWithSpinner(...)
-	RecipePopup_BuildWithSpinner(self, ...)
-	if TheInput:ControllerAttached() then
-		self.skins_spinner.announce_text = self.skins_spinner:AddChild(Text(GLOBAL.UIFONT, 30))
-		self.skins_spinner.announce_text:SetPosition(-20,70)
-	end
-	patch_recipepopup_teaser(self.teaser)
-end
-local RecipePopup_BuildNoSpinner = RecipePopup.BuildNoSpinner
-function RecipePopup:BuildNoSpinner(...)
-	RecipePopup_BuildNoSpinner(self, ...)
-	patch_recipepopup_teaser(self.teaser)
-end
-
-local QuagmireRecipePopup = require("widgets/quagmire_recipepopup")
-QuagmireRecipePopup_Refresh = QuagmireRecipePopup.Refresh
-function QuagmireRecipePopup:Refresh(...)
-	local ret = QuagmireRecipePopup_Refresh(self, ...)
-	if TheInput:ControllerAttached() then
-		self.teaser:SetString(self.teaser:GetString() .. "\n"
-			.. TheInput:GetLocalizedControl(TheInput:GetControllerID(), GLOBAL.CONTROL_MENU_MISC_2)
-			.. " " .. ANNOUNCE_STRINGS._.ANNOUNCE_HINT)
-	end
-	self.ingredient.announce_hint = self.ingredient:AddChild(Text(GLOBAL.UIFONT, 30,
-		TheInput:GetLocalizedControl(TheInput:GetControllerID(), ing_controls[1])))
-	self.ingredient.announce_hint:SetScale(1/self.ingredient_backing:GetScale().x)
-	self.ingredient.announce_hint:SetPosition(-45, 0, 0)
-	return ret
-end
-
-
---Captures mouse clicks on recipe tiles
-local CraftSlot = require("widgets/craftslot")
-local CraftSlot_OnControl = CraftSlot.OnControl
-function CraftSlot:OnControl(control, down, ...)
+local CraftingMenuHUD = require("widgets/redux/craftingmenu_hud")
+local CraftingMenuHUD_OnControl = CraftingMenuHUD.OnControl
+function CraftingMenuHUD:OnControl(control, down, ...)
 	if down and control == GLOBAL.CONTROL_ACCEPT
 	and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT)
-	and self.owner and self.recipe then
-		if self.recipepopup.skins_spinner and self.recipepopup.skins_spinner.focus
-		and StatusAnnouncer:AnnounceSkin(self.recipepopup) then
-			return true
-		else
-			return StatusAnnouncer:AnnounceRecipe(self)
+	and self.owner then
+		
+		-- Check if we're clicking on a pinned recipe or its ingredient
+		if self.pinbar.focus then
+			for _,slot in ipairs(self.pinbar.pin_slots) do
+				local recipe = GLOBAL.AllRecipes[slot.recipe_name]
+				if slot.focus then
+					local ingredient = GetClickedIngredient(recipe, slot.recipe_popup.ingredients)
+					return StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
+				end
+			end
+			return false
 		end
-		return true
+		
+		-- Only the pinbar can get clicked without crafting being open.
+		-- If we don't short-circuit here then it will announce whatever the last displayed recipe was,
+		-- even if we just click on the sliver of the menu on the edge
+		if not self:IsCraftingOpen() then
+			return false
+		end
+		
+		-- Check to see if we're clicking on a recipe tile in the grid
+		local recipe_grid = self.craftingmenu.recipe_grid
+		local last_focused_recipe = recipe_grid.widgets_to_update[recipe_grid.focused_widget_index]
+		if last_focused_recipe.focus then
+			-- The mouse was over this recipe when it clicked
+			return StatusAnnouncer:AnnounceRecipe(last_focused_recipe.data.recipe)
+		end
+		
+		local crafting_details = self.craftingmenu.details_root
+		local recipe = crafting_details.data.recipe
+		-- Check if we clicked on a skin
+		if crafting_details.skins_spinner.focus then
+			local skin = crafting_details.skins_spinner:GetItem()
+			if skin then
+				return StatusAnnouncer:AnnounceSkin(recipe, skin)
+			end
+			-- If it was set to default, consider this a normal "announce item"
+		end
+		
+		-- Check if an ingredient in the description got clicked
+		local ingredient = GetClickedIngredient(recipe, crafting_details.ingredients)
+		
+		-- Default to announcing the current selected recipe, passing in ingredient if found
+		return StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
 	elseif not TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT) then
-		return CraftSlot_OnControl(self, control, down, ...)
+		return CraftingMenuHUD_OnControl(self, control, down, ...)
+	end
+end
+local CraftingMenuHUD_RefreshCraftingHelpText = CraftingMenuHUD.RefreshCraftingHelpText
+function CraftingMenuHUD:RefreshCraftingHelpText(...)
+	CraftingMenuHUD_RefreshCraftingHelpText(self, ...)
+	if self.is_open then
+		local hint = self.nav_hint:GetString()
+		hint = hint .. "  " .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), GLOBAL.CONTROL_CANCEL) .. " " .. ANNOUNCE_STRINGS._.ANNOUNCE_HINT
+		self.nav_hint:SetString(hint)
 	end
 end
 
---Captures mouse clicks on inventory items, and prevents them from doing other stuff if we announced
+-- Captures mouse clicks on inventory items, and prevents them from doing other stuff if we announced
 for _,classname in pairs({"invslot", "equipslot"}) do
 	local SlotClass = require("widgets/"..classname)
 	local SlotClass_OnControl = SlotClass.OnControl
@@ -494,7 +498,7 @@ for _,classname in pairs({"invslot", "equipslot"}) do
 		if down and control == GLOBAL.CONTROL_ACCEPT
 			and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT)
 			and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_TRADE)
-			and self.tile then --ignore empty slots
+			and self.tile then -- ignore empty slots
 			return StatusAnnouncer:AnnounceItem(self)
 		else
 			return SlotClass_OnControl(self, control, down, ...)
@@ -503,22 +507,22 @@ for _,classname in pairs({"invslot", "equipslot"}) do
 end
 
 local InventoryBar = require("widgets/inventorybar")
---Captures controller input for inventory
+-- Captures controller input for inventory
 local InventoryBar_OnControl = InventoryBar.OnControl
 function InventoryBar:OnControl(control, down, ...)
-	if InventoryBar_OnControl(self, control, down, ...) then return true end --prioritize normal controls
-	--catch a few other "do nothing" scenarios
+	if InventoryBar_OnControl(self, control, down, ...) then return true end -- prioritize normal controls
+	-- catch a few other "do nothing" scenarios
 	if down or not self.open then return end
 	
-	local inv_item = self:GetCursorItem() --this is the active inventory tile item
-	if control == GLOBAL.CONTROL_USE_ITEM_ON_ITEM and inv_item then --Y button
-		--We shouldn't actually need to check if it's the other scenario for this,
+	local inv_item = self:GetCursorItem() -- this is the active inventory tile item
+	if control == GLOBAL.CONTROL_USE_ITEM_ON_ITEM and inv_item then -- Y button
+		-- We shouldn't actually need to check if it's the other scenario for this,
 		-- because it would've returned true above
-		--also, GetCursorItem() returns nil if there's no active slot, so we know it exists
+		-- also, GetCursorItem() returns nil if there's no active slot, so we know it exists
 		return StatusAnnouncer:AnnounceItem(self.active_slot)
 	end
 end
---Add the Announce hint text
+-- Add the Announce hint text
 local InventoryBar_UpdateCursorText = InventoryBar.UpdateCursorText
 function InventoryBar:UpdateCursorText(...)
 	InventoryBar_UpdateCursorText(self, ...)
