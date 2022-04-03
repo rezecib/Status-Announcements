@@ -1,6 +1,7 @@
 ANNOUNCE_STRINGS = {
 	-- These are not character-specific strings, but are here to ease translation
 	-- Note that spaces at the beginning and end of these are important and should be preserved
+	-- 简体中文版本 Simplified Chinese Version
 	_ = {
 		getArticle = function(name)
 			--This checks if the name starts with a vowel, and uses "an" if so, "a" otherwise
@@ -10,14 +11,14 @@ ANNOUNCE_STRINGS = {
 		-- This isn't perfect for making plural even in English, but it's close enough
 		S = "个",
 		STAT_NAMES = {
-			Hunger = "饥饿值",
-			Sanity = "脑残值",
+			Hunger = "饥饿度",
+			Sanity = "精神值",
 			Health = "生命值",
-			["Log Meter"] = "木头值",
-			Wetness = "雨露值",
-			Age = "年齡",
-			Abigail = "阿比蓋爾",
-			Inspiration = "靈感",
+			["Log Meter"] = "怪物度",
+			Wetness = "潮湿度",
+			Age = "年龄",
+			Abigail = "阿比盖尔",
+			Inspiration = "灵感",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {
@@ -44,29 +45,29 @@ ANNOUNCE_STRINGS = {
 			--One of these goes into {WITH}
 			WITH = " 拥有 ", --if it's only one thing
 			AND_THIS_ONE_HAS = ", 这个拥有 ", --if there are multiple, show durability of one
-			AND_THIS_ONE_IS = ", 这个拥是 ", --if there are multiple, show durability of one
+			AND_THIS_ONE_IS = ", 这个拥有 ", --if there are multiple, show durability of one
 			
 			--{PERCENT} is acquired from the item's durability
 			
 			--Goes into {DURABILITY}
 			DURABILITY = " 的耐久度",
-			FRESHNESS = " 新鲜",
-			RECHARGE = " 的費用",
+			FRESHNESS = " 的新鲜度",
+			RECHARGE = " 的费用",
 			
 			-- Optionally added into {PERCENT}
 			REMAINING = {
-				DURABILITY = "剩餘 {AMOUNT} 次使用", -- note that this is unused because durability is only published as a percent to clients
-				FRESHNESS = "還剩 {AMOUNT} 天", -- note that this is unused because perishables only publish percent to clients
-				RECHARGE = "充電 {AMOUNT} 分鐘",
+				DURABILITY = "剩余 {AMOUNT} 次使用", -- note that this is unused because durability is only published as a percent to clients
+				FRESHNESS = "还剩 {AMOUNT} 天", -- note that this is unused because perishables only publish percent to clients
+				RECHARGE = "充电 {AMOUNT} 分钟",
 			},
 			
 			-- Optionally added into {ITEM} or {WITH} for thermal stones.
 			HEATROCK = {
-				"冱",
+				"冻",
 				"冷",
-				"在室溫下",
-				"燠",
-				"燙",
+				"室温状态",
+				"暖",
+				"烫",
 			}
 		},
 		ANNOUNCE_RECIPE = {
@@ -84,7 +85,7 @@ ANNOUNCE_STRINGS = {
 			--One of these goes into {TO_DO}
 			I_HAVE = "我做好了 ", --for pre-built
 			ILL_MAKE = "我可以制作 ", --for known recipes where you have ingredients
-			CAN_SOMEONE = "有人可以帮我做 ", --for unknown recipes
+			CAN_SOMEONE = "有人可以帮我制作 ", --for unknown recipes
 			WE_NEED = "我需要制造 ", --for known recipes where you don't have ingredients
 			
 			--{THIS_MANY} uses getArticle above to get the right article ("a", "an")
@@ -94,7 +95,7 @@ ANNOUNCE_STRINGS = {
 			--{S} uses S above
 
 			--Goes into {PRE_BUILT}
-			PRE_BUILT = " 准备放置",
+			PRE_BUILT = " 准备建造",
 			
 			--This goes into {END_Q} if it's a question
 			END_Q = "吗?",
@@ -145,23 +146,24 @@ ANNOUNCE_STRINGS = {
 			
 			--{TEMPERATURE} is picked from this
 			TEMPERATURE = {
-				BURNING = "过热了！",
-				HOT = "几乎过热！",
+				BURNING = "要热死啦，快帮我扇扇风！",
+				HOT = "感觉好热，想要吃根雪糕！",
 				WARM = "有点热。",
-				GOOD = "在一个舒适的温度。",
-				COOL = "稍微有点冷。",
-				COLD = "几乎冻结！",
-				FREEZING = " “凝固”了！",
+				GOOD = "感觉温度很舒适。",
+				COOL = "稍微有点冷，要穿厚一点了。",
+				COLD = "要冻成冰块了，火炉在哪里？",
+				FREEZING = " 已经凝固了，救命！",
 			},
 		},
 		ANNOUNCE_SEASON = "{SEASON}天還有{DAYS_LEFT}天。",
 		ANNOUNCE_GIFT = {
-			CAN_OPEN = "我有一个礼物，我要打开它！",
-			NEED_SCIENCE = "我需要额外的科学来打开这个礼物！",
+			CAN_OPEN = "我有一个礼物，这次一定能出红！",
+			NEED_SCIENCE = "我需要科学来打开这个礼物，我觉得我能出红！",
 		},
 		ANNOUNCE_HINT = "宣告",
 	},
 	-- Everything below is character-specific
+	-- 不要修改角色顺序，未翻译角色似乎为mod角色，误删，mod依赖其运行
 	UNKNOWN = {
 		HUNGER = {
 			FULL  = "高于75%..我完全饱了！", 				-- >75%
@@ -192,7 +194,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "我有一点点潮湿...", 								-- <15%
 		},
 	},
-	WILSON = {
+	WILSON = {    --威尔逊
 		HUNGER = {
 			FULL  = "我填满了肚子！",
 			HIGH  = "我还不缺乏吃的。",
@@ -222,7 +224,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "我比较干燥。",
 		},
 	},
-	WILLOW = {
+	WILLOW = {    --薇洛
 		HUNGER = {
 			FULL  = "如果我不停止吃会发胖的。",
 			HIGH  = "愉快又饱满的。",
@@ -252,7 +254,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "没有足够的雨水能灭了火。",
 		},
 	},
-	WOLFGANG = {
+	WOLFGANG = {    --大理石
 		HUNGER = {
 			FULL  = "沃尔夫冈是充实而强大的!",
 			HIGH  = "沃尔夫冈必须吃饱，才能变得更加强大！！",
@@ -282,11 +284,11 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "沃尔夫冈是干燥的。",
 		},
 	},
-	WENDY = {
+	WENDY = {       --温蒂
 		HUNGER = {
-			FULL  = "即使再多的食物也不会填补我心中的空洞。",
-			HIGH  = "我饱了，但仍渴望没有朋友可以提供的东西。",
-			MID   = "我不饿，但也不饱。很奇怪的感觉。",
+			FULL  = "再多的食物也不会填补我心中的空洞。",
+			HIGH  = "我吃饱了，但仍然渴望一些朋友无法提供的东西。",
+			MID   = "我不饿，也不饱。奇怪。",
 			LOW   = "我的肚子就像心灵一样充满了空虚。",
 			EMPTY = "我发现最慢的死法——饿死。",
 		},
@@ -312,44 +314,44 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "我的皮肤和我的心灵一样干。",
 		},
 		ABIGAIL = {
-			FULL  = "阿比蓋爾比以往任何時候都更亮！",
-			HIGH  = "阿比蓋爾光芒四射。",
-			MID   = "阿比蓋爾開始衰落……",
-			LOW   = "小心點，阿比蓋爾！ 我再也見不到你了！",
-			EMPTY = "不要離開我，阿比蓋爾！",
+			FULL  = "阿比盖尔比以往任何時候都更亮！",
+			HIGH  = "阿比盖尔光芒四射。",
+			MID   = "阿比盖尔开始衰落……",
+			LOW   = "小心點，阿比盖尔！ 我再也見不到你了！",
+			EMPTY = "不要离开我，阿比盖尔！",
 		},
 	},
-	WX78 = {
+	WX78 = {        --机器人
 		HUNGER = {
 			FULL  = "  燃料 状态：最大容量",
 			HIGH  = "  燃料 状态：高的 ",
-			MID   = "  燃料 状态：合意的 ",
-			LOW   = "  燃料 状态：低的 ",
-			EMPTY = "  燃料 状态：危险的 ",
+			MID   = "  燃料 状态：中等水平 ",
+			LOW   = "  燃料 状态：低水平，请补充燃料 ",
+			EMPTY = "  燃料 状态：已耗尽！即将停机 ",
 		},
 		SANITY = {
-			FULL  = "  CPU 状态：全面运转",
-			HIGH  = "  CPU 状态：功能的",
-			MID   = "  CPU 状态：破损的",
-			LOW   = "  CPU 状态：故障迫近",
-			EMPTY = "  CPU 状态：多重故障检测",
+			FULL  = "  中央处理器 状态：状态稳定，启动超频",
+			HIGH  = "  中央处理器 状态：满频率运行中",
+			MID   = "  中央处理器 状态：自动降频",
+			LOW   = "  中央处理器 状态：出现逻辑故障",
+			EMPTY = "  中央处理器 状态：核心单元已损坏",
 		},
 		HEALTH = {
-			FULL  = "  底盘 状态：理想状况",
-			HIGH  = "  底盘 状态：裂纹检测",
-			MID   = "  底盘 状态：中度损坏",
-			LOW   = "  底盘 状态：完全性损坏",
-			EMPTY = "  底盘 状态：无功能的",
+			FULL  = "  装甲 状态：装甲完好",
+			HIGH  = "  装甲 状态：检测到裂纹",
+			MID   = "  装甲 状态：中度损坏",
+			LOW   = "  装甲 状态：装甲严重受损",
+			EMPTY = "  装甲 状态：装甲完全破损",
 		},
 		WETNESS = {
-			FULL  = "  受潮 状况：已达临界值",
-			HIGH  = "  受潮 状况：接近临界值",
-			MID   = "  受潮 状况：无法接受的",
-			LOW   = "  受潮 状况：可容许的",
-			EMPTY = "  受潮 状况：合意的",
+			FULL  = "  受潮 状况：机体即将报废",
+			HIGH  = "  受潮 状况：电路已短路",
+			MID   = "  受潮 状况：装甲已出现锈蚀",
+			LOW   = "  受潮 状况：机体轻微受潮",
+			EMPTY = "  受潮 状况：装甲表面沾水",
 		},
 	},
-	WICKERBOTTOM = {
+	WICKERBOTTOM = {    --图书管理员
 		HUNGER = {
 			FULL  = "我应该从事研究工作，而不是填充自己。",
 			HIGH  = "充斥的，但不是臃肿的。",
@@ -379,7 +381,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "我的水分是足够缺乏的。",
 		},
 	},
-	WOODIE = {
+	WOODIE = {      --伍迪
 		HUMAN = { -- human form
 			HUNGER = {
 				FULL  = "全部都满了！",
@@ -455,7 +457,7 @@ ANNOUNCE_STRINGS = {
 			},
 		},
 	},
-	WES = {
+	WES = {         --韦斯
 		HUNGER = {
 			FULL  = "*拍拍肚子*",
 			HIGH  = "*拍拍肚子*",
@@ -485,7 +487,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "*微笑，拿着无形的保护伞*",
 		},
 	},
-	WAXWELL = {
+	WAXWELL = {     --麦斯威尔
 		HUNGER = {
 			FULL  = "我已经吃了完美的盛宴。",
 			HIGH  = "我很满足，但是不要过量。",
@@ -496,9 +498,9 @@ ANNOUNCE_STRINGS = {
 		SANITY = {
 			FULL  = "衣冠楚楚的可以。",
 			HIGH  = "我通常坚定的智慧似乎是……摇摆不定。",
-			MID   = "Ugh，我头好痛。",
+			MID   = "啊，我头好痛。",
 			LOW   = "我需要明确我的头脑，我开始看到……它们。",
-			EMPTY = "Help！这些阴影是真正的野兽，你要知道！",
+			EMPTY = "救命！这些阴影是真正的野兽，你要知道！",
 		},
 		HEALTH = {
 			FULL  = "我完全安然无恙。",
@@ -515,7 +517,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "干燥而整洁的。",
 		},
 	},
-	WEBBER = {
+	WEBBER = {      --韦伯
 		HUNGER = {
 			FULL  = "我们两者的胃部都爆满了。",				-- >75%
 			HIGH  = "我们可以再多啃一点。",					-- >55%
@@ -545,17 +547,17 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "我们喜欢在坑里玩耍。", 					-- <15%
 		},
 	},
-	WATHGRITHR = {
+    WATHGRITHR = {    --女武神
 		HUNGER = {
-			FULL  = "我渴望战斗，无需肉！", 				-- >75%
-			HIGH  = "我足够满足于战斗。",					-- >55%
+			FULL  = "我渴望战斗，而不是肉！", 				-- >75%
+			HIGH  = "足够满足于战斗。",					-- >55%
 			MID   = "我可以有一个肉类零食。", 					-- >35%
 			LOW   = "我渴望一场盛宴！", 							-- >15%
 			EMPTY = "没有一些肉我就饿死了！", 				-- <15%
 		},
 		SANITY = {
 			FULL  = "我担心没有凡人!", 							-- >75%
-			HIGH  = "我会在战场上感觉更好！", 					-- >55%
+			HIGH  = "我在战场上感觉更好！", 					-- >55%
 			MID   = "我迷离的思绪……", 							-- >35%
 			LOW   = "这些阴影穿过我的矛……", -- >15%
 			EMPTY = "退后,黑暗怪兽！", 				-- <15%
@@ -563,25 +565,25 @@ ANNOUNCE_STRINGS = {
 		HEALTH = {
 			FULL  = "我的皮肤是无懈可击的！", 					-- 100%
 			HIGH  = "它只是一个轻伤！", 					-- >75%
-			MID   = "我受伤了，但我还能战斗。", 			-- >50%
+			MID   = "我受了伤，但我仍然可以战斗。", 			-- >50%
 			LOW   = "没有援助,我很快就会在瓦尔哈拉殿堂……", 	-- >25%
-			EMPTY = "我的传奇人生即将结束……", 					-- <25%
+			EMPTY = "我的传奇人生即将谢幕……", 					-- <25%
 		},
 		WETNESS = {
 			FULL  = "我完全湿透了！", 					-- >75%
-			HIGH  = "一个战士在这雨天无法战斗！",				-- >55%
-			MID   = "我的护甲会生锈！", 							-- >35%
-			LOW   = "我不需要洗澡。", 				-- >15%
-			EMPTY = "干澡够了继续战斗！", 						-- <15%
+			HIGH  = "一个战士无法在这雨天战斗！",				-- >55%
+			MID   = "我的盔甲会生锈！", 							-- >35%
+			LOW   = "这之后我就不需要洗澡了。", 				-- >15%
+			EMPTY = "干燥程度足以战斗！", 						-- <15%
 		},
 		INSPIRATION = {
-			FULL  = "我的聲音足以唱三首歌！", 			-- >5/6, 3 songs
-			HIGH  = "我可以自己唱二重唱了！",						-- >3/6, 2 songs
-			MID   = "我準備好唱歌了！", 									-- >1/6, 1 song
-			LOW   = "我必須讓我的聲音暖和起來……在激烈的戰鬥中！", 	-- <1/6
+			FULL  = "我的声音足以唱三首歌！", 			-- >5/6, 3 songs
+			HIGH  = "我可以自己唱二重唱！",						-- >3/6, 2 songs
+			MID   = "我准备好开始表演了！", 									-- >1/6, 1 song
+			LOW   = "让战斗为我润润嗓子！", 	-- <1/6
 		},
 	},
-	WINONA = {
+	WINONA = {        --女工
 		HUNGER = {
 			FULL = "今天的大餐丰盛无比，我很满足！",
 			HIGH = "我觉得我还可以吃更多！",
@@ -611,127 +613,127 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "干燥清爽，不错的工作环境！",
 		},
 	},
-	WARLY = {
+	WARLY = {         --沃利
 		HUNGER = {
-			FULL  = "My cooking will be the death of me!", 	-- >75%
-			HIGH  = "I think I've had enough, for now.",			-- >55%
-			MID   = "Time for dinner with a side of desert.", 	-- >35%
-			LOW   = "I missed dinner time!", 				-- >15%
-			EMPTY = "Starvation... the worst death!", 			-- <15%
+			FULL  = "我的烹饪将会是我的死亡！", 	-- >75%
+			HIGH  = "我想现在我已经受够了。",			-- >55%
+			MID   = "是时候在沙漠里吃晚餐了。", 	-- >35%
+			LOW   = "我错过了晚饭时间！", 				-- >15%
+			EMPTY = "饥饿……是最难受的死亡方式！", 			-- <15%
 		},
 		SANITY = {
-			FULL  = "The excellent aroma of my dishes keep me sane.", 			-- >75%
-			HIGH  = "I feel a bit woozy.", 				-- >55%
-			MID   = "I can't think straight.", 				-- >35%
-			LOW   = "The whispers... help me!", 			-- >15%
-			EMPTY = "I can't take any more of this insanity!", 	-- <15%
+			FULL  = "我的菜肴散发出的美妙香气让我保持清醒。", 			-- >75%
+			HIGH  = "我觉得有点头晕。", 				-- >55%
+			MID   = "我的脑筋不能转弯了。", 				-- >35%
+			LOW   = "窃窃私语……救命啊！", 			-- >15%
+			EMPTY = "我再也受不了这种精神错乱了！", 	-- <15%
 		},
 		HEALTH = {
-			FULL  = "I'm perfectly fit.", 	-- 100%
-			HIGH  = "I've had worse when chopping onions.", 	-- >75%
-			MID   = "I'm bleeding...", 			-- >50%
-			LOW   = "I could use some aid!", 	-- >25%
-			EMPTY = "Guess this is the end, old friend...", 	-- <25%
+			FULL  = "我非常健康。", 	-- 100%
+			HIGH  = "我切洋葱的时候更糟。", 	-- >75%
+			MID   = "我流血了……", 			-- >50%
+			LOW   = "我可以使用一些帮助！", 	-- >25%
+			EMPTY = "我猜这就是我的结局了，挚友们……", 	-- <25%
 		},
 		WETNESS = {
-			FULL  = "I can feel the fishes swimming in my shirt.", 	-- >75%
-			HIGH  = "Water will ruin my perfectly cooked dishes!",					-- >55%
-			MID   = "I should dry my clothes before I catch a cold.", 				-- >35%
-			LOW   = "This is not the time or place for a bath.", 		-- >15%
-			EMPTY = "Just a few drops on me, no harm.", 				-- <15%
+			FULL  = "我能感觉到鱼在我的衬衫里游泳。", 	-- >75%
+			HIGH  = "水会毁了我完美烹制的菜肴！",					-- >55%
+			MID   = "在我感冒之前，我应该把衣服烘干。", 				-- >35%
+			LOW   = "这不是洗澡的时间或地点。", 		-- >15%
+			EMPTY = "只有几滴在我身上，没有坏处。", 				-- <15%
 		},
 	},
 	WALANI = {
 		HUNGER = {
-			FULL  = "Mmmm, that was a meal made in heaven.", 	-- >75%
-			HIGH  = "I could still go for a snack.",			-- >55%
-			MID   = "Food, food, food!", 	-- >35%
-			LOW   = "My stomach will implode!", 				-- >15%
-			EMPTY = "Please... anything to eat!", 			-- <15%
+			FULL  = "嗯，那是在天堂做的一顿饭。", 	-- >75%
+			HIGH  = "我还可以去吃点小吃。",			-- >55%
+			MID   = "食物，食物，食物！", 	-- >35%
+			LOW   = "我的肚子会爆炸！", 				-- >15%
+			EMPTY = "请……我什么都可以吃！", 			-- <15%
 		},
 		SANITY = {
-			FULL  = "Nothing like surfing to keep me sane.", 			-- >75%
-			HIGH  = "The waves are calling to me.", 				-- >55%
-			MID   = "My head is getting dizzy.", 				-- >35%
-			LOW   = "Ugh! I need my surfboard!", 			-- >15%
-			EMPTY = "What are those... THINGS?!", 	-- <15%
+			FULL  = "没有什么比冲浪更能让我保持清醒。", 			-- >75%
+			HIGH  = "海浪在呼唤我。", 				-- >55%
+			MID   = "我的头越来越晕了。", 				-- >35%
+			LOW   = "啊~ 我需要我的冲浪板！", 			-- >15%
+			EMPTY = "那些是什么……东西！？", 	-- <15%
 		},
 		HEALTH = {
-			FULL  = "Never felt better.", 	-- 100%
-			HIGH  = "A few scratches, no big fuss.", 	-- >75%
-			MID   = "I could use some healing!", 			-- >50%
-			LOW   = "Feels like my insides just gave up on me.", 	-- >25%
-			EMPTY = "Every bone in my body is broken!", 	-- <25%
+			FULL  = "从未有如此美好的感觉！", 	-- 100%
+			HIGH  = "只有几处划痕，不必大惊小怪的。", 	-- >75%
+			MID   = "我可以用一些治疗药膏！", 			-- >50%
+			LOW   = "感觉就像我的内心刚刚放弃了我。", 	-- >25%
+			EMPTY = "我身上的每一根骨头都断了！", 	-- <25%
 		},
 		WETNESS = {
-			FULL  = "I am thoroughly soaked!", 	-- >75%
-			HIGH  = "My clothes seem to be quite wet.",					-- >55%
-			MID   = "I might need a towel soon.", 				-- >35%
-			LOW   = "A little water never hurt anyone.", 		-- >15%
-			EMPTY = "I see a storm coming!", 				-- <15%
+			FULL  = "我彻底湿透了！", 	-- >75%
+			HIGH  = "我的衣服似乎很湿。",					-- >55%
+			MID   = "我可能很快就会需要一条毛巾。", 				-- >35%
+			LOW   = "一点点水永远不会使任何人受伤。", 		-- >15%
+			EMPTY = "我看到风暴即将来临！", 				-- <15%
 		},
 	},
 	WOODLEGS = {
 		HUNGER = {
-			FULL  = "Yarr, that was a fine meal, laddy!", 	-- >75%
-			HIGH  = "I be pretty full on me belly.",			-- >55%
-			MID   = "Tis time for me daily meal.", 	-- >35%
-			LOW   = "Aye! Ye scallywags, where be me food!?", 				-- >15%
-			EMPTY = "I be starvin' to death!", 			-- <15%
+			FULL  = "哎呀，那真是一顿美餐，女士！", 	-- >75%
+			HIGH  = "我的肚子很饱。",			-- >55%
+			MID   = "这是我每天吃饭的时间。", 	-- >35%
+			LOW   = "是的！ 你们这群蠢货，我哪里来的食物！？", 				-- >15%
+			EMPTY = "我快饿死了！", 			-- <15%
 		},
 		SANITY = {
-			FULL  = "Aye, the sea, she's a beaut!", 			-- >75%
-			HIGH  = "Time for a trip on the sea!", 				-- >55%
-			MID   = "I miss me sea...", 				-- >35%
-			LOW   = "Can't remember thar last time I went sailing.", 			-- >15%
-			EMPTY = "I'm a cutlass wielding pirate captain, not a land lubber!", 	-- <15%
+			FULL  = "是的，大海，她是个美女！", 			-- >75%
+			HIGH  = "是时候出海了！", 				-- >55%
+			MID   = "想念我的海...", 				-- >35%
+			LOW   = "不记得我上次去航海是什么时候了。", 			-- >15%
+			EMPTY = "我是一个挥舞着弯刀的海盗船长，而不是一个陆上的笨蛋！", 	-- <15%
 		},
 		HEALTH = {
-			FULL  = "Yarr, I be a tough nut to crack!", 	-- 100%
-			HIGH  = "Is that all ye got?", 	-- >75%
-			MID   = "I arn't giving up yet!", 			-- >50%
-			LOW   = "Woodlegs arn't no chicken!", 	-- >25%
-			EMPTY = "Arr! You win, scallywag!", 	-- <25%
+			FULL  = "哎呀，我是个难对付的疯子！", 	-- 100%
+			HIGH  = "这就是你们得到的全部吗？", 	-- >75%
+			MID   = "我还没有放弃！", 			-- >50%
+			LOW   = "伍德莱格不是懦夫！", 	-- >25%
+			EMPTY = "是！ 你赢了，混蛋！", 	-- <25%
 		},
 		WETNESS = {
-			FULL  = "Me soaked to th' bones!", 	-- >75%
-			HIGH  = "I likes me water to stay 'neath me boat.",					-- >55%
-			MID   = "Me pirate blouse be takin' on water.", 				-- >35%
-			LOW   = "Me britches be soaked!", 		-- >15%
-			EMPTY = "Arr! A storm be brewing.", 				-- <15%
+			FULL  = "我的骨头都湿透了！", 	-- >75%
+			HIGH  = "我喜欢我的水留在我的船里。",					-- >55%
+			MID   = "我的海盗衬衫被水打了。", 				-- >35%
+			LOW   = "我的裤子都湿透了！", 		-- >15%
+			EMPTY = "哎呀！一场风暴正在酝酿之中。", 				-- <15%
 		},
 	},
 	WILBUR = {
 		HUNGER = {
-			FULL  = "*hops around clapping his hands*", 	-- >75%
-			HIGH  = "*claps hands happily*",			-- >55%
-			MID   = "*rubs his belly*", 	-- >35%
-			LOW   = "*sad look and rubs belly*", 				-- >15%
-			EMPTY = "OOAOE! *rubs helly*", 			-- <15%
+			FULL  = "*跳来跳去拍手*", 	-- >75%
+			HIGH  = "*开心地拍手*",			-- >55%
+			MID   = "*揉揉肚子*", 	-- >35%
+			LOW   = "*悲伤的表情揉肚子*", 				-- >15%
+			EMPTY = "OOAOE! *擦得很厉害*", 			-- <15%
 		},
 		SANITY = {
-			FULL  = "*knocks on head*", 			-- >75%
-			HIGH  = "*gives thumbs up*", 				-- >55%
-			MID   = "*looks scared*", 				-- >35%
-			LOW   = "*screams hauntingly*", 			-- >15%
+			FULL  = "*敲敲脑袋*", 			-- >75%
+			HIGH  = "*竖起大拇指*", 				-- >55%
+			MID   = "*看起来很害怕*", 				-- >35%
+			LOW   = "*令人难以忘怀的尖叫*", 			-- >15%
 			EMPTY = "OOAOE! OOOAH!", 	-- <15%
 		},
 		HEALTH = {
-			FULL  = "*pounds chest with both hands*", 	-- 100%
-			HIGH  = "*pounds chest*", 	-- >75%
-			MID   = "*tenderly rubs missing patches of fur*", 			-- >50%
-			LOW   = "*limps miserably*", 	-- >25%
+			FULL  = "*用双手捶胸*", 	-- 100%
+			HIGH  = "*磅胸*", 	-- >75%
+			MID   = "*温柔地揉搓缺失的毛皮*", 			-- >50%
+			LOW   = "*一瘸一拐*", 	-- >25%
 			EMPTY = "OAOOE! OOOOAE!", 	-- <25%
 		},
 		WETNESS = {
-			FULL  = "*sneezes*", 	-- >75%
-			HIGH  = "*rubs arms together*",					-- >55%
+			FULL  = "*打喷嚏*", 	-- >75%
+			HIGH  = "*双臂摩擦*",					-- >55%
 			MID   = "Ooo! Ooae!", 				-- >35%
 			LOW   = "Oooh?", 		-- >15%
 			EMPTY = "Ooae Oooh Oaoa! Ooooe.", 				-- <15%
 		},
 	},
-	WORMWOOD = {
+	WORMWOOD = {       --植物人
 		HUNGER = {
 			FULL  = "腹部填充物过剩！",
 			HIGH  = "不需要腹部填充物。",
@@ -761,8 +763,8 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "干燥清爽！",
 		},
 	},
-	WURT = {
-		HUNGER = {
+	WURT = {           --小鱼人沃特
+		HUNGER = {               
 			FULL  = "Glurgh，我不要了。",
 			HIGH  = "我不饿, florpt。",
 			MID   = "我还能吃得下一些。",
@@ -791,7 +793,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "太干燥了, glorp.",
 		}
 	},
-	WORTOX = {
+	WORTOX = {         --恶魔人
 		HUNGER = {
 			FULL  = "就不应该吃这么饱，肚子撑的要命！",
 			HIGH  = "“魂”足饭饱，去恶作剧吧！Hyuyu!",
@@ -819,6 +821,66 @@ ANNOUNCE_STRINGS = {
 			MID   = "不久的将来这会有一只湿漉漉的恶魔！",
 			LOW   = "世界正赐予我一场淋浴!",
 			EMPTY = "如果我想保持干燥的话，我应该都留意一下天气！",
+		}
+	},
+	WANDA = {          --旺达
+		HUNGER = {
+			FULL  = "我需要一段时间来消化这全部！",							-- >75%
+			HIGH  = "我仍然从之前吃饱了。或之后。",						-- >55%
+			MID   = "我有足够的时间吃点零食休息！", 					-- >35%
+			LOW   = "我的胃是它自己流逝的时间！", 						-- >15%
+			EMPTY = "如果我现在不吃东西，时间会很快赶上我！", 	-- <15%
+		},
+		SANITY = {
+			FULL  = "这个时间线的一切看起来都这么正常！", 							-- >75%
+			HIGH  = "感觉足够宏伟，可以实现一些量子飞跃！",							-- >55%
+			MID   = "如果我不带着表，我就不知道现在是什么时间了！",	-- >35%
+			LOW   = "现实正在分崩离析！", 											-- >15%
+			EMPTY = "你永远也抓不到我！过去、现在或将来！", 					-- <15%
+		},
+		HEALTH = {
+			FULL  = "他们说你的20岁，毕竟是你最好的岁月！",					 	-- 100%
+			HIGH  = "仍然年轻，充满活力！", 										-- >75%
+			MID   = "等待一声滴答！我需要一点时间来恢复！", 							-- >50%
+			LOW   = "我只是需要更多的时间！", 												-- >25%
+			EMPTY = "我的沙漏的沙子快要用完了！",					 	-- <25%},
+		},
+		WETNESS = {
+			FULL  = "时间就像雨水，流逝不止！", 								-- >75%
+			HIGH  = "如果持续下去，我的怀表就会生锈！",						-- >55%
+			MID   = "我有多少年没这么湿了？", 						-- >35%
+			LOW   = "哦，打扰！我需要从这场雨中找到一些掩护！", 					-- >15%
+			EMPTY = "与旅行的时间复杂性相比，一点点雨算不了什么！", 	-- <15%
+		}
+	},
+	WALTER = {               
+		HUNGER = {
+			FULL  = "松树先锋队员总是饱腹奔跑！", 	-- >75%
+			HIGH  = "我应该为我们的下一次徒步旅行准备一份零食。",			-- >55%
+			MID   = "我希望我在沃比里打包了一些零食...", 				-- >35%
+			LOW   = "我希望我们能吃到更多！", 						-- >15%
+			EMPTY = "别担心，姑娘，我们很快就会找到一些肮脏的东西！", 		-- <15%
+		},
+		SANITY = {
+			FULL  = "我的先锋意识比以往任何时候都要好！", 	-- >75%
+			HIGH  = "一个故事来缓解紧张气氛怎么样？", 	-- >55%
+			MID   = "你也听到了吗 沃比？", 		-- >35%
+			LOW   = "嘿，沃比，你看到了吗？！", 			-- >15%
+			EMPTY = "我的故事中的怪物是真实存在的！", 	-- <15%
+		},
+		HEALTH = {
+			FULL  = "这里没有瘀伤或蜜蜂叮蛰！", 					-- 100%
+			HIGH  = "没有松树先锋无法处理的事情！",		 	-- >75%
+			MID   = "我的急救培训即将派上用场！", -- >50%
+			LOW   = "沃比应该把我带到安全的地方！", 					-- >25%
+			EMPTY = "你可能还要继续，没有我的女孩...", 		-- <25%
+		},
+		WETNESS = {
+			FULL  = "现在我浑身都是褶皱！",					 	-- >75%
+			HIGH  = "有没有人记得打包毛巾？",		-- >55%
+			MID   = "我所有的徽章都湿透了！", 				-- >35%
+			LOW   = "只是一点水！", 					-- >15%
+			EMPTY = "我经历过更糟糕的风暴！", 		-- <15%
 		}
 	},
 }
