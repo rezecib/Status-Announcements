@@ -169,7 +169,7 @@ function StatusAnnouncer:AnnounceItem(slot)
 	local with = ""
 	local durability = ""
 	if SHOWDURABILITY and percent then
-		with = plural 
+		with = plural
 				and S.ANNOUNCE_ITEM.AND_THIS_ONE_HAS
 				 or S.ANNOUNCE_ITEM.WITH
 		durability = percent and S.ANNOUNCE_ITEM[percent_type]
@@ -192,7 +192,7 @@ function StatusAnnouncer:AnnounceItem(slot)
 	if thermal_stone_warmth then
 		if plural then
 			with = S.ANNOUNCE_ITEM.AND_THIS_ONE_IS .. thermal_stone_warmth .. S.ANNOUNCE_ITEM.WITH
-		else			
+		else
 			name = thermal_stone_warmth .. " " .. name
 		end
 	end
@@ -215,50 +215,50 @@ end
 -- Almost identical to CraftingMenuDetails:_GetHintTextForRecipe
 -- copied for stability reasons, and out of respect for the naming hint that it was intended to be local
 local function GetMinPrototyperTree(recipe)
-    local validmachines = {}
-    local adjusted_level = deepcopy(recipe.level)
+	local validmachines = {}
+	local adjusted_level = deepcopy(recipe.level)
 
-    -- Adjust recipe's level for bonus so that the hint gives the right message
+	-- Adjust recipe's level for bonus so that the hint gives the right message
 	local tech_bonus = ThePlayer.replica.builder:GetTechBonuses()
 	for k, v in pairs(adjusted_level) do
 		adjusted_level[k] = math.max(0, v - (tech_bonus[k] or 0))
 	end
 
-    for k, v in pairs(TUNING.PROTOTYPER_TREES) do
-        local canbuild = CanPrototypeRecipe(adjusted_level, v)
-        if canbuild then
-            table.insert(validmachines, {TREE = tostring(k), SCORE = 0})
-        end
-    end
+	for k, v in pairs(TUNING.PROTOTYPER_TREES) do
+		local canbuild = CanPrototypeRecipe(adjusted_level, v)
+		if canbuild then
+			table.insert(validmachines, {TREE = tostring(k), SCORE = 0})
+		end
+	end
 
-    if #validmachines > 0 then
-        if #validmachines == 1 then
-            --There's only once machine is valid. Return that one.
-            return validmachines[1].TREE
-        end
+	if #validmachines > 0 then
+		if #validmachines == 1 then
+			--There's only once machine is valid. Return that one.
+			return validmachines[1].TREE
+		end
 
-        --There's more than one machine that gives the valid tech level! We have to find the "lowest" one (taking bonus into account).
-        for k,v in pairs(validmachines) do
-            for rk,rv in pairs(adjusted_level) do
-                local prototyper_level = TUNING.PROTOTYPER_TREES[v.TREE][rk]
-                if prototyper_level and (rv > 0 or prototyper_level > 0) then
-                    if rv == prototyper_level then
-                        --recipe level matches, add 1 to the score
-                        v.SCORE = v.SCORE + 1
-                    elseif rv < prototyper_level then
-                        --recipe level is less than prototyper level, remove 1 per level the prototyper overshot the recipe
-                        v.SCORE = v.SCORE - (prototyper_level - rv)
-                    end
-                end
-            end
-        end
+		--There's more than one machine that gives the valid tech level! We have to find the "lowest" one (taking bonus into account).
+		for k,v in pairs(validmachines) do
+			for rk,rv in pairs(adjusted_level) do
+				local prototyper_level = TUNING.PROTOTYPER_TREES[v.TREE][rk]
+				if prototyper_level and (rv > 0 or prototyper_level > 0) then
+					if rv == prototyper_level then
+						--recipe level matches, add 1 to the score
+						v.SCORE = v.SCORE + 1
+					elseif rv < prototyper_level then
+						--recipe level is less than prototyper level, remove 1 per level the prototyper overshot the recipe
+						v.SCORE = v.SCORE - (prototyper_level - rv)
+					end
+				end
+			end
+		end
 
-        table.sort(validmachines, function(a,b) return (a.SCORE) > (b.SCORE) end)
+		table.sort(validmachines, function(a,b) return (a.SCORE) > (b.SCORE) end)
 
-        return validmachines[1].TREE
-    end
+		return validmachines[1].TREE
+	end
 
-    return "CANTRESEARCH"
+	return "CANTRESEARCH"
 end
 
 local tree_to_prefab = {
@@ -510,16 +510,16 @@ end
 
 --The other arguments are here so that mods can use them to override this function
 -- and avoid some of these stats if their character doesn't have them
-function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health, moisture, wereness, pethealth, inspiration)
+function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health, moisture, wereness, pethealth, inspiration, boat)
 	local stat_categorynames = {"EMPTY", "LOW", "MID", "HIGH", "FULL"}
 	local default_thresholds = {	.15,	.35,	.55,	.75		 }
-	
+
 	local status = HUD.controls.status
 	local has_weremode = type(status.wereness) == "table"
 	local switch_fn = has_weremode
 		and function(ThePlayer) return ThePlayer.weremode:value() ~= 0 and "WEREBEAVER" or "HUMAN" end
-		or nil 
-	
+		or nil
+
 	if hunger ~= false and type(status.stomach) == "table" then
 		self:RegisterStat(
 			"Hunger",
@@ -614,6 +614,25 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			function(ThePlayer)
 				return	ThePlayer.player_classified.moisture:value(),
 						ThePlayer.player_classified.maxmoisture:value()
+			end,
+			switch_fn
+		)
+	end
+	if boat ~= false and type(status.boatmeter) == "table" then
+		self:RegisterStat(
+			"Boat",
+			status.boatmeter,
+			CONTROL_ROTATE_LEFT,
+			{ .0001, .35, .65, .85 },
+			stat_categorynames,
+			function(player)
+				local boat = player.components.walkableplatformplayer and player.components.walkableplatformplayer.platform
+				local healthsyncer = boat and boat.components.healthsyncer
+				if not (healthsyncer and healthsyncer.max_health) then
+					return 0, 0
+				else
+					return math.ceil(healthsyncer.max_health * healthsyncer:GetPercent()), healthsyncer.max_health -- Klei yydsb
+				end
 			end,
 			switch_fn
 		)
