@@ -17,6 +17,7 @@ ANNOUNCE_STRINGS = {
 			["Log Meter"] = "怪物度",
 			Wetness = "潮湿度",
 			Age = "年龄",
+			Boat = "船",
 			Abigail = "阿比盖尔",
 			Inspiration = "灵感",
 			--Other mod stats won't have translations, but at least we can support these
@@ -25,42 +26,42 @@ ANNOUNCE_STRINGS = {
 			-- This needs to reflect the translating language's grammar
 			-- For example, this might become "I have 6 papyrus in this chest."
 			FORMAT_STRING = "{I_HAVE}{THIS_MANY} {S}{ITEM}{IN_THIS}{CONTAINER}{WITH}{PERCENT}{DURABILITY}。",
-			
+
 			--One of these goes into {I_HAVE}
 			I_HAVE = "我拥有 ",
 			WE_HAVE = "我们拥有 ",
-			
+
 			--{THIS_MANY} is a number if multiple, but singular varies a lot by language,
 			-- so we use getArticle above to get it
-			
+
 			--{ITEM} is acquired from item.name
-			
+
 			--{S} uses S above
-			
+
 			--Goes into {IN_THIS}, if present
 			IN_THIS = " 在这个 ",
-			
+
 			--{CONTAINER} is acquired from container.name
-			
+
 			--One of these goes into {WITH}
 			WITH = " 拥有 ", --if it's only one thing
 			AND_THIS_ONE_HAS = ", 这个拥有 ", --if there are multiple, show durability of one
 			AND_THIS_ONE_IS = ", 这个拥有 ", --if there are multiple, show durability of one
-			
+
 			--{PERCENT} is acquired from the item's durability
-			
+
 			--Goes into {DURABILITY}
 			DURABILITY = " 的耐久度",
 			FRESHNESS = " 的新鲜度",
 			RECHARGE = " 的费用",
-			
+
 			-- Optionally added into {PERCENT}
 			REMAINING = {
 				DURABILITY = "剩余 {AMOUNT} 次使用", -- note that this is unused because durability is only published as a percent to clients
 				FRESHNESS = "还剩 {AMOUNT} 天", -- note that this is unused because perishables only publish percent to clients
 				RECHARGE = "充电 {AMOUNT} 分钟",
 			},
-			
+
 			-- Optionally added into {ITEM} or {WITH} for thermal stones.
 			HEATROCK = {
 				"冻",
@@ -78,31 +79,31 @@ ANNOUNCE_STRINGS = {
 			-- "Can someone make me an alchemy engine? I would need a science machine for it." -> not known
 			-- "We need more drying racks." -> known but don't have ingredients
 			FORMAT_STRING = "{START_Q}{TO_DO}{THIS_MANY}{S}{ITEM}{PRE_BUILT}{END_Q}{I_NEED}{A_PROTO}{PROTOTYPER}{FOR_IT}。",
-			
+
 			--{START_Q} is for languages that match ? at both ends
 			START_Q = "", --English doesn't do that
-			
+
 			--One of these goes into {TO_DO}
 			I_HAVE = "我做好了 ", --for pre-built
 			ILL_MAKE = "我可以制作 ", --for known recipes where you have ingredients
 			CAN_SOMEONE = "有人可以帮我制作 ", --for unknown recipes
 			WE_NEED = "我需要制造 ", --for known recipes where you don't have ingredients
-			
+
 			--{THIS_MANY} uses getArticle above to get the right article ("a", "an")
-			
+
 			--{ITEM} comes from the recipe.name
-			
+
 			--{S} uses S above
 
 			--Goes into {PRE_BUILT}
 			PRE_BUILT = " 准备建造",
-			
+
 			--This goes into {END_Q} if it's a question
 			END_Q = "吗?",
-			
+
 			--Goes into {I_NEED}
 			I_NEED = " 我需要 ",
-			
+
 			--Goes into {FOR_IT}
 			FOR_IT = " 才能制造它",
 		},
@@ -111,10 +112,10 @@ ANNOUNCE_STRINGS = {
 			-- Examples of what this makes:
 			-- "I need 2 more cut stones and a science machine to make an alchemy engine."
 			FORMAT_NEED = "我需要 {NUM_ING} {S}{INGREDIENT}{AND}{A_PROTO}{PROTOTYPER} 来制造 {RECIPE}。",
-			
+
 			--If a prototyper is needed, goes into {AND}
 			AND = " 和 ",
-			
+
 			-- This needs to reflect the translating language's grammar
 			-- Examples of what this makes:
 			-- "I have enough twigs to make 9 bird traps, but I need a science machine."
@@ -127,9 +128,9 @@ ANNOUNCE_STRINGS = {
 			-- This needs to reflect the translating language's grammar
 			-- For example, this might become "I have the Tragic Torch skin for the Torch"
 			FORMAT_STRING = "我有 {ITEM} 的 {SKIN}。",
-			
+
 			--{SKIN} comes form the skin's name
-			
+
 			--{ITEM} comes from the item's name
 		},
 		ANNOUNCE_TEMPERATURE = {
@@ -137,13 +138,13 @@ ANNOUNCE_STRINGS = {
 			-- For example, this might become "I'm at a comfortable temperature"
 			-- or "The beast is freezing!"
 			FORMAT_STRING = "{PRONOUN}{TEMPERATURE}",
-			
+
 			--{PRONOUN} is picked from this
 			PRONOUN = {
 				DEFAULT = "我",
 				BEAST = "这个怪物是", --for Werebeaver
 			},
-			
+
 			--{TEMPERATURE} is picked from this
 			TEMPERATURE = {
 				BURNING = "要热死啦，快帮我扇扇风！",
@@ -193,6 +194,13 @@ ANNOUNCE_STRINGS = {
 			LOW   = "15%..我只湿了一小块，还不足为惧！", 			-- >15%
 			EMPTY = "我有一点点潮湿...", 								-- <15%
 		},
+		BOAT = {
+			FULL  = "很健康！",
+			HIGH  = "还可以？",
+			MID   = "啊，要小心了。",
+			LOW   = "救命！",
+			EMPTY = "󰂡", -- :angri: from DST Nitro
+		}
 	},
 	WILSON = {    --威尔逊
 		HUNGER = {
@@ -254,7 +262,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "没有足够的雨水能灭了火。",
 		},
 	},
-	WOLFGANG = {    --大理石
+	WOLFGANG = {    --大力士
 		HUNGER = {
 			FULL  = "沃尔夫冈是充实而强大的!",
 			HIGH  = "沃尔夫冈必须吃饱，才能变得更加强大！！",
@@ -411,7 +419,7 @@ ANNOUNCE_STRINGS = {
 				LOW   = "格子花呢很温暖, 也很潮湿。",
 				EMPTY = "对我几乎不受影响。",
 			},
-			["LOG METER"] = {	
+			["LOG METER"] = {
 				FULL  = "一直有更多的木头，但不是在我的肚子里。",
 				HIGH  = "我渴望有一个小树枝。",
 				MID   = "木头看起来真的很好吃。",
@@ -428,11 +436,11 @@ ANNOUNCE_STRINGS = {
 				-- EMPTY = "",
 			-- },
 			SANITY = {
-                FULL  = "野兽的眼睛又大又机灵。",
-                HIGH  = "野兽似乎看到了黑色的影子。",
-                MID   = "野兽回头因为这里有很多不存在的东西。",
-                LOW   = "野兽颤抖着,它的眼睛在抽搐。",
-                EMPTY = "野兽在咆哮,似乎被倍增的阴影猎杀。",
+				FULL  = "野兽的眼睛又大又机灵。",
+				HIGH  = "野兽似乎看到了黑色的影子。",
+				MID   = "野兽回头因为这里有很多不存在的东西。",
+				LOW   = "野兽颤抖着,它的眼睛在抽搐。",
+				EMPTY = "野兽在咆哮,似乎被倍增的阴影猎杀。",
 			},
 			HEALTH = {
 				FULL  = "野兽蹦蹦跳跳非常活泼。",
@@ -547,7 +555,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "我们喜欢在坑里玩耍。", 					-- <15%
 		},
 	},
-    WATHGRITHR = {    --女武神
+	WATHGRITHR = {    --女武神
 		HUNGER = {
 			FULL  = "我渴望战斗，而不是肉！", 				-- >75%
 			HIGH  = "足够满足于战斗。",					-- >55%
@@ -764,7 +772,7 @@ ANNOUNCE_STRINGS = {
 		},
 	},
 	WURT = {           --小鱼人沃特
-		HUNGER = {               
+		HUNGER = {
 			FULL  = "Glurgh，我不要了。",
 			HIGH  = "我不饿, florpt。",
 			MID   = "我还能吃得下一些。",
@@ -853,7 +861,7 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "与旅行的时间复杂性相比，一点点雨算不了什么！", 	-- <15%
 		}
 	},
-	WALTER = {               
+	WALTER = {
 		HUNGER = {
 			FULL  = "松树先锋队员总是饱腹奔跑！", 	-- >75%
 			HIGH  = "我应该为我们的下一次徒步旅行准备一份零食。",			-- >55%

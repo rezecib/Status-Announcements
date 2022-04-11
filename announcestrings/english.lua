@@ -16,6 +16,7 @@ ANNOUNCE_STRINGS = {
 			["Log Meter"] = "Log Meter",
 			Wetness = "Wetness",
 			Age = "Age",
+			Boat = "Boat",
 			Abigail = "Abigail",
 			Inspiration = "Inspiration",
 			--Other mod stats won't have translations, but at least we can support these
@@ -24,42 +25,42 @@ ANNOUNCE_STRINGS = {
 			-- This needs to reflect the translating language's grammar
 			-- For example, this might become "I have 6 papyrus in this chest."
 			FORMAT_STRING = "{I_HAVE}{THIS_MANY} {ITEM}{S}{IN_THIS}{CONTAINER}{WITH}{PERCENT}{DURABILITY}.",
-			
+
 			-- One of these goes into {I_HAVE}
 			I_HAVE = "I have ",
 			WE_HAVE = "We have ",
-			
+
 			-- {THIS_MANY} is a number if multiple, but singular varies a lot by language,
 			-- so we use getArticle above to get it
-			
+
 			-- {ITEM} is acquired from item.name
-			
+
 			-- {S} uses S above
-			
+
 			-- Goes into {IN_THIS}, if present
 			IN_THIS = " in this ",
-			
+
 			-- {CONTAINER} is acquired from container.name
-			
+
 			-- One of these goes into {WITH}
 			WITH = " with ", --if it's only one thing
 			AND_THIS_ONE_HAS = ", and this one has ", --if there are multiple, show durability of one
 			AND_THIS_ONE_IS = ", and this one is ", --if there are multiple, show durability of one
-			
+
 			-- {PERCENT} is acquired from the item's durability
-			
+
 			-- Goes into {DURABILITY}
 			DURABILITY = " durability",
 			FRESHNESS = " freshness",
 			RECHARGE = " charge",
-			
+
 			-- Optionally added into {PERCENT}
 			REMAINING = {
 				DURABILITY = "{AMOUNT} uses left", -- note that this is unused because durability is only published as a percent to clients
 				FRESHNESS = "{AMOUNT} days left", -- note that this is unused because perishables only publish percent to clients
 				RECHARGE = "{AMOUNT} until charged",
 			},
-			
+
 			-- Optionally added into {ITEM} or {WITH} for thermal stones.
 			HEATROCK = {
 				"frozen",
@@ -77,31 +78,31 @@ ANNOUNCE_STRINGS = {
 			-- "Can someone make me an alchemy engine? I would need a science machine for it." -> not known
 			-- "We need more drying racks." -> known but don't have ingredients
 			FORMAT_STRING = "{START_Q}{TO_DO}{THIS_MANY} {ITEM}{S}{PRE_BUILT}{END_Q}{I_NEED}{A_PROTO}{PROTOTYPER}{FOR_IT}.",
-			
+
 			--{START_Q} is for languages that match ? at both ends
 			START_Q = "", --English doesn't do that
-			
+
 			--One of these goes into {TO_DO}
 			I_HAVE = "I have ", --for pre-built
 			ILL_MAKE = "I'll make ", --for known recipes where you have ingredients
 			CAN_SOMEONE = "Can someone make me ", --for unknown recipes
 			WE_NEED = "We need more", --for known recipes where you don't have ingredients
-			
+
 			--{THIS_MANY} uses getArticle above to get the right article ("a", "an")
-			
+
 			--{ITEM} comes from the recipe.name
-			
+
 			--{S} uses S above
 
 			--Goes into {PRE_BUILT}
 			PRE_BUILT = " pre-built and ready to place",
-			
+
 			--This goes into {END_Q} if it's a question
 			END_Q = "?",
-			
+
 			--Goes into {I_NEED}
 			I_NEED = " I would need ",
-			
+
 			--Goes into {FOR_IT}
 			FOR_IT = " for it",
 		},
@@ -110,15 +111,15 @@ ANNOUNCE_STRINGS = {
 			-- Examples of what this makes:
 			-- "I need 2 more cut stones and a science machine to make an alchemy engine."
 			FORMAT_NEED = "I need {NUM_ING} more {INGREDIENT}{S}{AND}{A_PROTO}{PROTOTYPER} to make {A_REC} {RECIPE}.",
-			
+
 			--If a prototyper is needed, goes into {AND}
 			AND = " and ",
-			
+
 			-- This needs to reflect the translating language's grammar
 			-- Examples of what this makes:
 			-- "I have enough twigs to make 9 bird traps, but I need a science machine."
 			FORMAT_HAVE = "I have enough {INGREDIENT}{ING_S} to make {A_REC} {RECIPE}{REC_S}{BUT_NEED}{A_PROTO}{PROTOTYPER}.",
-			
+
 			--If a prototyper is needed, goes into {BUT_NEED}
 			BUT_NEED = ", but I need ",
 		},
@@ -126,9 +127,9 @@ ANNOUNCE_STRINGS = {
 			-- This needs to reflect the translating language's grammar
 			-- For example, this might become "I have the Tragic Torch skin for the Torch"
 			FORMAT_STRING = "I have the {SKIN} skin for the {ITEM}.",
-			
+
 			--{SKIN} comes form the skin's name
-			
+
 			--{ITEM} comes from the item's name
 		},
 		ANNOUNCE_TEMPERATURE = {
@@ -136,13 +137,13 @@ ANNOUNCE_STRINGS = {
 			-- For example, this might become "I'm at a comfortable temperature"
 			-- or "The beast is freezing!"
 			FORMAT_STRING = "{PRONOUN} {TEMPERATURE}",
-			
+
 			--{PRONOUN} is picked from this
 			PRONOUN = {
 				DEFAULT = "I'm",
 				BEAST = "The beast is", --for Werebeaver
 			},
-			
+
 			--{TEMPERATURE} is picked from this
 			TEMPERATURE = {
 				BURNING = "overheating!",
@@ -191,6 +192,13 @@ ANNOUNCE_STRINGS = {
 			LOW   = "I'm getting a bit wet.", 		-- >15%
 			EMPTY = "I'm quite dry.", 				-- <15%
 		},
+		BOAT = {
+			FULL  = "Pretty healthy!",
+			HIGH  = "Not tooo bad?",
+			MID   = "Ahh, be careful.",
+			LOW   = "Help!",
+			EMPTY = "󰂡", -- :angri: from DST Nitro
+		}
 	},
 	WILSON = {
 		HUNGER = {
