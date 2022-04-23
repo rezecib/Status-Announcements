@@ -26,12 +26,20 @@ local needs_strings = {
 	NEEDSANCIENT_FOUR = "ANCIENT_ALTAR",
 }
 
+-- This just makes it so that if a message category hasn't been written for a character, it falls back to the UNKNOWN lines.
+local char_messages_metatable = {
+	__index = function(t, k)
+		return STRINGS._STATUS_ANNOUNCEMENTS[t.prefab][k] or STRINGS._STATUS_ANNOUNCEMENTS.UNKNOWN[k]
+	end
+}
+
 local StatusAnnouncer = Class(function(self)
 	self.cooldown = false
 	self.cooldowns = {}
 	self.stats = {}
 	self.button_to_stat = {}
-	self.char_messages = STRINGS._STATUS_ANNOUNCEMENTS.UNKNOWN
+	self.char_messages = {}
+	setmetatable(self.char_messages, char_messages_metatable)
 end,
 nil,
 {
@@ -728,7 +736,7 @@ end
 function StatusAnnouncer:SetCharacter(prefab)
 	self:ClearCooldowns()
 	self:ClearStats()
-	self.char_messages = STRINGS._STATUS_ANNOUNCEMENTS[prefab:upper()] or STRINGS._STATUS_ANNOUNCEMENTS.UNKNOWN
+	self.char_messages.prefab = prefab:upper()
 	self.stat_names = {}
 	for stat, name in pairs(STRINGS._STATUS_ANNOUNCEMENTS._.STAT_NAMES) do
 		self.stat_names[stat] = name
