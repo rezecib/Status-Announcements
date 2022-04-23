@@ -461,7 +461,8 @@ function CraftingMenuHUD:OnControl(control, down, ...)
 		end
 		
 		local crafting_details = self.craftingmenu.details_root
-		local recipe = crafting_details.data.recipe
+		local recipe = type(crafting_details.data) == "table" and crafting_details.data.recipe
+		if not recipe then return false end
 		-- Check if we clicked on a skin
 		if crafting_details.skins_spinner.focus then
 			local skin = crafting_details.skins_spinner:GetItem()
