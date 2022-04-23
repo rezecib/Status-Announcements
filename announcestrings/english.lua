@@ -193,12 +193,12 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "I'm quite dry.", 				-- <15%
 		},
 		BOAT = {
-			FULL  = "Pretty healthy!",
-			HIGH  = "Not tooo bad?",
-			MID   = "Ahh, be careful.",
-			LOW   = "Help!",
-			EMPTY = "󰂡", -- :angri: from DST Nitro
-		}
+			FULL  = "This boat is in perfect condition!",		-- >85%
+			HIGH  = "This craft is still seaworthy.",			-- >65%
+			MID   = "This ship is a bit beaten-up.",			-- >35%
+			LOW   = "This boat is in urgent need of repairs!",	-- >0.01%
+			EMPTY = "This ship is sinking!",					-- <0.01%
+		},
 	},
 	WILSON = {
 		HUNGER = {

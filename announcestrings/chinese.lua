@@ -195,12 +195,12 @@ ANNOUNCE_STRINGS = {
 			EMPTY = "我有一点点潮湿...", 								-- <15%
 		},
 		BOAT = {
-			FULL  = "很健康！",
-			HIGH  = "还可以？",
-			MID   = "啊，要小心了。",
-			LOW   = "救命！",
-			EMPTY = "󰂡", -- :angri: from DST Nitro
-		}
+			FULL  = "这艘船状况良好！",		-- >85%
+			HIGH  = "这艘船仍然适航。",			-- >65%
+			MID   = "这艘船有点破。",			-- >35%
+			LOW   = "这艘船急需修理！",	-- >0.01%
+			EMPTY = "这艘船正在沉没！",					-- <0.01%
+		},
 	},
 	WILSON = {    --威尔逊
 		HUNGER = {

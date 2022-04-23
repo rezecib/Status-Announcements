@@ -190,6 +190,13 @@ ANNOUNCE_STRINGS = {
 			LOW   = "Ich werde etwas feucht.", 		-- >15%
 			EMPTY = "Ich bin ziemlich trocken.", 				-- <15%
 		},
+		BOAT = {
+			FULL  = "Dieses Boot ist in perfektem Zustand!",		-- >85%
+			HIGH  = "Dieses Fahrzeug ist immer noch seetüchtig.",			-- >65%
+			MID   = "Dieses Schiff ist ein bisschen heruntergekommen.",			-- >35%
+			LOW   = "Dieses Boot ist dringend reparaturbedürftig!",	-- >0.01%
+			EMPTY = "Dieses Schiff sinkt!",					-- <0.01%
+		},
 	},
 	WILSON = {
 		HUNGER = {
