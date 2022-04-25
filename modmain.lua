@@ -112,18 +112,6 @@ end
 if not GLOBAL.kleifileexists(MODROOT.."announcestrings/"..LANGUAGE..".lua") then LANGUAGE = "english" end -- failsafe
 modimport("announcestrings/"..LANGUAGE..".lua") -- creates the ANNOUNCE_STRINGS table
 
-for k,v in pairs(ANNOUNCE_STRINGS) do
-	if k ~= "UNKNOWN" and k ~= "_" and GetModConfigData(k) == false then
-		ANNOUNCE_STRINGS[k] = ANNOUNCE_STRINGS.UNKNOWN
-	end
-end
-
--- Merge the global table into ANNOUNCE_STRINGS (in case other mods run before)
-if type(GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS) == "table" then
-	for k,v in pairs(GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS) do
-		ANNOUNCE_STRINGS[k] = v;
-	end
-end
 ANNOUNCE_STRINGS._.LANGUAGE = LANGUAGE -- attach it here so mods can check it if they want to provide translations
 -- as emoji these are translation-independent, so add it here instead of in the language files
 ANNOUNCE_STRINGS._.STAT_EMOJI = {
@@ -134,6 +122,30 @@ ANNOUNCE_STRINGS._.STAT_EMOJI = {
 	-- ["Log Meter"] = "Log Meter",
 	-- Wetness = "Wetness",
 }
+
+-- Merge the global table into ANNOUNCE_STRINGS (in case other mods run before)
+if type(GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS) == "table" then
+	local function merge(target, strings)
+		for k, v in pairs(strings) do
+			if type(v) == "table" then
+				if not target[k] then
+					target[k] = {}
+				end
+				merge(target[k], v)
+			else
+				target[k] = v
+			end
+		end
+	end
+	merge(ANNOUNCE_STRINGS, GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS)
+end
+
+for k in pairs(ANNOUNCE_STRINGS) do
+	if k ~= "UNKNOWN" and k ~= "_" and GetModConfigData(k) == false then
+		ANNOUNCE_STRINGS[k] = ANNOUNCE_STRINGS.UNKNOWN
+	end
+end
+
 -- Store the merged ANNOUNCE_STRINGS in the global table (so mods that run after can add to / change it)
 GLOBAL.STRINGS._STATUS_ANNOUNCEMENTS = ANNOUNCE_STRINGS
 
@@ -314,7 +326,7 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 	if self.brain then
 		self.brain.announce_text = self.brain:AddChild(Text(GLOBAL.UIFONT, 30))
 		self.brain.announce_text:SetPosition(0, 30)
-		self.brain.announce_text:Hide()	
+		self.brain.announce_text:Hide()
 	end
 	if self.heart then
 		self.heart.announce_text = self.heart:AddChild(Text(GLOBAL.UIFONT, 30))
@@ -373,7 +385,7 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 				season.announce_text = season:AddChild(Text(GLOBAL.UIFONT, 30))
 				if season_type == "Clock" then
 					season.announce_text:SetPosition(0, -52)
-				elseif season_type == "Compact" then					
+				elseif season_type == "Compact" then
 					season.announce_text:SetPosition(0, -75)
 				elseif season_type == "Micro" then
 					season.announce_text:SetPosition(40, -30)
@@ -432,7 +444,7 @@ function CraftingMenuHUD:OnControl(control, down, ...)
 	if down and control == GLOBAL.CONTROL_ACCEPT
 	and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT)
 	and self.owner then
-		
+
 		-- Check if we're clicking on a pinned recipe or its ingredient
 		if self.pinbar.focus then
 			for _,slot in ipairs(self.pinbar.pin_slots) do
@@ -444,14 +456,14 @@ function CraftingMenuHUD:OnControl(control, down, ...)
 			end
 			return false
 		end
-		
+
 		-- Only the pinbar can get clicked without crafting being open.
 		-- If we don't short-circuit here then it will announce whatever the last displayed recipe was,
 		-- even if we just click on the sliver of the menu on the edge
 		if not self:IsCraftingOpen() then
 			return false
 		end
-		
+
 		-- Check to see if we're clicking on a recipe tile in the grid
 		local recipe_grid = self.craftingmenu.recipe_grid
 		local last_focused_recipe = recipe_grid.widgets_to_update[recipe_grid.focused_widget_index]
@@ -459,7 +471,7 @@ function CraftingMenuHUD:OnControl(control, down, ...)
 			-- The mouse was over this recipe when it clicked
 			return StatusAnnouncer:AnnounceRecipe(last_focused_recipe.data.recipe)
 		end
-		
+
 		local crafting_details = self.craftingmenu.details_root
 		local recipe = type(crafting_details.data) == "table" and crafting_details.data.recipe
 		if not recipe then return false end
@@ -471,10 +483,10 @@ function CraftingMenuHUD:OnControl(control, down, ...)
 			end
 			-- If it was set to default, consider this a normal "announce item"
 		end
-		
+
 		-- Check if an ingredient in the description got clicked
 		local ingredient = GetClickedIngredient(recipe, crafting_details.ingredients)
-		
+
 		-- Default to announcing the current selected recipe, passing in ingredient if found
 		return StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
 	elseif not TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT) then
@@ -514,7 +526,7 @@ function InventoryBar:OnControl(control, down, ...)
 	if InventoryBar_OnControl(self, control, down, ...) then return true end -- prioritize normal controls
 	-- catch a few other "do nothing" scenarios
 	if down or not self.open then return end
-	
+
 	local inv_item = self:GetCursorItem() -- this is the active inventory tile item
 	if control == GLOBAL.CONTROL_USE_ITEM_ON_ITEM and inv_item then -- Y button
 		-- We shouldn't actually need to check if it's the other scenario for this,
