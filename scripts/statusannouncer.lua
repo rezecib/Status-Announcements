@@ -29,7 +29,9 @@ local needs_strings = {
 -- This just makes it so that if a message category hasn't been written for a character, it falls back to the UNKNOWN lines.
 local char_messages_metatable = {
 	__index = function(t, k)
-		return STRINGS._STATUS_ANNOUNCEMENTS[t.prefab][k] or STRINGS._STATUS_ANNOUNCEMENTS.UNKNOWN[k]
+		return STRINGS._STATUS_ANNOUNCEMENTS[t.prefab]
+			and STRINGS._STATUS_ANNOUNCEMENTS[t.prefab][k]
+			or STRINGS._STATUS_ANNOUNCEMENTS.UNKNOWN[k]
 	end
 }
 
