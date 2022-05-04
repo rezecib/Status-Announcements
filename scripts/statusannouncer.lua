@@ -145,9 +145,11 @@ function StatusAnnouncer:AnnounceItem(slot)
 	if not container.type then --this is an inventory
 		--add in items in equipslots, which don't normally get counted by Has
 		for _,slot in pairs(EQUIPSLOTS) do
-			local equipped_item = container:GetEquippedItem(slot)
-			if equipped_item and equipped_item.prefab == item.prefab then
-				num_equipped = num_equipped + (equipped_item.replica.stackable and equipped_item.replica.stackable:StackSize() or 1)
+			if container.GetEquippedItem then
+				local equipped_item = container:GetEquippedItem(slot)
+				if equipped_item and equipped_item.prefab == item.prefab then
+					num_equipped = num_equipped + (equipped_item.replica.stackable and equipped_item.replica.stackable:StackSize() or 1)
+				end
 			end
 		end
 	end
