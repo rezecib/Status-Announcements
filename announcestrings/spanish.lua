@@ -148,9 +148,9 @@ ANNOUNCE_STRINGS = {
 				BURNING = "demasiado caliente!",
 				HOT = "casi sobrecalentandome!",
 				WARM = "un poco acalorado.",
-				GOOD = "una temperatura confortable",
-				COOL = "un poco de frio",
-				COLD = "casi congelado",
+				GOOD = "una temperatura confortable.",
+				COOL = "un poco de frio.",
+				COLD = "casi congelado.",
 				FREEZING = "me congelo!",
 			},
 		},
@@ -736,6 +736,36 @@ ANNOUNCE_STRINGS = {
 			MID   = "Ooo! Ooae!", 				-- >35%
 			LOW   = "Oooh?", 		-- >15%
 			EMPTY = "Ooae Oooh Oaoa! Ooooe.", 				-- <15%
+		},
+	},
+	WORMWOOD = {
+		HUNGER = {
+			FULL  = "Demasiado.",
+			HIGH  = "No necesitar cosas de barriga.",
+			MID   = "Quizás poder usar rellenos de barriga.",
+			LOW   = "Necesitar cosas para barriga.",
+			EMPTY = "Ooh, barriga duele...",
+		},
+		SANITY = {
+			FULL  = "¡Sentirme bien!",
+			HIGH  = "Cabeza sentirse normal.",
+			MID   = "Cabeza duele, pero sentirme okay.",
+			LOW   = "Cosas terroríficas me están mirando.",
+			EMPTY = "¡Cosas terroríficas duelen!",
+		},
+		HEALTH = {
+			FULL  = "Wormwood no herido.",
+			HIGH  = "Picoteado, pero bien",
+			MID   = "Sentirme débil.",
+			LOW   = "Duele un montón...",
+			EMPTY = "¡Ayuda, amigos!",
+		},
+		WETNESS = {
+			FULL  = "¡Gran humedad, ser bueno!",
+			HIGH  = "¡Reconfortante húmedo!",
+			MID   = "Está lloviendo! ¡Que bien!",
+			LOW   = "Esto ser... ¿humedad?",
+			EMPTY = "Sentirme seco.",
 		},
 	},
 	WURT = {
