@@ -14,10 +14,10 @@ ANNOUNCE_STRINGS = {
 			Hunger = "饥饿度",
 			Sanity = "精神值",
 			Health = "生命值",
-			["Log Meter"] = "怪物度",
 			Wetness = "潮湿度",
-			Age = "年龄",
 			Boat = "船",
+			["Log Meter"] = "怪物度",
+			Age = "年龄",
 			Abigail = "阿比盖尔",
 			Inspiration = "灵感",
 			--Other mod stats won't have translations, but at least we can support these

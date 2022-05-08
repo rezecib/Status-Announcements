@@ -13,10 +13,10 @@ ANNOUNCE_STRINGS = {
 			Hunger = "Hunger",
 			Sanity = "Sanity",
 			Health = "Health",
-			["Log Meter"] = "Log Meter",
 			Wetness = "Wetness",
-			Age = "Age",
 			Boat = "Boat",
+			["Log Meter"] = "Log Meter",
+			Age = "Age",
 			Abigail = "Abigail",
 			Inspiration = "Inspiration",
 			--Other mod stats won't have translations, but at least we can support these
