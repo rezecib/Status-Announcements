@@ -20,6 +20,7 @@ ANNOUNCE_STRINGS = {
 			Age = "年龄",
 			Abigail = "阿比盖尔",
 			Inspiration = "灵感",
+			Might = "威力",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {

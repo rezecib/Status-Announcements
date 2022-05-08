@@ -29,6 +29,14 @@ local needs_strings = {
 -- This just makes it so that if a message category hasn't been written for a character, it falls back to the UNKNOWN lines.
 local char_messages_metatable = {
 	__index = function(t, k)
+		-- Putting this here so we don't copy it into every translation
+		if k == "MIGHT" then
+			return {
+				HIGH = GetString("wolfgang", "ANNOUNCE_NORMALTOMIGHTY"),
+				MID  = GetString("wolfgang", "ANNOUNCE_MIGHTYTONORMAL"),
+				LOW  = GetString("wolfgang", "ANNOUNCE_NORMALTOWIMPY"),
+			}
+		end
 		return STRINGS._STATUS_ANNOUNCEMENTS[t.prefab]
 			and STRINGS._STATUS_ANNOUNCEMENTS[t.prefab][k]
 			or STRINGS._STATUS_ANNOUNCEMENTS.UNKNOWN[k]
@@ -522,7 +530,9 @@ end
 
 --The other arguments are here so that mods can use them to override this function
 -- and avoid some of these stats if their character doesn't have them
-function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health, moisture, wereness, pethealth, inspiration, boat)
+function StatusAnnouncer:RegisterCommonStats(
+		HUD, prefab, hunger, sanity, health, moisture,
+		wereness, pethealth, inspiration, boat, mightiness)
 	local stat_categorynames = {"EMPTY", "LOW", "MID", "HIGH", "FULL"}
 	local default_thresholds = {	.15,	.35,	.55,	.75		 }
 
@@ -532,6 +542,7 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 		and function(ThePlayer) return ThePlayer.weremode:value() ~= 0 and "WEREBEAVER" or "HUMAN" end
 		or nil
 
+	-- Base stats
 	if hunger ~= false and type(status.stomach) == "table" then
 		self:RegisterStat(
 			"Hunger",
@@ -574,6 +585,43 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			switch_fn
 		)
 	end
+
+	-- Context-specific stats that everyone has
+	if moisture ~= false and type(status.moisturemeter) == "table" then
+		self:RegisterStat(
+			"Wetness",
+			status.moisturemeter,
+			CONTROL_ROTATE_RIGHT, -- Right Bumper
+			default_thresholds,
+			stat_categorynames,
+			function(ThePlayer)
+				return	ThePlayer.player_classified.moisture:value(),
+						ThePlayer.player_classified.maxmoisture:value()
+			end,
+			switch_fn
+		)
+	end
+	if boat ~= false and type(status.boatmeter) == "table" then
+		self:RegisterStat(
+			"Boat",
+			status.boatmeter,
+			CONTROL_ROTATE_LEFT,
+			{ .0001, .35, .65, .85 },
+			stat_categorynames,
+			function(player)
+				local boat = player.components.walkableplatformplayer and player.components.walkableplatformplayer.platform
+				local healthsyncer = boat and boat.components.healthsyncer
+				if not (healthsyncer and healthsyncer.max_health) then
+					return 0, 0
+				else
+					return math.ceil(healthsyncer.max_health * healthsyncer:GetPercent()), healthsyncer.max_health -- Klei yydsb
+				end
+			end,
+			switch_fn
+		)
+	end
+
+	-- Character-specific stats
 	if wereness ~= false and has_weremode then
 		self:RegisterStat(
 			"Log Meter",
@@ -611,40 +659,24 @@ function StatusAnnouncer:RegisterCommonStats(HUD, prefab, hunger, sanity, health
 			{"LOW", "MID", "HIGH", "FULL"},
 			function(ThePlayer)
 				return	ThePlayer.player_classified.currentinspiration:value(),
-						TUNING.INSPIRATION_MAX
+						TUNING.INSPIRATION_MAX or 100
 			end,
 			switch_fn
 		)
 	end
-	if moisture ~= false and type(status.moisturemeter) == "table" then
+	if mightiness ~= false and type(status.mightybadge) == "table" then
 		self:RegisterStat(
-			"Wetness",
-			status.moisturemeter,
-			CONTROL_ROTATE_RIGHT, -- Right Bumper
-			default_thresholds,
-			stat_categorynames,
+			"Might",
+			status.mightybadge,
+			CONTROL_ROTATE_LEFT, -- Left Bumper
+			{
+				(TUNING.WIMPY_THRESHOLD or 25)/100,
+				(TUNING.MIGHTY_THRESHOLD or 75)/100,
+			},
+			{"LOW", "MID", "HIGH"},
 			function(ThePlayer)
-				return	ThePlayer.player_classified.moisture:value(),
-						ThePlayer.player_classified.maxmoisture:value()
-			end,
-			switch_fn
-		)
-	end
-	if boat ~= false and type(status.boatmeter) == "table" then
-		self:RegisterStat(
-			"Boat",
-			status.boatmeter,
-			CONTROL_ROTATE_LEFT,
-			{ .0001, .35, .65, .85 },
-			stat_categorynames,
-			function(player)
-				local boat = player.components.walkableplatformplayer and player.components.walkableplatformplayer.platform
-				local healthsyncer = boat and boat.components.healthsyncer
-				if not (healthsyncer and healthsyncer.max_health) then
-					return 0, 0
-				else
-					return math.ceil(healthsyncer.max_health * healthsyncer:GetPercent()), healthsyncer.max_health -- Klei yydsb
-				end
+				return	ThePlayer.player_classified.currentmightiness:value(),
+						TUNING.MIGHTINESS_MAX or 100
 			end,
 			switch_fn
 		)

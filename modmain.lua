@@ -119,6 +119,7 @@ ANNOUNCE_STRINGS._.STAT_EMOJI = {
 	Sanity = "sanity",
 	Health = "heart",
 	Abigail = "abigail",
+	Might = "flex",
 	-- no emoji for these (yet)
 	-- ["Log Meter"] = "Log Meter",
 	-- Wetness = "Wetness",

@@ -19,6 +19,7 @@ ANNOUNCE_STRINGS = {
 			Age = "나이",
 			Abigail = "아비게일",
 			Inspiration = "영감",
+			Might = "힘을",
 			--Other mod stats won't have translations, but at least we can support these
 		},
 		ANNOUNCE_ITEM = {
