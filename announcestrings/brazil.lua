@@ -375,8 +375,8 @@ ANNOUNCE_STRINGS = {
 		WETNESS = {
 			FULL  = "Estado de umidade: Crítica",
 			HIGH  = "Estado de umidade: Proximo ao crítico",
-			MID   = "Estado de umidade: Inaceitável",
-			LOW   = "Estado de umidade: Tolerável",
+			MID   = "Estado de umidade: Corrosivo",
+			LOW   = "Estado de umidade: Inaceitável",
 			EMPTY = "Estado de umidade: Aceitável",
 		},
 	},
