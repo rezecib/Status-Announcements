@@ -82,7 +82,7 @@ local function get_container_name(container)
 	return container_name and container_name:lower()
 end
 
-local function time_remaining_str(remaining_s)
+function StatusAnnouncer:SecondsToTimeRemainingString(remaining_s)
 	local remaining = ""
 	local remaining_m = 0
 	local remaining_h = 0
@@ -128,7 +128,7 @@ function StatusAnnouncer:AnnounceItem(slot)
 		percent_type = "RECHARGE"
 		percent = math.floor(slot.tile.rechargepct*100) .. "%"
 		local remaining_s = math.floor(slot.tile.rechargetime*(1 - slot.tile.rechargepct) + 0.5)
-		remaining = time_remaining_str(remaining_s)
+		remaining = self:SecondsToTimeRemainingString(remaining_s)
 	end
 	local S = STRINGS._STATUS_ANNOUNCEMENTS._ --To save some table lookups
 	if item.prefab == "heatrock" then
