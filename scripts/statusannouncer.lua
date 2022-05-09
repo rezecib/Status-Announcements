@@ -1,3 +1,5 @@
+local GetModuleDefinitionFromNetID = require("wx78_moduledefs").GetModuleDefinitionFromNetID
+
 local WHISPER = false
 local WHISPER_ONLY = false
 local EXPLICIT = true
@@ -503,6 +505,72 @@ function StatusAnnouncer:AnnounceSeason()
 			SEASON = STRINGS.UI.SERVERLISTINGSCREEN.SEASONS[TheWorld.state.season:upper()],
 		}
 	), "SEASON")
+end
+
+local function FormatChipList(S, chip_order, chips, charged)
+	local chips_string = ""
+	for _, chip in ipairs(chip_order) do
+		if chips[chip] then
+			if chips_string ~= "" then
+				chips_string = chips_string .. ", "
+			end
+			local chip_name = STRINGS.NAMES["WX78MODULE_" .. chip:upper()]
+			if type(chip_name) ~= "string" then
+				chip_name = chip
+			else
+				chip_name = S.GetCircuitName(chip_name)
+			end
+			chips_string = chips_string .. subfmt(
+				S.FORMAT_STRING_CHIP,
+				{
+					COUNT = chips[chip],
+					CIRCUIT_NAME = chip_name,
+				})
+		end
+	end
+	if chips_string == "" then return chips_string end
+	return subfmt(
+		S.FORMAT_STRING_CHARGED,
+		{
+			CIRCUIT_LIST = chips_string,
+			CHARGE_STATE = charged and S.CHARGED or S.UNCHARGED
+		})
+end
+
+function StatusAnnouncer:AnnounceWxCircuits(widget)
+	local charge = widget.energy_level
+	local chip_order = {}
+	local charged_chips = {}
+	local uncharged_chips = {}
+	local modules_table = widget.owner:GetModulesData()
+	for i, module_index in ipairs(modules_table) do
+		if module_index ~= 0 then
+			local module_def = GetModuleDefinitionFromNetID(module_index)
+			local modname = module_def.name
+			charge = charge - module_def.slots
+			local add_to = charge < 0 and uncharged_chips or charged_chips
+			if not uncharged_chips[modname] and not charged_chips[modname] then
+				table.insert(chip_order, modname)
+			end
+			add_to[modname] = (add_to[modname] or 0) + 1
+		end
+	end
+	local S = STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_CIRCUITS
+	local charged_list = FormatChipList(S, chip_order, charged_chips, true)
+	local uncharged_list = FormatChipList(S, chip_order, uncharged_chips, false)
+	local separator = ""
+	if charged_list ~= "" and uncharged_list ~= "" then
+		separator = S.SEPARATOR
+	end
+	return self:Announce(subfmt(
+		S.FORMAT_STRING,
+		{
+			CIRCUITS = S.CIRCUITS,
+			CHARGED = charged_list,
+			SEPARATOR = separator,
+			UNCHARGED = uncharged_list,
+		}
+	), "WX78CIRCUITS")
 end
 
 --NOTE: Your mod is responsible for adding and deciding when to show/hide the controller button hint

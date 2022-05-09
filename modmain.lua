@@ -121,8 +121,11 @@ ANNOUNCE_STRINGS._.STAT_EMOJI = {
 	Abigail = "abigail",
 	Might = "flex",
 	-- no emoji for these (yet)
-	-- ["Log Meter"] = "Log Meter",
 	-- Wetness = "Wetness",
+	-- Boat = "Boat",
+	-- ["Log Meter"] = "Log Meter",
+	-- Age = "Age",
+	-- Inspiration = "Inspiration",
 }
 
 -- Merge the global table into ANNOUNCE_STRINGS (in case other mods run before)
@@ -196,7 +199,7 @@ function PlayerHud:SetMainCharacter(maincharacter, ...)
 end
 local PlayerHud_OnMouseButton = PlayerHud.OnMouseButton
 function PlayerHud:OnMouseButton(button, down, ...)
-	if button == 1000 and down and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT) then
+	if button == GLOBAL.MOUSEBUTTON_LEFT and down and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT) then
 		if StatusAnnouncer:OnHUDMouseButton(self) then
 			return true
 		end
@@ -553,13 +556,23 @@ AddClassPostConstruct("widgets/giftitemtoast", function(self)
 	local _OnMouseButton = self.OnMouseButton
 	function self:OnMouseButton(button, down, ...)
 		local ret = _OnMouseButton(self, button, down, ...)
-		if button == 1000 and down and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT) then
+		if button == GLOBAL.MOUSEBUTTON_LEFT and down and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT) then
 			StatusAnnouncer:Announce(self.enabled
 								and ANNOUNCE_STRINGS._.ANNOUNCE_GIFT.CAN_OPEN
 								or ANNOUNCE_STRINGS._.ANNOUNCE_GIFT.NEED_SCIENCE)
 		end
 	end
 end)
+
+local UpgradeModulesDisplay = require("widgets/upgrademodulesdisplay")
+local UpgradeModulesDisplay_OnControl = UpgradeModulesDisplay.OnControl
+function UpgradeModulesDisplay:OnControl(control, down, ...)
+	local ret = UpgradeModulesDisplay_OnControl(self, control, down, ...)
+	if control == GLOBAL.CONTROL_ACCEPT and down and TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_INSPECT) then
+		StatusAnnouncer:AnnounceWxCircuits(self)
+	end
+	return ret
+end
 
 if HIDEANNOUNCEMENTS then
 	local function IsStatusAnnouncementMessage(message)

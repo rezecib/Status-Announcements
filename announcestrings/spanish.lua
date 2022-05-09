@@ -161,6 +161,30 @@ ANNOUNCE_STRINGS = {
 			CAN_OPEN = "Tengo un regalo y estoy apunto de abrirlo!",
 			NEED_SCIENCE = "Necesitaria ciencia adicional para poder abrir este regalo",
 		},
+		ANNOUNCE_CIRCUITS = {
+			FORMAT_STRING = "{CIRCUITS}: {CHARGED}{SEPARATOR}{UNCHARGED}.",
+			FORMAT_STRING_CHARGED = "{CIRCUIT_LIST} ({CHARGE_STATE})",
+			FORMAT_STRING_CHIP = "{COUNT} {CIRCUIT_NAME}",
+			CIRCUITS = "Circuitos",
+			CHARGED = "Cargado",
+			UNCHARGED = "Descargado",
+			SEPARATOR = "; ",
+			GetCircuitName = function(name)
+				local s, e = name:find("Circuito de ")
+				if e == nil then
+					s, e = name:find("Circuito ")
+				end
+				if e == nil then
+					-- Fall back to checking if it's untranslated English
+					s, e = name:find(" Circuit")
+					if s == nil then
+						return name
+					end
+					return name:sub(1, s-1)
+				end
+				return name:sub(e+1)
+			end,
+		},
 		ANNOUNCE_HINT = "Anuncio",
 	},
 	-- Everything below is character-specific

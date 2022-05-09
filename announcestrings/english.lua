@@ -161,6 +161,22 @@ ANNOUNCE_STRINGS = {
 			CAN_OPEN = "I have a gift and I'm about to open it!",
 			NEED_SCIENCE = "I require additional science to open this gift!",
 		},
+		ANNOUNCE_CIRCUITS = {
+			FORMAT_STRING = "{CIRCUITS}: {CHARGED}{SEPARATOR}{UNCHARGED}.",
+			FORMAT_STRING_CHARGED = "{CIRCUIT_LIST} ({CHARGE_STATE})",
+			FORMAT_STRING_CHIP = "{COUNT} {CIRCUIT_NAME}",
+			CIRCUITS = "Circuits",
+			CHARGED = "Charged",
+			UNCHARGED = "Uncharged",
+			SEPARATOR = "; ",
+			GetCircuitName = function(name)
+				local s, e = name:find(" Circuit")
+				if s == nil then
+					return name
+				end
+				return name:sub(1, s-1)
+			end,
+		},
 		ANNOUNCE_HINT = "Announce",
 	},
 	-- Everything below is character-specific

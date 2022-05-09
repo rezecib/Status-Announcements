@@ -162,6 +162,27 @@ ANNOUNCE_STRINGS = {
 			CAN_OPEN = "我有一个礼物，这次一定能出红！",
 			NEED_SCIENCE = "我需要科学来打开这个礼物，我觉得我能出红！",
 		},
+		ANNOUNCE_CIRCUITS = {
+			FORMAT_STRING = "{CIRCUITS}: {CHARGED}{SEPARATOR}{UNCHARGED}.",
+			FORMAT_STRING_CHARGED = "{CIRCUIT_LIST} ({CHARGE_STATE})",
+			FORMAT_STRING_CHIP = "{COUNT} {CIRCUIT_NAME}",
+			CIRCUITS = "电路",
+			CHARGED = "带电",
+			UNCHARGED = "未充电",
+			SEPARATOR = "; ",
+			GetCircuitName = function(name)
+				local s, e = name:find("电路")
+				if s == nil then
+					-- Fall back to checking if it's untranslated English
+					s, e = name:find(" Circuit")
+					if s == nil then
+						return name
+					end
+					return name:sub(1, s-1)
+				end
+				return name:sub(1, s-1)
+			end,
+		},
 		ANNOUNCE_HINT = "宣告",
 	},
 	-- Everything below is character-specific

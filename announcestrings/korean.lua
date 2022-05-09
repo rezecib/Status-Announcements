@@ -163,6 +163,27 @@ ANNOUNCE_STRINGS = {
 			CAN_OPEN = "선물 개봉 가능!",
 			NEED_SCIENCE = "선물 개봉하려면 과학 필요!",
 		},
+		ANNOUNCE_CIRCUITS = {
+			FORMAT_STRING = "{CIRCUITS}: {CHARGED}{SEPARATOR}{UNCHARGED}.",
+			FORMAT_STRING_CHARGED = "{CIRCUIT_LIST} ({CHARGE_STATE})",
+			FORMAT_STRING_CHIP = "{COUNT} {CIRCUIT_NAME}",
+			CIRCUITS = "회로",
+			CHARGED = "청구됨",
+			UNCHARGED = "충전되지 않은",
+			SEPARATOR = "; ",
+			GetCircuitName = function(name)
+				local s, e = name:find(" 회로")
+				if s == nil then
+					-- Fall back to checking if it's untranslated English
+					s, e = name:find(" Circuit")
+					if s == nil then
+						return name
+					end
+					return name:sub(1, s-1)
+				end
+				return name:sub(1, s-1)
+			end,
+		},
 		ANNOUNCE_HINT = "안내",
 	},
 	-- Everything below is character-specific

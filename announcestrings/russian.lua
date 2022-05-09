@@ -161,37 +161,58 @@ ANNOUNCE_STRINGS = {
 			CAN_OPEN = "У меня есть подарок, и я собираюсь его открыть!",
 			NEED_SCIENCE = "Мне нужна наука, чтобы открыть этот подарок!",
 		},
-		ANNOUNCE_HINT = "Announce",
+		ANNOUNCE_CIRCUITS = {
+			FORMAT_STRING = "{CIRCUITS}: {CHARGED}{SEPARATOR}{UNCHARGED}.",
+			FORMAT_STRING_CHARGED = "{CIRCUIT_LIST} ({CHARGE_STATE})",
+			FORMAT_STRING_CHIP = "{COUNT} {CIRCUIT_NAME}",
+			CIRCUITS = "Модули",
+			CHARGED = "Заряжено",
+			UNCHARGED = "Разряжен",
+			SEPARATOR = "; ",
+			GetCircuitName = function(name)
+				local s, e = name:find(" модуль")
+				if s == nil then
+					-- Fall back to checking if it's untranslated English
+					s, e = name:find(" Circuit")
+					if s == nil then
+						return name
+					end
+					return name:sub(1, s-1)
+				end
+				return name:sub(1, s-1)
+			end,
+		},
+		ANNOUNCE_HINT = "объявить",
 	},
 	-- Everything below is character-specific
 	UNKNOWN = {
 		HUNGER = {
-			FULL  = "I'm completely stuffed!", 	-- >75%
-			HIGH  = "I'm pretty full.",			-- >55%
-			MID   = "I'm getting peckish.", 	-- >35%
-			LOW   = "I'm hungry!", 				-- >15%
-			EMPTY = "I'm starving!", 			-- <15%
+			FULL  = "Я полон!",
+			HIGH  = "Я не нуждаюсь в еде",
+			MID   = "Я мог бы немного поесть",
+			LOW   = "Я голоден",
+			EMPTY = "Мне...нужна...еда!",
 		},
 		SANITY = {
-			FULL  = "My brain is in peak condition!", 			-- >75%
-			HIGH  = "I'm feeling pretty good.", 				-- >55%
-			MID   = "I'm getting a bit anxious.", 				-- >35%
-			LOW   = "I'm feeling a bit crazy, here!", 			-- >15%
-			EMPTY = "AAAAHHHH! Stay back, beasts of shadow!", 	-- <15%
+			FULL  = "Я в здравом уме!",
+			HIGH  = "Я буду в порядке.",
+			MID   = "Моя голова болит...",
+			LOW   = "Чт - что происходит !?",
+			EMPTY = "Помогите! Эти штуки съедят меня !!",
 		},
 		HEALTH = {
-			FULL  = "I'm in perfect health!", 	-- 100%
-			HIGH  = "I'm a bit scratched up.", 	-- >75%
-			MID   = "I'm wounded.", 			-- >50%
-			LOW   = "I'm grievously wounded!", 	-- >25%
-			EMPTY = "I'm mortally wounded!", 	-- <25%
+			FULL  = "Как огурчик!",
+			HIGH  = "Мне больно, но я могу продолжать.",
+			MID   = "Я ... Мне кажется, мне нужна медицинский осмотр.",
+			LOW   = "Я потерял так много крови...",
+			EMPTY = "Я ... Я не собираюсь это делать ...",
 		},
 		WETNESS = {
-			FULL  = "I'm completely drenched!", 	-- >75%
-			HIGH  = "I'm soaked!",					-- >55%
-			MID   = "I'm too wet!", 				-- >35%
-			LOW   = "I'm getting a bit wet.", 		-- >15%
-			EMPTY = "I'm quite dry.", 				-- <15%
+			FULL  = "Я С головы до ног пропитался водой!",
+			HIGH  = "Водяной путь!",
+			MID   = "Моя одежда кажется не водонепроницаемой",
+			LOW   = "Ох, H2O.",
+			EMPTY = "Я практически сухой",
 		},
 		BOAT = {
 			FULL  = "Лодка в идеальном состоянии!",		-- >85%
