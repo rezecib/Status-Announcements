@@ -271,9 +271,14 @@ function PlayerHud:ShowStatusControllerButtonHints()
 		self.controls.status.moisturemeter.announce_text:SetString(
 			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_ROTATE_RIGHT))
 		self.controls.status.moisturemeter.controller_crafting_open = true
-		if self.controls.status.moisturemeter.activated then
+		if self.controls.status.moisturemeter.active then
 			self.controls.status.moisturemeter.announce_text:Show()
 		end
+	end
+	if self.controls.status.boatmeter and self.controls.status.boatmeter.boat ~= nil then
+		self.controls.status.boatmeter.announce_text:SetString(
+			TheInput:GetLocalizedControl(controller_id, GLOBAL.CONTROL_ROTATE_LEFT))
+		self.controls.status.boatmeter.announce_text:Show()
 	end
 	if OVERRIDEB and self.controls.status.temperature then
 		self.controls.status.temperature.announce_text:Show()
@@ -311,6 +316,9 @@ function PlayerHud:HideStatusControllerButtonHints()
 		self.controls.status.moisturemeter.controller_crafting_open = false
 		self.controls.status.moisturemeter.announce_text:Hide()
 	end
+	if self.controls.status.boatmeter then
+		self.controls.status.boatmeter.announce_text:Hide()
+	end
 	if OVERRIDEB and self.controls.status.temperature then
 		self.controls.status.temperature.announce_text:Hide()
 	end
@@ -341,6 +349,13 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 	if self.wereness then
 		self._custombadge = self.wereness
 	end
+	if self.inspirationbadge then
+		self._custombadge = self.inspirationbadge
+	end
+	-- This was mainly to set up controller button hints, but we no longer have a spare button for these
+	-- (it was given away to announcing boat health)
+	-- I'm leaving the _custombadge code around in case I find another solution that could use this
+	self._custombadge = nil
 	self.inst:DoTaskInTime(0, function()
 		if self._custombadge then
 			self._custombadge.announce_text = self._custombadge:AddChild(Text(GLOBAL.UIFONT, 30))
@@ -368,6 +383,11 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 				self.announce_text:Hide()
 			end
 		end
+	end
+	if self.boatmeter then
+		self.boatmeter.announce_text = self.boatmeter:AddChild(Text(GLOBAL.UIFONT, 30))
+		self.boatmeter.announce_text:SetPosition(30*math.cos(math.pi*.6), 30*math.sin(math.pi*.6))
+		self.boatmeter.announce_text:Hide()
 	end
 	if OVERRIDEB then
 		-- delay it until Combined Status loads

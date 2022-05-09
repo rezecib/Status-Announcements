@@ -578,7 +578,9 @@ end
 -- but moisture requires some special handling
 function StatusAnnouncer:RegisterStat(name, widget, controller_btn,
 										thresholds, category_names, value_fn, switch_fn)
-	self.button_to_stat[controller_btn] = name
+	if controller_btn ~= nil then
+		self.button_to_stat[controller_btn] = name
+	end
 	self.stats[name] = {
 		--The widget that should be focused when announcing this stat
 		widget = widget,
@@ -673,7 +675,7 @@ function StatusAnnouncer:RegisterCommonStats(
 		self:RegisterStat(
 			"Boat",
 			status.boatmeter,
-			CONTROL_ROTATE_LEFT,
+			CONTROL_ROTATE_LEFT, -- Left Bumper
 			{ .0001, .35, .65, .85 },
 			stat_categorynames,
 			function(player)
@@ -694,7 +696,7 @@ function StatusAnnouncer:RegisterCommonStats(
 		self:RegisterStat(
 			"Log Meter",
 			status.wereness,
-			CONTROL_ROTATE_LEFT, -- Left Bumper
+			nil,
 			{ .25, .5, .7, .9 },
 			stat_categorynames,
 			function(ThePlayer)
@@ -708,7 +710,7 @@ function StatusAnnouncer:RegisterCommonStats(
 		self:RegisterStat(
 			"Abigail",
 			status.pethealthbadge,
-			CONTROL_ROTATE_LEFT, -- Left Bumper
+			nil,
 			{ .25, .5, .7, .9 },
 			stat_categorynames,
 			function(ThePlayer)
@@ -722,7 +724,7 @@ function StatusAnnouncer:RegisterCommonStats(
 		self:RegisterStat(
 			"Inspiration",
 			status.inspirationbadge,
-			CONTROL_ROTATE_LEFT, -- Left Bumper
+			nil,
 			TUNING.BATTLESONG_THRESHOLDS,
 			{"LOW", "MID", "HIGH", "FULL"},
 			function(ThePlayer)
@@ -736,7 +738,7 @@ function StatusAnnouncer:RegisterCommonStats(
 		self:RegisterStat(
 			"Might",
 			status.mightybadge,
-			CONTROL_ROTATE_LEFT, -- Left Bumper
+			nil,
 			{
 				(TUNING.WIMPY_THRESHOLD or 25)/100,
 				(TUNING.MIGHTY_THRESHOLD or 75)/100,
@@ -759,6 +761,13 @@ end
 function StatusAnnouncer:OnHUDMouseButton(HUD)
 	for stat_name,data in pairs(self.stats) do
 		if data and data.widget and data.widget.focus then
+			local widget = data.widget
+			if widget.name and widget.name == "BoatMeter" and widget.boat == nil then
+				return false
+			end
+			if widget.name and widget.name:find("MoistureMeter") and not widget.active then
+				return false
+			end
 			return self:Announce(self:ChooseStatMessage(stat_name), stat_name)
 		end
 	end
@@ -782,6 +791,13 @@ function StatusAnnouncer:OnHUDControl(HUD, control)
 	or (HUD.controls.status._weremode and HUD._statuscontrollerbuttonhintsshown) then
 		local stat = self.button_to_stat[control]
 		if stat and self.stats[stat].widget.shown then
+			local widget = self.stats[stat].widget
+			if widget.name and widget.name == "BoatMeter" and widget.boat == nil then
+				return false
+			end
+			if widget.name and widget.name:find("MoistureMeter") and not widget.active then
+				return false
+			end
 			return self:Announce(self:ChooseStatMessage(stat), stat)
 		end
 		if OVERRIDEB and HUD.controls.status.temperature and control == CONTROL_CANCEL then
