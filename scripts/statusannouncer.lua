@@ -3,6 +3,7 @@ local GetModuleDefinitionFromNetID = require("wx78_moduledefs").GetModuleDefinit
 local WHISPER = false
 local WHISPER_ONLY = false
 local EXPLICIT = true
+local TIME_STYLE = "smart"
 local OVERRIDEB = true
 local OVERRIDESELECT = true
 local SHOWDURABILITY = true
@@ -13,6 +14,7 @@ local setters = {
 	WHISPER = function(v) WHISPER = v end,
 	WHISPER_ONLY = function(v) WHISPER_ONLY = v end,
 	EXPLICIT = function(v) EXPLICIT = v end,
+	TIME_STYLE = function(v) TIME_STYLE = v end,
 	OVERRIDEB = function(v) OVERRIDEB = v end,
 	OVERRIDESELECT = function(v) OVERRIDESELECT = v end,
 	SHOWDURABILITY = function(v) SHOWDURABILITY = v end,
@@ -115,17 +117,17 @@ local function get_container_name(container)
 	return container_name and container_name:lower()
 end
 
-function StatusAnnouncer:SecondsToTimeRemainingString(remaining_s)
+function StatusAnnouncer:FormatSecondsAsRealTime(remaining_s)
 	local remaining = ""
 	local remaining_m = 0
 	local remaining_h = 0
 	if remaining_s >= 60 then
 		remaining_m = math.floor(remaining_s / 60)
-		remaining_s = remaining_s - 60*remaining_m
+		remaining_s = remaining_s - 60 * remaining_m
 	end
 	if remaining_m >= 60 then
 		remaining_h = math.floor(remaining_m / 60)
-		remaining_m = remaining_m - 60*remaining_h
+		remaining_m = remaining_m - 60 * remaining_h
 	end
 	remaining = remaining_s .. "s"
 	if remaining_m > 0 then
@@ -136,6 +138,33 @@ function StatusAnnouncer:SecondsToTimeRemainingString(remaining_s)
 	end
 	return remaining
 end
+
+function StatusAnnouncer:FormatSecondsAsGameDays(seconds)
+	local remaining_days = seconds / TUNING.TOTAL_DAY_TIME
+	local remaining = string.format("%.2f days", remaining_days)
+
+	return remaining
+end
+
+function StatusAnnouncer:SecondsToTimeRemainingString(seconds)
+	if TIME_STYLE == "smart" then
+		-- For the smart setting, short periods of time will display as real time. 
+		-- Periods of time longer than a day will be converted into game days.
+		if seconds < TUNING.TOTAL_DAY_TIME then
+			return self:FormatSecondsAsRealTime(seconds)
+		else
+			return self:FormatSecondsAsGameDays(seconds)
+		end
+	elseif TIME_STYLE == "real" then
+		return self:FormatSecondsAsRealTime(seconds)
+	elseif TIME_STYLE == "game" then
+		return self:FormatSecondsAsGameDays(seconds)
+	else
+		-- This shouldn't ever happen, but just in case...
+		return string.format("(%d?)", seconds)
+	end
+end
+	
 
 function StatusAnnouncer:AnnounceItem(slot)
 	local item = slot.tile.item
