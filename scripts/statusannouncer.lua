@@ -52,10 +52,43 @@ local StatusAnnouncer = Class(function(self)
 	self.button_to_stat = {}
 	self.char_messages = {}
 	setmetatable(self.char_messages, char_messages_metatable)
+	self.interceptors = {}
 end,
 nil,
 {
 })
+
+local announce_types = {
+	ITEM = true,
+	RECIPE = true,
+	INGREDIENT = true,
+	SKIN = true,
+	TEMPERATURE = true,
+	SEASON = true,
+	STAT = true,
+	WX78CIRCUITS = true,
+}
+
+function StatusAnnouncer:RegisterInterceptor(modname, announce_type, interceptor_fn)
+	if type(interceptor_fn) ~= "function" or not announce_types[announce_type] then
+		return
+	end
+	if not self.interceptors[announce_type] then
+		self.interceptors[announce_type] = {}
+	end
+	self.interceptors[announce_type][modname] = interceptor_fn
+end
+
+function StatusAnnouncer:ProcessInterceptors(announce_type, announce_str, data)
+	local result = nil
+	for _, interceptor in pairs(self.interceptors[announce_type] or {}) do
+		result = interceptor(announce_str, data)
+		if type(result) == "string" then
+			announce_str = result
+		end
+	end
+	return announce_str
+end
 
 function StatusAnnouncer:Announce(message, key)
 	if type(key) ~= "string" then
@@ -231,6 +264,12 @@ function StatusAnnouncer:AnnounceItem(slot)
 									PERCENT = percent,
 									DURABILITY = durability,
 								})
+	local data = {
+		item = item,
+		container = container,
+		slot = slot,
+	}
+	announce_str = self:ProcessInterceptors("ITEM", announce_str, data)
 	return self:Announce(announce_str, "ITEM_" .. tostring(item.GUID))
 end
 
@@ -329,6 +368,14 @@ function StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
 	end
 	local a_proto = ""
 	local proto = ""
+	local data = {
+		recipe = recipe,
+		ingredient = ingredient,
+		buffered = buffered,
+		knows = knows,
+		can_build = can_build,
+		prototyper = prototyper,
+	}
 	if ingredient == nil then
 		-- announce the recipe (need more x, can make x, have x ready)
 		local start_q = ""
@@ -377,6 +424,7 @@ function StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
 			-- it ends up with ?. at the end, so trim the period
 			announce_str = announce_str:sub(1, announce_str:len() - 1)
 		end
+		announce_str = self:ProcessInterceptors("RECIPE", announce_str, data)
 		return self:Announce(announce_str, key)
 	else --announce the ingredient (need more, have enough to make x of recipe)
 		local num = 0
@@ -448,6 +496,9 @@ function StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
 										PROTOTYPER = proto,
 									})
 		end
+		data.num_found = num_found
+		data.amount_needed = amount_needed
+		announce_str = self:ProcessInterceptors("INGREDIENT", announce_str, data)
 		return self:Announce(announce_str, key)
 	end
 end
@@ -462,6 +513,11 @@ function StatusAnnouncer:AnnounceSkin(recipe, skin)
 	if skin ~= item_name then --don't announce default skins
 		local message = subfmt(STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_SKIN.FORMAT_STRING,
 									{SKIN = GetSkinName(skin), ITEM = item_name})
+		local data = {
+			recipe = recipe,
+			skin = skin,
+		}
+		message = self:ProcessInterceptors("SKIN", message, data)
 		return self:Announce(message, "SKIN_" .. recipe_name)
 	end
 end
@@ -491,20 +547,30 @@ function StatusAnnouncer:AnnounceTemperature(pronoun)
 							TEMPERATURE = message,
 						})
 	if EXPLICIT then
-		return self:Announce(string.format("(%d\176) %s", temp, message), "TEMPERATURE")
-	else
-		return self:Announce(message, "TEMPERATURE")
+		message = string.format("(%d\176) %s", temp, message)
 	end
+	local data = {
+		pronoun = pronoun,
+		temp = temp
+	}
+	message = self:ProcessInterceptors("TEMPERATURE", message, data)
+	return self:Announce(message, "TEMPERATURE")
 end
 
 function StatusAnnouncer:AnnounceSeason()
-	return self:Announce(subfmt(
+	local data = {
+		days_left = TheWorld.state.remainingdaysinseason,
+		season = TheWorld.state.season
+	}
+	local message = subfmt(
 		STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_SEASON,
 		{
-			DAYS_LEFT = TheWorld.state.remainingdaysinseason,
-			SEASON = STRINGS.UI.SERVERLISTINGSCREEN.SEASONS[TheWorld.state.season:upper()],
+			DAYS_LEFT = data.days_left,
+			SEASON = STRINGS.UI.SERVERLISTINGSCREEN.SEASONS[data.season:upper()],
 		}
-	), "SEASON")
+	)
+	message = self:ProcessInterceptors("SEASON", message, data)
+	return self:Announce(message, "SEASON")
 end
 
 local function FormatChipList(S, chip_order, chips, charged)
@@ -562,7 +628,7 @@ function StatusAnnouncer:AnnounceWxCircuits(widget)
 	if charged_list ~= "" and uncharged_list ~= "" then
 		separator = S.SEPARATOR
 	end
-	return self:Announce(subfmt(
+	local message = subfmt(
 		S.FORMAT_STRING,
 		{
 			CIRCUITS = S.CIRCUITS,
@@ -570,7 +636,15 @@ function StatusAnnouncer:AnnounceWxCircuits(widget)
 			SEPARATOR = separator,
 			UNCHARGED = uncharged_list,
 		}
-	), "WX78CIRCUITS")
+	)
+	local data = {
+		widget = widget,
+		chip_order = chip_order,
+		charged_chips = charged_chips,
+		uncharged_chips = uncharged_chips,
+	}
+	message = self:ProcessInterceptors("WX78CIRCUITS", message, data)
+	return self:Announce(message, "WX78CIRCUITS")
 end
 
 --NOTE: Your mod is responsible for adding and deciding when to show/hide the controller button hint
@@ -758,6 +832,16 @@ local function has_seasons(HUD, ignore_focus)
 		or HUD.controls.status.season and (ignore_focus or HUD.controls.status.season.focus)
 end
 
+function StatusAnnouncer:AnnounceStat(stat, widget)
+	local message = self:ChooseStatMessage(stat)
+	local data = {
+		stat = stat,
+		widget = widget,
+	}
+	message = self:ProcessInterceptors("STAT", message, data)
+	return self:Announce(message, stat)
+end
+
 function StatusAnnouncer:OnHUDMouseButton(HUD)
 	for stat_name,data in pairs(self.stats) do
 		if data and data.widget and data.widget.focus then
@@ -768,7 +852,7 @@ function StatusAnnouncer:OnHUDMouseButton(HUD)
 			if widget.name and widget.name:find("MoistureMeter") and not widget.active then
 				return false
 			end
-			return self:Announce(self:ChooseStatMessage(stat_name), stat_name)
+			return self:AnnounceStat(stat_name, widget)
 		end
 	end
 	if HUD.controls.status.temperature and HUD.controls.status.temperature.focus then
@@ -798,7 +882,7 @@ function StatusAnnouncer:OnHUDControl(HUD, control)
 			if widget.name and widget.name:find("MoistureMeter") and not widget.active then
 				return false
 			end
-			return self:Announce(self:ChooseStatMessage(stat), stat)
+			return self:AnnounceStat(stat, widget)
 		end
 		if OVERRIDEB and HUD.controls.status.temperature and control == CONTROL_CANCEL then
 			return self:AnnounceTemperature(HUD.controls.status._weremode and "BEAST" or nil)
