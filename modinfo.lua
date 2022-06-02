@@ -84,6 +84,17 @@ configuration_options =
 		hover = "When announcing stats, show the numbers for your current and max stat.",
 	},
 	{
+		name = "TIMESTYLE",
+		label = "Time announcement format",
+		options =	{
+						{description = "Smart", data = "smart", hover = "Will automatically choose between real or game based on time amount."},
+						{description = "Real time", data = "real"},
+						{description = "Game days", data = "game"},
+					},
+		default = "smart",
+		hover = "When announcing times, choose how those times are announced."
+	},
+	{
 		name = "SHOWPROTOTYPER",
 		label = "Announce Prototyper",
 		options =	{
