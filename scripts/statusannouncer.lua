@@ -797,7 +797,7 @@ function StatusAnnouncer:RegisterCommonStats(
 	-- Character-specific stats
 	if wereness ~= false and has_weremode then
 		self:RegisterStat(
-			"Log Meter",
+			"Wereness",
 			status.wereness,
 			nil,
 			{ .25, .5, .7, .9 },

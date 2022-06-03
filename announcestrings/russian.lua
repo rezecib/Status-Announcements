@@ -15,7 +15,7 @@ ANNOUNCE_STRINGS = {
 			Health = "Здоровье",
 			Wetness = "Влажность",
 			Boat = "Лодка",
-			["Log Meter"] = "Бревно метр",
+			Wereness = "проклинать",
 			Age = "возраст",
 			Abigail = "Абигейл",
 			Inspiration = "Вдохновение",
@@ -439,12 +439,12 @@ ANNOUNCE_STRINGS = {
 				LOW   = "Плед теплый, даже когда он мокрый.",
 				EMPTY = "Едва ли капля на меня, а?",
 			},
-			["LOG METER"] = {
-				FULL  = "Всегда можно было бы иметь больше бревен,а?",	-- > 90%
-				HIGH  = "Я жажду чего-то странного.",						-- > 70%
-				MID   = "Бревна выглядят довольно вкусно.",									-- > 50%
-				LOW   = "Я чувствую, как надвигается проклятие.",									-- > 25%
-				EMPTY = "Что, а?",	-- < 25% (this shouldn't be possible, he'll become a werebeaver)
+			WERENESS = {
+				FULL  = "Зверь возвышается чудовищно!",					-- > 90%
+				HIGH  = "Зверь имеет первобытный вид в глазах.",		-- > 70%
+				MID   = "Зверь почему-то кажется слабее.",				-- > 50%
+				LOW   = "Зверь имеет намек на человеческую форму.",		-- > 25%
+				EMPTY = "Зверь выглядит почти как человек!",			-- < 25%
 			},
 		},
 		WEREBEAVER = {
@@ -456,32 +456,32 @@ ANNOUNCE_STRINGS = {
 				-- EMPTY = "",
 			-- },
 			SANITY = {
-				FULL  = "The beast's eyes are wide and alert.",
-				HIGH  = "The beast blinks at the shadows.",
-				MID   = "The beast turns to look at something that isn't there.",
-				LOW   = "The beast's shaking and his eyes are twitching.",
-				EMPTY = "The beast growls and appears to be being hunted by the multiplying shadows.",
+				FULL  = "Глаза зверя широко раскрыты и насторожены.",
+				HIGH  = "Зверь моргает в тени.",
+				MID   = "Зверь поворачивается, чтобы посмотреть на то, чего нет.",
+				LOW   = "Зверь дрожит, и его глаза дергаются.",
+				EMPTY = "Зверь рычит, и кажется, что его преследуют умножающиеся тени.",
 			},
 			HEALTH = {
-				FULL  = "The beast scampers vigorously.",
-				HIGH  = "The beast has a few scratches.",
-				MID   = "The beast licks its wounds.",
-				LOW   = "The beast cradles its arm.",
-				EMPTY = "The beast limps pathetically.",
+				FULL  = "Зверь энергично бежит.",
+				HIGH  = "У зверя есть несколько царапин.",
+				MID   = "Зверь зализывает свои раны.",
+				LOW   = "Зверь убаюкивает свою руку.",
+				EMPTY = "Зверь жалобно хромает.",
 			},
 			WETNESS = {
-				FULL  = "The beast's fur is completely soaked.",
-				HIGH  = "The beast leaves a trail of small puddles.",
-				MID   = "The beast's fur is a bit wet.",
-				LOW   = "The beast drips a little.",
-				EMPTY = "The beast's fur is dry.",
+				FULL  = "Мех зверя полностью промок.",
+				HIGH  = "Зверь оставляет за собой след из мелких луж.",
+				MID   = "Шерсть зверя немного мокрая.",
+				LOW   = "Зверь немного капает.",
+				EMPTY = "Шерсть зверя сухая.",
 			},
-			["LOG METER"] = {
-				FULL  = "The beast looks almost human.",				-- > 90%
-				HIGH  = "The beast chews on a mouthful of wood.",		-- > 70%
-				MID   = "The beast munches on a twig.",					-- > 50%
-				LOW   = "The beast looks ravenously at those trees.",	-- > 25%
-				EMPTY = "The beast looks hollow.",						-- < 25%
+			WERENESS = {
+				FULL  = "Зверь возвышается чудовищно!",					-- > 90%
+				HIGH  = "Зверь имеет первобытный вид в глазах.",		-- > 70%
+				MID   = "Зверь почему-то кажется слабее.",				-- > 50%
+				LOW   = "Зверь имеет намек на человеческую форму.",		-- > 25%
+				EMPTY = "Зверь выглядит почти как человек!",			-- < 25%
 			},
 		},
 	},

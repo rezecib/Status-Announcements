@@ -15,7 +15,7 @@ ANNOUNCE_STRINGS = {
 			Health = "Vida",
 			Wetness = "Umidade",
 			Boat = "Barco",
-			["Log Meter"] = "Medidor de Tronco",
+			Wereness = "Maldição",
 			Age = "Idade",
 			Abigail = "Abigail",
 			Inspiration = "Inspiração",
@@ -440,7 +440,7 @@ ANNOUNCE_STRINGS = {
 				LOW   = "Quente do xadrez, mesmo quando molhado.",
 				EMPTY = "Dificilmente uma gota cairá em mim, estou seco!!",
 			},
-			["LOG METER"] = {
+			WERENESS = {
 				FULL  = "Sempre poderia ter mais troncos, mas não na minha barriga agora!",	-- > 90%
 				HIGH  = "Eu tenho um desejo por algo bizarro.",						-- > 70%
 				MID   = "Os troncos estão olhando para mim.",									-- > 50%
@@ -477,12 +477,12 @@ ANNOUNCE_STRINGS = {
 				LOW   = "A besta pinga um pouco.",
 				EMPTY = "A pele da fera está seca.",
 			},
-			["LOG METER"] = {
-				FULL  = "A besta parece quase humana.",				-- > 90%
-				HIGH  = "A besta mastiga um bocado de madeira.",		-- > 70%
+			WERENESS = {
+				FULL  = "A besta parece oca.",				-- > 90%
+				HIGH  = "A besta olha vorazmente para aquelas árvores.",		-- > 70%
 				MID   = "A besta come um galho.",					-- > 50%
-				EMPTY = "A besta parece oca.",						-- < 25%
-				LOW   = "A besta olha vorazmente para aquelas árvores.",	-- > 25%
+				LOW   = "A besta mastiga um bocado de madeira.",	-- > 25%
+				EMPTY = "A besta parece quase humana.",						-- < 25%
 			},
 		},
 	},

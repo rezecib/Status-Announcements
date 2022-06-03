@@ -15,7 +15,7 @@ ANNOUNCE_STRINGS = {
 			Health = "Salud",
 			Wetness = "Humedad",
 			Boat = "Bote",
-			["Log Meter"] = "Medidor de Tronco",
+			Wereness = "Maldición",
 			Age = "Edad",
 			Abigail = "Abigail",
 			Inspiration = "Inspiración",
@@ -442,7 +442,7 @@ ANNOUNCE_STRINGS = {
 				LOW   = "Plaid está caliente, incluso cuando está mojado.",
 				EMPTY = "Apenas una gota en mí, eh?",
 			},
-			["LOG METER"] = {
+			WERENESS = {
 				FULL  = "Siempre podría tener más troncos, pero no en mi vientre en este momento, eh?",	-- > 90%
 				HIGH  = "Tengo ganas de algo twiggy.",						-- > 70%
 				MID   = "Los troncos se ven muy sabrosos.",									-- > 50%
@@ -479,12 +479,12 @@ ANNOUNCE_STRINGS = {
 				LOW   = "La bestia gotea un poco.",
 				EMPTY = "El pelaje de la bestia es seco.",
 			},
-			["LOG METER"] = {
-				FULL  = "La bestia parece casi humana.",				-- > 90%
-				HIGH  = "La bestia mastica un bocado de madera.",		-- > 70%
-				MID   = "La bestia mastica una ramita.",					-- > 50%
-				LOW   = "La bestia mira vorazmente esos árboles.",	-- > 25%
-				EMPTY = "La bestia parece hueca.",						-- < 25%
+			WERENESS = {
+				FULL  = "¡La bestia se eleva monstruosamente!",				-- > 90%
+				HIGH  = "La bestia tiene una mirada primaria en sus ojos.",	-- > 70%
+				MID   = "La bestia parece más débil, de alguna manera.",	-- > 50%
+				LOW   = "La bestia tiene un toque de forma humana.",		-- > 25%
+				EMPTY = "¡La bestia parece casi humana!",					-- < 25%
 			},
 		},
 	},

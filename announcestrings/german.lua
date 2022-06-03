@@ -14,7 +14,7 @@ ANNOUNCE_STRINGS = {
 			Health = "Leben",
 			Wetness = "Feuchtigkeit",
 			Boat = "Boot",
-			["Log Meter"] = "Holzmeter",
+			Wereness = "Werheit",
 			Age = "Alter",
 			Abigail = "Abigail",
 			Inspiration = "Inspiration",
@@ -438,7 +438,7 @@ ANNOUNCE_STRINGS = {
 				LOW   = "Der Schottenüberwurf ist warm, selbst wenn er nass ist.",
 				EMPTY = "Praktisch kein Tropfen, hä?",
 			},
-			["LOG METER"] = {
+			WERENESS = {
 				FULL  = "Könnte immer nochmehr Holzscheite gebrauchen, aber nicht in meinem Magen, hä?",	-- > 90%
 				HIGH  = "Ich sehne mich nach einem Ästchen.",						-- > 70%
 				MID   = "Holzscheite sehen sehr lecker aus.",									-- > 50%
@@ -475,12 +475,12 @@ ANNOUNCE_STRINGS = {
 				LOW   = "Das Biest tropft ein wenig.",
 				EMPTY = "Das Fell vom Biest ist trocken.",
 			},
-			["LOG METER"] = {
-				FULL  = "Das Biest sieht fast menschlich aus.",				-- > 90%
-				HIGH  = "Das Biest kaut an einem Holzhappen.",		-- > 70%
-				MID   = "Das Biest kaut an einem Zweig.",					-- > 50%
-				LOW   = "Das Biest guckt gefräßig auf diese Bäume.",	-- > 25%
-				EMPTY = "Das Biest sieht durchsichtig aus.",						-- < 25%
+			WERENESS = {
+				FULL  = "Das Biest sieht durchsichtig aus.",			-- > 90%
+				HIGH  = "Das Biest guckt gefräßig auf diese Bäume.",	-- > 70%
+				MID   = "Das Biest kaut an einem Zweig.",				-- > 50%
+				LOW   = "Das Biest kaut an einem Holzhappen.",			-- > 25%
+				EMPTY = "Das Biest sieht fast menschlich aus.",			-- < 25%
 			},
 		},
 	},

@@ -15,7 +15,7 @@ ANNOUNCE_STRINGS = {
 			Health = "Health",
 			Wetness = "Wetness",
 			Boat = "Boat",
-			["Log Meter"] = "Log Meter",
+			Wereness = "Wereness",
 			Age = "Age",
 			Abigail = "Abigail",
 			Inspiration = "Inspiration",
@@ -434,7 +434,7 @@ ANNOUNCE_STRINGS = {
 				LOW   = "Plaid's warm, even when wet.",
 				EMPTY = "Hardly a drop on me, eh?",
 			},
-			["LOG METER"] = {
+			WERENESS = {
 				FULL  = "Could always have more logs, but not in my belly just now, eh?",	-- > 90%
 				HIGH  = "I've got a hankering for something twiggy.",						-- > 70%
 				MID   = "Logs are looking pretty tasty.",									-- > 50%
@@ -471,12 +471,12 @@ ANNOUNCE_STRINGS = {
 				LOW   = "The beast drips a little.",
 				EMPTY = "The beast's fur is dry.",
 			},
-			["LOG METER"] = {
-				FULL  = "The beast looks almost human.",				-- > 90%
-				HIGH  = "The beast chews on a mouthful of wood.",		-- > 70%
-				MID   = "The beast munches on a twig.",					-- > 50%
-				LOW   = "The beast looks ravenously at those trees.",	-- > 25%
-				EMPTY = "The beast looks hollow.",						-- < 25%
+			WERENESS = {
+				FULL  = "The beast towers monstrously!",				-- > 90%
+				HIGH  = "The beast has a primal look in its eyes.",		-- > 70%
+				MID   = "The beast seems weaker, somehow.",				-- > 50%
+				LOW   = "The beast has a hint of human form.",			-- > 25%
+				EMPTY = "The beast looks almost human!",				-- < 25%
 			},
 		},
 	},
