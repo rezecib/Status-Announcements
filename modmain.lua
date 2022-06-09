@@ -431,6 +431,11 @@ AddClassPostConstruct("widgets/statusdisplays", function(self)
 	end
 end)
 
+local function GetIngredientName(NAMES, prefabname)
+	if type(prefabname) ~= "string" then return "MISSING NAME" end
+	return NAMES[prefabname:upper()] or prefabname
+end
+
 -- Capture mouse clicks on recipes
 local function GetClickedIngredient(recipe, craftingmenu_ingredients)
 	if craftingmenu_ingredients == nil then
@@ -445,13 +450,13 @@ local function GetClickedIngredient(recipe, craftingmenu_ingredients)
 	local NAMES = GLOBAL.STRINGS.NAMES
 	local name_to_ingredient = {}
 	for i, v in ipairs(recipe.tech_ingredients) do
-		name_to_ingredient[NAMES[v.type:upper()]] = v.type
+		name_to_ingredient[GetIngredientName(NAMES, v.type)] = v.type
 	end
 	for i, v in ipairs(recipe.ingredients) do
-		name_to_ingredient[NAMES[v.type:upper()]] = v.type
+		name_to_ingredient[GetIngredientName(NAMES, v.type)] = v.type
 	end
 	for i, v in ipairs(recipe.character_ingredients) do
-		name_to_ingredient[NAMES[v.type:upper()]] = v.type
+		name_to_ingredient[GetIngredientName(NAMES, v.type)] = v.type
 	end
 	local focused_ingredient = nil
 	for k,v in pairs(ingredient_root.children) do
