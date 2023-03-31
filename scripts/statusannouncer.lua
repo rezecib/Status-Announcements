@@ -112,9 +112,12 @@ local container_prefab_map = {
 
 local function get_container_name(container)
 	if not container then return end
-	if container and container_prefab_map[container.prefab] then
+	if container_prefab_map[container.prefab] then
 		local remapped_name = STRINGS.NAMES[container_prefab_map[container.prefab]:upper()]
 		return remapped_name and remapped_name:lower()
+	end
+	if type(container.prefab) == "string" and container.prefab:find("^beard_sack_%d$") then
+		return STRINGS.SKILLTREE.WILSON.WILSON_BEARD_7_TITLE:lower()
 	end
 	local container_name = container:GetBasicDisplayName()
 	local container_prefab = container and container.prefab
