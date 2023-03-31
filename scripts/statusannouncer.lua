@@ -105,8 +105,17 @@ function StatusAnnouncer:Announce(message, key)
 	return true
 end
 
+-- Maps containers that are missing strings to a prefab name that should have the correct name
+local container_prefab_map = {
+	shadow_container = "magician_chest"
+}
+
 local function get_container_name(container)
 	if not container then return end
+	if container and container_prefab_map[container.prefab] then
+		local remapped_name = STRINGS.NAMES[container_prefab_map[container.prefab]:upper()]
+		return remapped_name and remapped_name:lower()
+	end
 	local container_name = container:GetBasicDisplayName()
 	local container_prefab = container and container.prefab
 	local underscore_index = container_prefab and container_prefab:find("_container")
