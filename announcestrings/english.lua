@@ -848,31 +848,31 @@ ANNOUNCE_STRINGS = {
 	},
 	WANDA = {
 		HUNGER = {
-			FULL  = "I need time to digest all this food!",							-- >75%
+			FULL  = "My stomach needs to make time for itself.",					-- >75%
 			HIGH  = "I'm still full from earlier. Or later.",						-- >55%
-			MID   = "I have just enough time for a snack break!", 					-- >35%
-			LOW   = "My stomach is its own passage of time!", 						-- >15%
-			EMPTY = "Time will catch up to me quickly if I don't eat right now!", 	-- <15%
+			MID   = "I could go for some sweets right about now.", 					-- >35%
+			LOW   = "Now where did I put my candy?", 								-- >15%
+			EMPTY = "Time will catch up to me quickly if I don’t eat right now!", 	-- <15%
 		},
 		SANITY = {
-			FULL  = "Everything looks normal in this timeline!", 							-- >75%
-			HIGH  = "Feeling grand enough for some quantum leaps!",							-- >55%
-			MID   = "If I didn't carry clocks I wouldn't know what time it is anymore!",	-- >35%
-			LOW   = "Reality is breaking apart!", 											-- >15%
-			EMPTY = "You'll never catch me! Past, present, or future!", 					-- <15%
+			FULL  = "Everything looks normal in this timeline!", 				-- >75%
+			HIGH  = "Feeling good enough for some temporal tinkering!",			-- >55%
+			MID   = "I believe there is a disturbance in the timeline.",		-- >35%
+			LOW   = "These shadow incursions must think I was born yesterday.", -- >15%
+			EMPTY = "The timeline is collapsing!", 								-- <15%
 		},
 		HEALTH = {
-			FULL  = "They say your 20s are your best years after all!",					 	-- 100%
-			HIGH  = "Still young and full of vigor!", 										-- >75%
-			MID   = "Wait a tick! I need a moment to recover!", 							-- >50%
-			LOW   = "I just need more time!", 												-- >25%
-			EMPTY = "The sands of my hourglass are about to run out!",					 	-- <25%
+			FULL  = "My twenties were really good to me!",		-- 100%
+			HIGH  = "Still young and full of vigor!",			-- >75%
+			MID   = "Wait a tick! I need a moment to myself!",	-- >50%
+			LOW   = "My time is running out…but so is yours!", 	-- >25%
+			EMPTY = "My time is up.",					 		-- <25%
 		},
 		WETNESS = {
-			FULL  = "Time is just like this rain. It doesn't stop!", 								-- >75%
+			FULL  = "Oh botheration I should have picked a drier timeline!", 						-- >75%
 			HIGH  = "If this keeps up, my pocket watches are going to rust!",						-- >55%
-			MID   = "How many years has it been since I've been this soaked?", 						-- >35%
-			LOW   = "Oh botheration! I need to find some cover from this rain!", 					-- >15%
+			MID   = "The weather is being uncooperative.", 											-- >35%
+			LOW   = "It can’t rain all the time.", 													-- >15%
 			EMPTY = "A little rain is nothing compared to the temporal complexities of travel!", 	-- <15%
 		}
 	},
