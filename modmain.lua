@@ -438,7 +438,7 @@ end
 
 -- Capture mouse clicks on recipes
 local function GetClickedIngredient(recipe, craftingmenu_ingredients)
-	if craftingmenu_ingredients == nil then
+	if recipe == nil or craftingmenu_ingredients == nil then
 		return nil
 	end
 	local _, ingredient_root = GLOBAL.next(craftingmenu_ingredients.children)
@@ -479,8 +479,8 @@ function CraftingMenuHUD:OnControl(control, down, ...)
 		-- Check if we're clicking on a pinned recipe or its ingredient
 		if self.pinbar.focus then
 			for _,slot in ipairs(self.pinbar.pin_slots) do
-				local recipe = GLOBAL.AllRecipes[slot.recipe_name]
 				if slot.focus then
+					local recipe = GLOBAL.AllRecipes[slot.recipe_name]
 					local ingredient = GetClickedIngredient(recipe, slot.recipe_popup.ingredients)
 					return StatusAnnouncer:AnnounceRecipe(recipe, ingredient)
 				end
