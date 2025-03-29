@@ -588,7 +588,7 @@ function StatusAnnouncer:AnnounceTemperature(pronoun)
 							TEMPERATURE = message,
 						})
 	if EXPLICIT then
-		message = string.format("(%d\176) %s", temp, message)
+		message = string.format("(%d\194\176) %s", temp, message)
 	end
 	local data = {
 		pronoun = pronoun,
