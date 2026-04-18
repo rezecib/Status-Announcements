@@ -649,17 +649,19 @@ function StatusAnnouncer:AnnounceWxCircuits(widget)
 	local chip_order = {}
 	local charged_chips = {}
 	local uncharged_chips = {}
-	local modules_table = widget.owner:GetModulesData()
-	for i, module_index in ipairs(modules_table) do
-		if module_index ~= 0 then
-			local module_def = GetModuleDefinitionFromNetID(module_index)
-			local modname = module_def.name
-			charge = charge - module_def.slots
-			local add_to = charge < 0 and uncharged_chips or charged_chips
-			if not uncharged_chips[modname] and not charged_chips[modname] then
-				table.insert(chip_order, modname)
+	-- See widgets/secondarystatusdisplays and widgets/upgrademodulesdisplay for reference
+	for bartype, modules in pairs(widget.owner:GetModulesData()) do
+		for i, module_index in ipairs(modules) do
+			if module_index ~= 0 then
+				local module_def = GetModuleDefinitionFromNetID(module_index)
+				local modname = module_def.name
+				charge = charge - module_def.slots
+				local add_to = charge < 0 and uncharged_chips or charged_chips
+				if not uncharged_chips[modname] and not charged_chips[modname] then
+					table.insert(chip_order, modname)
+				end
+				add_to[modname] = (add_to[modname] or 0) + 1
 			end
-			add_to[modname] = (add_to[modname] or 0) + 1
 		end
 	end
 	local S = STRINGS._STATUS_ANNOUNCEMENTS._.ANNOUNCE_CIRCUITS
@@ -684,6 +686,9 @@ function StatusAnnouncer:AnnounceWxCircuits(widget)
 		charged_chips = charged_chips,
 		uncharged_chips = uncharged_chips,
 	}
+	-- Patch for Insight mod, which expects widget.chip_objectpool, which has since been changed to a grouped chip_objectpools
+	-- we just pretend that modules are always focused because it's no longer possible to distinguish
+	data.widget.chip_objectpool = {{focus = true}}
 	message = self:ProcessInterceptors("WX78CIRCUITS", message, data)
 	return self:Announce(message, "WX78CIRCUITS")
 end
